@@ -1,0 +1,18 @@
+.form-input {
+  @apply w-full rounded-md shadow-sm
+  px-3 h-9
+  sm:text-sm
+  border border-gray-300 dark:border-gray-800
+  focus:outline-none
+  focus:ring-1 
+  focus:ring-offset-1
+  focus:border-blue-400 
+  focus:ring-offset-blue-500/[.20]
+  focus:ring-blue-400/[.20]
+  dark:focus:border-blue-300 
+  dark:focus:ring-offset-blue-400/[.20]
+  dark:focus:ring-blue-300/[.20]
+  placeholder-gray-200 dark:placeholder-gray-400
+  bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100
+  ;
+}

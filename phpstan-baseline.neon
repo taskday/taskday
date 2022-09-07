@@ -1,0 +1,11 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Undefined variable\\: \\$this$#"
+			count: 1
+			path: tests/Pest.php
+
+		-
+			message: "#^Class Tests\\\\TaskdayServiceProvider not found\\.$#"
+			count: 1
+			path: tests/TestCase.php

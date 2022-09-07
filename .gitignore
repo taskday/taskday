@@ -1,0 +1,29 @@
+### Composer ###
+/vendor/
+
+### Database ### 
+database/database.sqlite
+
+### PHPUnit ### 
+.phpunit.result.cache
+
+### Node ###
+node_modules
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+### Build ### 
+public/build
+
+### Misc ###
+.DS_Store
+.cache
+.vscode
+.idea
+!.gitkeep
+

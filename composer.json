@@ -1,0 +1,55 @@
+{
+  "name": "taskday/taskday",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "inertiajs/inertia-laravel": "^0.6.3",
+    "kalnoy/nestedset": "^6.0",
+    "laravel/fortify": "^1.13",
+    "laravel/sanctum": "^3.0",
+    "tightenco/ziggy": "^1.4"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^7.0",
+    "pestphp/pest-plugin-laravel": "^1.2",
+    "phpunit/phpunit": "^9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Taskday\\": "src/",
+      "Taskday\\Database\\Factories\\": "database/factories"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
+  "authors": [
+    {
+      "name": "Giorgio Pogliani",
+      "email": "giorgio.pogliani@performingdigital.com"
+    }
+  ],
+  "scripts": {
+    "test": "vendor/bin/pest",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Taskday\\Providers\\TaskdayServiceProvider",
+        "Taskday\\Providers\\TaskdayAuthServiceProvider",
+        "Taskday\\Providers\\TaskdayRouteServiceProvider"
+      ]
+    }
+  }
+}

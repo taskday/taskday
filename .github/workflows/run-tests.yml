@@ -1,0 +1,62 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  npm:
+    name: Build Assets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Npm Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Upload build files
+        uses: actions/upload-artifact@v2
+        with:
+          name: assets
+          path: public/build
+
+  test:
+    needs: ['npm']
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        php: [8.0, 8.1]
+        dependency-version: [prefer-lowest, prefer-stable]
+
+    name: P${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download build assets
+        uses: actions/download-artifact@v2
+        with:
+          name: assets
+          path: public/build
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
+
+      - name: Install dependencies
+        run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+      - name: Execute tests
+        run: vendor/bin/pest
