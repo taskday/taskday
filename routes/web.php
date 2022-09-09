@@ -29,16 +29,9 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
 
 if (App::environment(['local', 'testing'])) {
     $symlinkManifestPath = base_path('public/build/');
-
-    if (! file_exists($symlinkManifestPath)) {
-        $manifestPath = realpath(__DIR__ . '/../public/build/manifest.json');
-        exec("mkdir -p $symlinkManifestPath");
-        exec("ln -sf $manifestPath $symlinkManifestPath");
-        try {
-        } catch (\Throwable $e) {
-            Log::warning($e->getMessage());
-        }
-    }
+    $manifestPath = realpath(__DIR__ . '/../public/build/manifest.json');
+    exec("mkdir -p $symlinkManifestPath");
+    exec("ln -sf $manifestPath $symlinkManifestPath");
 
     $hotPath = __DIR__ . '/../public/hot';
     if (file_exists($hotPath)) {
@@ -54,7 +47,13 @@ if (file_exists(__DIR__ . '/../public/build/manifest.json')) {
 
     foreach ($manifest as $key => $entry) {
         Route::get('/build/' . $entry->file, function () use ($entry) {
-            return response()->file(__DIR__ . '/../public/build/' . $entry->file);
+            return response()->file(__DIR__ . '/../public/build/' . $entry->file, [
+                'content-type' => match (pathinfo($entry->file, PATHINFO_EXTENSION)) {
+                    'js' => 'application/javascript',
+                    'css' => 'text/css',
+                    default => 'text/plain',
+                }
+            ]);
         });
     }
 }
