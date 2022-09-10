@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Taskday\Taskday;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Taskday\Console\Commands\UserListCommand;
+use Taskday\Console\Commands\UserPasswordResetCommand;
 
 class TaskdayServiceProvider extends ServiceProvider
 {
@@ -33,15 +35,32 @@ class TaskdayServiceProvider extends ServiceProvider
     public function boot()
     {
         // $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'taskday');
-
+        $this->registerExceptionHandler();
+        $this->registerCommands();
         $this->registerViews();
         $this->registerMigrations();
         $this->registerBladeDirectives();
     }
 
+    public function registerExceptionHandler()
+    {
+        $this->app->singleton(
+            Illuminate\Contracts\Debug\ExceptionHandler::class,
+            Taskday\Exceptions\Handler::class
+        );
+    }
+
     public function registerViews(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'taskday');
+    }
+
+    public function registerCommands()
+    {
+        $this->commands([
+            UserListCommand::class,
+            UserPasswordResetCommand::class,
+        ]);
     }
 
     public function registerMigrations(): void

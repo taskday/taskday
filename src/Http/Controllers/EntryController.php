@@ -2,23 +2,19 @@
 
 namespace Taskday\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Response;
 use Taskday\Http\Requests\StoreEntryRequest;
+use Illuminate\Http\RedirectResponse;
 
 class EntryController extends Controller
 {
+    use \Taskday\Http\Controllers\Concerns\HandlesEntriesRequests;
+
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  StoreEntryRequest  $request
-     * @return Response
      */
-    public function store(StoreEntryRequest $request)
+    public function store(StoreEntryRequest $request): RedirectResponse
     {
-        $data = $request->validated();
-
-        $entry = Auth::user()->createEntry($data['title']);
+        $entry = $this->storeFromRequest($request);
 
         return redirect()->back();
     }
