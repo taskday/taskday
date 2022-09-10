@@ -21,7 +21,7 @@ it('can create an entry through api', function () {
     expect(Entry::first()->title)->toBe($entry->title);
 });
 
-test('api can return all the fields', function () {
+it('can get an entry with all the fields', function () {
     $entry = Entry::factory()->create();
     $field = Field::factory()->create();
 
@@ -32,9 +32,33 @@ test('api can return all the fields', function () {
     $res = $this->get(route('api.entries.show', $entry));
 
     $res->assertJson(fn (AssertableJson $json) =>
-            $json->where('id', $entry->id)
-                ->where('title', $entry->title)
-                ->where('fields.0.value', 'foo')
-                ->where('fields.0.field_id', $field->id)
-                ->etc());
+        $json->where('id', $entry->id)
+            ->where('title', $entry->title)
+            ->where('fields.0.value', 'foo')
+            ->where('fields.0.field_id', $field->id)
+            ->etc());
+});
+
+it('can update an entry', function () {
+    $entry = Entry::factory()->create();
+    $field = Field::factory()->create();
+
+    Sanctum::actingAs(User::factory()->create());
+
+    $this->put(route('api.entries.update', $entry), [
+        'title' => $entry->title,
+    ])->assertStatus(204);
+});
+
+it('can delete an entry', function () {
+    $entry = Entry::factory()->create();
+    $field = Field::factory()->create();
+    expect(Entry::count())->toBe(1);
+
+    Sanctum::actingAs(User::factory()->create());
+
+    $this->delete(route('api.entries.destroy', $entry))
+        ->assertStatus(204);
+
+    expect(Entry::count())->toBe(0);
 });

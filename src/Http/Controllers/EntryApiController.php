@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Taskday\Models\Entry;
 use Taskday\Http\Resources\EntryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Taskday\Http\Requests\UpdateEntryRequest;
+use Illuminate\Http\Response;
 
 class EntryApiController extends Controller
 {
@@ -32,5 +34,25 @@ class EntryApiController extends Controller
         $entry = $this->storeFromRequest($request);
 
         return response()->json($entry, JsonResponse::HTTP_CREATED);
+    }
+
+    /**
+     * Update a resource in storage.
+     */
+    public function update(Entry $entry, UpdateEntryRequest $request): Response
+    {
+        $entry = $this->updateFromRequest($entry, $request);
+
+        return response()->noContent();
+    }
+
+    /**
+     * Delete the given resource from storage.
+     */
+    public function destroy(Entry $entry): Response
+    {
+        $this->delete($entry);
+
+        return response()->noContent();
     }
 }

@@ -3,6 +3,7 @@
 use Taskday\Models\Entry;
 use Taskday\Models\User;
 use Taskday\Models\Field;
+use Taskday\Models\FieldValue;
 
 test('an entry has a title', function () {
     $entry = Entry::factory()->create(['title' => 'Fake Title']);
@@ -27,5 +28,6 @@ test('can set field on entry if field exists', function () {
 
     $entry->setFieldValue($field, 'value');
 
+    expect($entry->getFieldValue($field))->toBeInstanceOf(FieldValue::class);
     expect($entry->getRawFieldValue($field))->toBe('value');
 });
