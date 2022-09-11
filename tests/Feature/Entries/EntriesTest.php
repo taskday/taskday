@@ -17,12 +17,15 @@ test('entries can be listed', function () {
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Entries/Index')
                 ->where('title', 'All Entries')
+                ->where('entries.current_page', 1)
+                ->where('entries.per_page', 10)
                 ->has('entries.data', 1, fn (AssertableJson $page) => $page
                     ->where('title', $entry->title)
                     ->where('fields.0.field_id', $field->id)
                     ->where('fields.0.value', 'foo')
                     ->etc()
                 )
+                ->etc()
             );
 });
 

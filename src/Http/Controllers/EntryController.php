@@ -19,11 +19,13 @@ class EntryController extends Controller
      */
     public function index(): InertiaResponse
     {
-        $entries = Entry::with('fields')->paginate(request('per_page', 10));
+        $entries = Entry::with('fields')
+            ->paginate(request('per_page', 10))
+            ->through(fn ($entry) => EntryResource::make($entry));
 
         return Inertia::render('Entries/Index', [
             'title' => 'All Entries',
-            'entries' => EntryResource::collection($entries),
+            'entries' => $entries,
         ]);
     }    
 

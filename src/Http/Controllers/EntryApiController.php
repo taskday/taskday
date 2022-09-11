@@ -17,6 +17,18 @@ class EntryApiController extends Controller
     use HandlesEntriesRequests;
 
     /**
+     * List all the resources.
+     */
+    public function index(): JsonResponse
+    {
+        $entries = Entry::with('fields')
+            ->paginate(request('per_page', 10))
+            ->through(fn ($entry) => EntryResource::make($entry));
+
+        return response()->json($entries);
+    }    
+
+    /**
      * Return the requested resource from storage.
      */
     public function show(Entry $entry): JsonResource
