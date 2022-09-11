@@ -30,6 +30,17 @@ class EntryController extends Controller
     }    
 
     /**
+     * Show the the resource.
+     */
+    public function show(Entry $entry): InertiaResponse
+    {
+        return Inertia::render('Entries/Index', [
+            'title' => $entry->title,
+            'entry' => EntryResource::make($entry),
+        ]);
+    }    
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreEntryRequest $request): RedirectResponse

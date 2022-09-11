@@ -29,6 +29,24 @@ test('entries can be listed', function () {
             );
 });
 
+test('an entry can be viewed', function () {
+    $entry = Entry::factory()->create();
+    $field = Field::factory()->create();
+
+    $entry->setFieldValue($field, 'foo');
+
+    $this->actingAs(User::factory()->create())
+        ->get(route('entries.show', $entry))
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Entries/Show')
+                ->where('title', 'All Entries')
+                ->where('entry.title', $entry->title)
+                ->where('entry.fields.0.field_id', $field->id)
+                ->where('entry.fields.0.value', 'foo')                    
+                ->etc()
+            );
+});
+
 test('entries can be stored with a title', function () {
     $user = User::factory()->create();
     $entry = Entry::factory()->make();
