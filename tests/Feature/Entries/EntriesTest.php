@@ -39,7 +39,7 @@ test('an entry can be viewed', function () {
         ->get(route('entries.show', $entry))
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Entries/Show')
-                ->where('title', 'All Entries')
+                ->where('title', $entry->title)
                 ->where('entry.title', $entry->title)
                 ->where('entry.fields.0.field_id', $field->id)
                 ->where('entry.fields.0.value', 'foo')                    

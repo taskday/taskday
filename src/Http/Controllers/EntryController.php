@@ -34,7 +34,7 @@ class EntryController extends Controller
      */
     public function show(Entry $entry): InertiaResponse
     {
-        return Inertia::render('Entries/Index', [
+        return Inertia::render('Entries/Show', [
             'title' => $entry->title,
             'entry' => EntryResource::make($entry),
         ]);
