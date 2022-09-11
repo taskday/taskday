@@ -12,7 +12,7 @@ class UserPasswordResetCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'user:password-reset {userId}';
+    protected $signature = 'user:password-reset {user}';
 
     /**
      * The console command description.
@@ -28,13 +28,15 @@ class UserPasswordResetCommand extends Command
      */
     public function handle()
     {
-        $userId = $this->argument('userId');
+        $user = $this->argument('user');
 
-        if (! is_numeric($userId)) {
+        if(filter_var($user, FILTER_VALIDATE_EMAIL)) {
+            $user = User::where('email', $user)->first();
+        } else if (is_numeric($user)) {
+            $user = User::find($user);
+        } else {
             $this->warn('Given ID format not valid');
         }
-
-        $user = User::find($userId);
 
         if (! $user) {
             $this->warn('Given user ID not found.');

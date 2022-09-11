@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Taskday\Console\Commands\UserListCommand;
 use Taskday\Console\Commands\UserPasswordResetCommand;
+use Taskday\Console\Commands\UserNewCommand;
 
 class TaskdayServiceProvider extends ServiceProvider
 {
@@ -59,6 +60,7 @@ class TaskdayServiceProvider extends ServiceProvider
     {
         $this->commands([
             UserListCommand::class,
+            UserNewCommand::class,
             UserPasswordResetCommand::class,
         ]);
     }
