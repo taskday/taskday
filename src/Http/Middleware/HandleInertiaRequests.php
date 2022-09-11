@@ -4,6 +4,7 @@ namespace Taskday\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Support\Facades\Auth;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -40,6 +41,9 @@ class HandleInertiaRequests extends Middleware
             'csrf_token' => function () {
                 return csrf_token();
             },
+            'user' => function () {
+                return Auth::user();
+            }
         ]);
     }
 }

@@ -47,7 +47,7 @@
                     @click="sidebarOpen = false"
                   >
                     <span class="sr-only">Close sidebar</span>
-                    <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
+                    <v-icon name="x" class="h-6 w-6 text-white" aria-hidden="true" />
                   </button>
                 </div>
               </TransitionChild>
@@ -88,7 +88,6 @@
         </div>
       </Dialog>
     </TransitionRoot>
-
     <!-- Static sidebar for desktop -->
     <div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
       <!-- Sidebar component, swap this element with another sidebar if you like -->
@@ -153,13 +152,18 @@
             </form>
           </div>
           <div class="ml-4 flex items-center md:ml-6">
-            <button
-              type="button"
-              class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              <span class="sr-only">View notifications</span>
-              <v-icon name="bell" class="h-6 w-6" aria-hidden="true" />
-            </button>
+            <v-popover>
+              <button
+                type="button"
+                class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                <span class="sr-only">View notifications</span>
+                <v-icon name="bell" class="h-6 w-6" aria-hidden="true" />
+              </button>
+              <template #content>
+                <span class="text-gray-500">No notifications...</span>
+              </template>
+            </v-popover>
 
             <!-- Profile dropdown -->
             <Menu as="div" class="relative ml-3">
@@ -186,6 +190,11 @@
                 <MenuItems
                   class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
+                  <div class="px-4 py-3">
+                    <p class="text-sm">Signed in as</p>
+                    <p class="truncate text-sm font-medium text-gray-900">{{ $page.props.user.email }}</p>
+                  </div>
+                  <hr />
                   <MenuItem
                     v-for="item in userNavigation"
                     :key="item.name"
