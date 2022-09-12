@@ -72,7 +72,7 @@ class TaskdayServiceProvider extends ServiceProvider
                 ->map('realpath')
                 ->map('basename')
                 ->filter(function ($path) {
-                    return count(glob('*' . database_path('migrations/' . substr($path, 7)))) == 0;
+                    return count(glob(database_path('migrations/*' . substr($path, 7)))) == 0;
                 });
 
             if (count($migrations) > 0) {
