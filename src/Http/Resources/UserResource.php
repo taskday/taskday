@@ -4,7 +4,7 @@ namespace Taskday\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EntryResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * The "data" wrapper that should be applied.
@@ -23,17 +23,11 @@ class EntryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'created_at' => $this->created_at->format('M d, Y'),
+            'name' => $this->name,
+            'email' => $this->email,
+            'profile_photo_url' => $this->profile_photo_url,
+            'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'fields' => $this->fields->map(fn ($field) => [
-                'field_id' => $field->pivot->field_id,
-                'value' => $field->pivot->value,
-            ]),
-            'user' => UserResource::make($this->whenLoaded('user')),
-            'audits' => $this->whenLoaded('audits', function () {
-                return $this->audits->sortByDesc('id');
-            }),
         ];
     }
 }

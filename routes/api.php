@@ -11,4 +11,5 @@ use Taskday\Http\Controllers\EntryApiController;
 
 Route::prefix('api')->middleware(['api', 'auth:sanctum', 'verified'])->group(function () {
     Route::resource('entries', EntryApiController::class, [ 'as' => 'api' ]);
+    Route::resource('entries.comments', CommentApiController::class, [ 'as' => 'api' ]);
 });

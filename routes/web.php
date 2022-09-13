@@ -27,18 +27,12 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-if (App::environment(['local', 'testing'])) {
-    $symlinkManifestPath = base_path('public/build/');
-    $manifestPath = realpath(__DIR__ . '/../public/build/manifest.json');
-    exec("mkdir -p $symlinkManifestPath");
-    exec("ln -sf $manifestPath $symlinkManifestPath");
 
-    $hotPath = __DIR__ . '/../public/hot';
-    if (file_exists($hotPath)) {
-        try {
-            symlink($hotPath, __DIR__ . '/../public/hot');
-        } catch (\Throwable $e) {
-        }
+if (App::environment(['local', 'testing'])) {
+    $symlinkHotfile = base_path('public/hot');
+    $hotfile = realpath(__DIR__ . '/../public/hot');
+    if (file_exists($hotfile)) {
+        exec("ln -sf $hotfile $symlinkHotfile");
     }
 }
 

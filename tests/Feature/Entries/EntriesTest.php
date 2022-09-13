@@ -5,6 +5,8 @@ use Taskday\Models\User;
 use Taskday\Models\Field;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Testing\Fluent\AssertableJson;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\DB;
 
 test('entries can be listed', function () {
     $entry = Entry::factory()->create();
@@ -23,10 +25,8 @@ test('entries can be listed', function () {
                     ->where('title', $entry->title)
                     ->where('fields.0.field_id', $field->id)
                     ->where('fields.0.value', 'foo')
-                    ->etc()
-                )
-                ->etc()
-            );
+                    ->etc())
+                ->etc());
 });
 
 test('an entry can be viewed', function () {
@@ -42,9 +42,8 @@ test('an entry can be viewed', function () {
                 ->where('title', $entry->title)
                 ->where('entry.title', $entry->title)
                 ->where('entry.fields.0.field_id', $field->id)
-                ->where('entry.fields.0.value', 'foo')                    
-                ->etc()
-            );
+                ->where('entry.fields.0.value', 'foo')
+                ->etc());
 });
 
 test('entries can be stored with a title', function () {
@@ -59,21 +58,26 @@ test('entries can be stored with a title', function () {
         ]));
 
     expect(Entry::first()->title)->toBe($entry->title);
+    expect(Entry::first()->user_id)->toBe($user->id);
 });
 
 test('entries can be update', function () {
     $user = User::factory()->create();
-    $entry = Entry::factory()->make();
+    $entry = Entry::factory()->create();
+    $data = Entry::factory()->make();
 
     $this->withoutExceptionHandling();
 
     $this->actingAs($user)
-        ->post(route('entries.store', [
-            'title' => $entry->title,
-        ]))
+        ->put(route('entries.update', $entry), [
+            'title' => $data->title,
+        ])
         ->assertRedirect();
 
-    expect(Entry::first()->title)->toBe($entry->title);
+    $entry->fresh();
+
+    expect(Entry::first()->title)->toBe($data->title);
+    expect(Entry::first()->audits)->toHaveCount(1);
 });
 
 it('can delete an entry', function () {

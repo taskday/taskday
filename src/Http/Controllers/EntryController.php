@@ -34,11 +34,13 @@ class EntryController extends Controller
      */
     public function show(Entry $entry): InertiaResponse
     {
+        $entry->load(['fields', 'user', 'audits.user']);
+
         return Inertia::render('Entries/Show', [
             'title' => $entry->title,
             'entry' => EntryResource::make($entry),
         ]);
-    }    
+    }
 
     /**
      * Store a newly created resource in storage.
