@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="/build/manifest.webmanifest" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <meta name="description" content="Task Day: your day to day task management">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,11 +17,7 @@
     <meta name="application-name" content="TaskDay">
     <meta name="apple-mobile-web-app-title" content="TaskDay">
     <meta name="msapplication-starturl" content="/">
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/16.png">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="favicons/150.png">
     <meta name="theme-color" content="#3b82f6">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,6 +34,15 @@
 
     {{-- Assets --}}
     @vite('resources/app.ts')
+
+    {{-- Service Worker --}}
+    <script>
+    if('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/build/sw.js', { scope: '/build/' })
+        })
+    }
+    </script>
 </head>
 
 <body class="font-sans antialiased bg-white dark:bg-gray-900">
