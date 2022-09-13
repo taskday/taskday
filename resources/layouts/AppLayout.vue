@@ -174,7 +174,7 @@
                   <span class="sr-only">Open user menu</span>
                   <img
                     class="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    :src="$page.props.user.profile_photo_url"
                     alt=""
                   />
                 </MenuButton>
@@ -211,20 +211,18 @@
                     </Link>
                   </MenuItem>
                   <hr />
-                  <MenuItem
-                    v-for="item in extraNavigation"
-                    :key="item.name"
-                    v-slot="{ active }"
-                  >
+                  <MenuItem v-slot="{ active }">
                     <Link
-                      method="post"
-                      :href="item.href"
+                      :href="route('logout')" 
+                      method="post" 
+                      as="button" 
+                      type="button"
                       :class="[
                         active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm text-gray-700',
+                        'block w-full text-left px-4 py-2 text-sm text-gray-700',
                       ]"
                     >
-                      {{ item.name }}
+                      Sign out
                     </Link>
                   </MenuItem>
                 </MenuItems>
@@ -236,11 +234,6 @@
 
       <main>
         <div class="py-6">
-          <div class="mx-auto container px-4 sm:px-6 md:px-8 mb-8">
-            <h1 class="text-2xl font-semibold text-gray-900">
-              {{ $page.props.title }}
-            </h1>
-          </div>
           <div class="mx-auto container px-4 sm:px-6 md:px-8">
             <slot></slot>
           </div>
@@ -279,8 +272,6 @@ const navigation = [
 ];
 
 const userNavigation = [{ name: "Account", href: "#" }];
-
-const extraNavigation = [{ name: "Sign out", href: route("logout") }];
 
 const sidebarOpen = ref(false);
 </script>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { PropType } from "vue";
-import { useResource } from "@/composables/useResource";
+import { useResources } from "@/composables/useResources";
 
 let props = defineProps({
   entries: {
@@ -9,7 +9,7 @@ let props = defineProps({
   },
 });
 
-const { data, loading, disabled, loadMore } = useResource<Entry>(
+const { data, loading, disabled, loadMore } = useResources<Entry>(
   route("api.entries.index"),
   props.entries
 );
@@ -17,9 +17,12 @@ const { data, loading, disabled, loadMore } = useResource<Entry>(
 
 <template>
   <div class="space-y-4">
+    <h1 class="text-2xl font-bold text-gray-900">
+      {{ $page.props.title }}
+    </h1>
     <div v-for="entry in data.data" :key="entry.id">
       <Link class="hover:underline" :href="route('entries.show', entry)">
-        {{ entry.title }}
+        <span v-html="entry.title"></span>
       </Link>
     </div>
     <v-button

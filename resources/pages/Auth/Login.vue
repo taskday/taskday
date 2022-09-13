@@ -34,7 +34,6 @@
               id="checkbox"
               name="checkbox"
               type="checkbox"
-              required=""
             />
 
             <div class="text-sm">
@@ -43,7 +42,7 @@
           </div>
 
           <div>
-            <button type="submit" class="button">Sign in</button>
+            <button type="submit" class="button button-primary">Sign in</button>
           </div>
         </form>
       </v-card>
