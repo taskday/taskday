@@ -24,6 +24,11 @@ class Entry extends Model
         'title'
     ];
 
+    protected $casts = [
+        'id' => 'integer',
+        'user_id' => 'integer'
+    ];
+
     public function createComment(string $content): Comment
     {
         $comment = $this->comments()->create([

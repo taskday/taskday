@@ -13,6 +13,11 @@ class Comment extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'id' => 'integer',
+        'entry_id' => 'integer'
+    ];
+
     public function entry(): BelongsTo
     {
         return $this->belongsTo(Entry::class);
