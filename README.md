@@ -13,37 +13,56 @@ Taskday is a project with one goal in mind: build a free, open source and flexib
 This is a rough roadmap with all the feature that will be probably part of the project.
 
 - [x] Authentication with login/register
+- [ ] Commands
+  - [x] List users
+  - [ ] Update users
+  - [ ] Reset password
+  - [ ] Install command
 - [x] User Interface and Components
-  - [x] Login/Register forms
+  - [x] Login form
+  - [ ] Register form
   - [x] Layout
-  - [ ] Desktop and Mobile navigation with sidebar
-  - [ ] Buttons
-  - [ ] Form Fields (input, checkbox, radio, combobox, select, etc...)
-  - [ ] Cards
-  - [ ] Sections
+  - [x] Desktop and Mobile navigation with sidebar
+  - [x] Buttons
+  - [ ] Form Fields
+    - [x] input
+    - [x] select
+    - [x] wysiwyg
+    - [x] textarea
+    - [x] checkbox
+    - [ ] radio
+    - [ ] combobox
+  - [x] Cards
+  - [x] Sections
   - [ ] Modals
+    - [x] Action modal
+    - [ ] Other modals?
+  - [x] Popover
+  - [ ] Dropdown
 - [ ] Entries
+  - [ ] Create (Forms, Api)
+  - [x] Store (Request, Api)
+  - [ ] Edit (Forms, Api)
+  - [x] Update (Request, Api)
+  - [x] Delete (Forms, Api)
+  - [x] Activities, Comments 
+- [ ] Groups or nested Entries
   - [ ] Relations
   - [ ] Create (Forms, Api)
-  - [ ] Store (Forms, Api)
+  - [ ] Store (Request, Api)
   - [ ] Edit (Forms, Api)
-  - [ ] Update (Forms, Api)
+  - [ ] Update (Request, Api)
   - [ ] Delete (Forms, Api)
 - [ ] Fields
   - [ ] Relations
   - [ ] Create (Forms, Api)
-  - [ ] Store (Forms, Api)
+  - [ ] Store (Request, Api)
   - [ ] Edit (Forms, Api)
-  - [ ] Update (Forms, Api)
-  - [ ] Delete (Forms, Api)
-- [ ] Groups
-  - [ ] Relations
-  - [ ] Create (Forms, Api)
-  - [ ] Store (Forms, Api)
-  - [ ] Edit (Forms, Api)
-  - [ ] Update (Forms, Api)
+  - [ ] Update (Request, Api)
   - [ ] Delete (Forms, Api)
 - [ ] Auditing
+  - [x] Entries activities
+  - [x] Commented entries activities
 - [ ] Permissions
 - [ ] Notification
 - [ ] Plugins
