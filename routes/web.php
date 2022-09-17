@@ -5,6 +5,8 @@ use Taskday\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Taskday\Http\Controllers\EntryController;
+use Taskday\Http\Controllers\CommentController;
+use Taskday\Http\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +18,16 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
 
     Route::redirect('home', '/');
 
+    Route::get('account', [AccountController::class, 'index'])->name('account');
+    Route::put('account', [AccountController::class, 'update'])->name('account.update');
+    Route::post('account/email-verify/send', [AccountController::class, 'send'])->name('account.verification.send');
+    Route::get('account/email-verify/{hash}', [AccountController::class, 'verify'])->name('account.verification.verify');
+
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('entries', EntryController::class);
+
+    Route::resource('entries.comments', CommentController::class)->only('store');
 });
 
 /*

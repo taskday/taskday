@@ -9,10 +9,11 @@ use Taskday\Models\Entry;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 use Taskday\Http\Resources\EntryResource;
+use Taskday\Http\Controllers\Concerns\HandlesEntriesRequests;
 
 class EntryController extends Controller
 {
-    use \Taskday\Http\Controllers\Concerns\HandlesEntriesRequests;
+    use HandlesEntriesRequests;
 
     /**
      * List all the resources.
@@ -20,6 +21,7 @@ class EntryController extends Controller
     public function index(): InertiaResponse
     {
         $entries = Entry::with('fields')
+            ->latest()
             ->paginate(request('per_page', 10))
             ->through(fn ($entry) => EntryResource::make($entry));
 
@@ -27,14 +29,14 @@ class EntryController extends Controller
             'title' => 'All Entries',
             'entries' => $entries,
         ]);
-    }    
+    }
 
     /**
      * Show the the resource.
      */
     public function show(Entry $entry): InertiaResponse
     {
-        $entry->load(['fields', 'user', 'audits.user']);
+        $entry->load(['fields', 'user', 'activities.user']);
 
         return Inertia::render('Entries/Show', [
             'title' => $entry->title,
@@ -67,8 +69,10 @@ class EntryController extends Controller
      */
     public function destroy(Entry $entry): RedirectResponse
     {
+        $entry->activities()->delete();
+
         $this->delete($entry);
 
-        return redirect()->back();
+        return redirect()->route('entries.index');
     }
 }

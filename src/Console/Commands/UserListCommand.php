@@ -28,7 +28,7 @@ class UserListCommand extends Command
      */
     public function handle()
     {
-        $this->table([ 'id', 'name', 'email' ], User::query()->select('id', 'name', 'email')->get());
+        $this->table([ 'id', 'name', 'email' ], User::query()->select('id', 'username', 'email')->get());
 
         return Command::SUCCESS;
     }

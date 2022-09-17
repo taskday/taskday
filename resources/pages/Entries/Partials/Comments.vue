@@ -1,9 +1,18 @@
 <script lang="ts" setup>
-import { usePage } from '@inertiajs/inertia-vue3';
+import { useForm, usePage } from "@inertiajs/inertia-vue3";
 
-defineProps<{ entry: Entry }>();
-
+let props = defineProps<{ entry: Entry }>();
 let page = usePage();
+
+const form = useForm({ content: "" });
+
+function submit() {
+  form.post(route("entries.comments.store", props.entry), {
+    onSuccess: () => {
+      form.content = "";
+    },
+  });
+}
 </script>
 
 <template>
@@ -28,7 +37,7 @@ let page = usePage();
         </div>
       </div>
       <div class="min-w-0 flex-1">
-        <form action="#">
+        <form @submit.prevent="submit">
           <div>
             <label for="comment" class="sr-only">Comment</label>
             <textarea
@@ -37,6 +46,7 @@ let page = usePage();
               rows="3"
               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm"
               placeholder="Leave a comment"
+              v-model="form.content"
             />
           </div>
           <div class="mt-6 flex items-center justify-end space-x-4">

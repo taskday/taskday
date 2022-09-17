@@ -12,9 +12,7 @@ function submit() {
 </script>
 
 <template>
-  <div
-    class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6"
-  >
+  <div class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">
     <div>
       <VFormEditor
         :toolbar="false"

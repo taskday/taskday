@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Taskday\Http\Controllers\EntryApiController;
+use Taskday\Http\Controllers\CommentApiController;
 
 /*
 |--------------------------------------------------------------------------

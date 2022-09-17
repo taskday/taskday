@@ -14,12 +14,32 @@ interface Pagination<Type> {
   total: number;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string
+  created_at: string
+  updated_at: string
+}
+
 interface Entry {
   id: string;
   title: string;
   comments_count?: number
   created_at: string
   updated_at: string
-  audits?: object[]
+  activities?: Activity[]
   user?: any
+}
+
+interface Activity {
+  id: number|string
+  user_id: number
+  user: User
+  entry_id: string
+  event: string
+  old_values: object
+  new_values: object
+  meta_data?: any
+  created_at: string
 }

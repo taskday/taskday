@@ -30,10 +30,9 @@ class EntryResource extends JsonResource
                 'field_id' => $field->pivot->field_id,
                 'value' => $field->pivot->value,
             ]),
+            'comments_count' => $this->comments()->count(),
             'user' => UserResource::make($this->whenLoaded('user')),
-            'audits' => $this->whenLoaded('audits', function () {
-                return $this->audits->sortByDesc('id');
-            }),
+            'activities' => ActivityResource::collection($this->whenLoaded('activities')),
         ];
     }
 }

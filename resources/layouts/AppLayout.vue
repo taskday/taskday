@@ -271,7 +271,7 @@ const navigation = [
   },
 ];
 
-const userNavigation = [{ name: "Account", href: "#" }];
+const userNavigation = [{ name: "Account", href: route('account') }];
 
 const sidebarOpen = ref(false);
 </script>

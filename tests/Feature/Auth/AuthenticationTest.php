@@ -15,23 +15,3 @@ test('a registed user can login', function () {
 
     $this->assertAuthenticated();
 });
-
-// test('a new user can register', function () {
-
-//     $factory = new UserFactory();
-//     $user = $factory->make([ 'password' => bcrypt('password') ]);
-
-//     post(route('register'), [
-//         'name' => $user->name,
-//         'email' => $user->email,
-//         'password' => 'password',
-//         'password_confirmation' => 'password'
-//     ])->assertSessionDoesntHaveErrors();
-
-//     post(route('login'), [
-//         'email' => $user->email,
-//         'password' => 'password'
-//     ])->assertSessionDoesntHaveErrors();
-
-//     $this->assertAuthenticated();
-// });

@@ -6,26 +6,42 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Taskday\Events\EntryUpdatedEvent;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Taskday\Models\Concerns\HasFields;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
+use Taskday\Models\Concerns\HasActivities;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Entry extends Model implements Auditable
+class Entry extends Model
 {
-    use AuditableTrait;
     use HasFactory;
     use HasFields;
+    use HasActivities;
+    use SoftDeletes;
 
     protected $guarded = [];
 
-    protected $auditInclude = [
-        'title',
+    protected $watch = [
+        'title'
     ];
 
-    protected $events = [
-        'updated' => EntryUpdatedEvent::class,
-    ];
+    public function createComment(string $content): Comment
+    {
+        $comment = $this->comments()->create([
+            'content' => $content
+        ]);
+
+        return $comment;
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 
     public function user(): BelongsTo
     {

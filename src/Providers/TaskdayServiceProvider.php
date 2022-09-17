@@ -2,13 +2,13 @@
 
 namespace Taskday\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Taskday\Taskday;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 use Taskday\Console\Commands\UserListCommand;
-use Taskday\Console\Commands\UserPasswordResetCommand;
 use Taskday\Console\Commands\UserNewCommand;
+use Taskday\Console\Commands\UserPasswordResetCommand;
+use Taskday\Taskday;
 
 class TaskdayServiceProvider extends ServiceProvider
 {
@@ -19,6 +19,10 @@ class TaskdayServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register(TaskdayEventServiceProvider::class);
+        $this->app->register(TaskdayAuthServiceProvider::class);
+        $this->app->register(TaskdayRouteServiceProvider::class);
+
         $this->app->singleton('taskday', function () {
             return new Taskday();
         });
@@ -35,7 +39,8 @@ class TaskdayServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'taskday');
+        // $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'taskday');
+
         $this->registerExceptionHandler();
         $this->registerCommands();
         $this->registerViews();

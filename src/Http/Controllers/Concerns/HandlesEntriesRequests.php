@@ -15,7 +15,7 @@ trait HandlesEntriesRequests
 
         return Auth::user()->createEntry($data['title']);
     }
- 
+
     protected function updateFromRequest(Entry $entry, UpdateEntryRequest $request): void
     {
         $entry->update($request->validated());

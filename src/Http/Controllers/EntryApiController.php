@@ -22,11 +22,12 @@ class EntryApiController extends Controller
     public function index(): JsonResponse
     {
         $entries = Entry::with('fields')
+            ->latest()
             ->paginate(request('per_page', 10))
             ->through(fn ($entry) => EntryResource::make($entry));
 
         return response()->json($entries);
-    }    
+    }
 
     /**
      * Return the requested resource from storage.

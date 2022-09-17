@@ -1,18 +1,26 @@
 <script lang="ts" setup>
 import { PropType } from "vue";
 import { useResources } from "@/composables/useResources";
+import { useForm } from "@inertiajs/inertia-vue3";
 
 let props = defineProps({
   entries: {
     type: Object as PropType<Pagination<Entry>>,
     required: true,
   },
+  page: {
+    type: Number,
+    required: true,
+  },
 });
 
-const { data, loading, disabled, loadMore } = useResources<Entry>(
-  route("api.entries.index"),
-  props.entries
-);
+const form = useForm({ title: "" });
+
+function submit() {
+  form.post(route("entries.store"), {
+    onSuccess: () => (form.title = ""),
+  });
+}
 </script>
 
 <template>
@@ -20,18 +28,17 @@ const { data, loading, disabled, loadMore } = useResources<Entry>(
     <h1 class="text-2xl font-bold text-gray-900">
       {{ $page.props.title }}
     </h1>
-    <div v-for="entry in data.data" :key="entry.id">
+    <form @submit.prevent="submit">
+      <v-form-input
+        type="text"
+        placeholder="Something..."
+        v-model="form.title"
+      />
+    </form>
+    <div v-for="entry in entries.data" :key="entry.id">
       <Link class="hover:underline" :href="route('entries.show', entry)">
         <span v-html="entry.title"></span>
       </Link>
     </div>
-    <v-button
-      @click="loadMore"
-      :disabled="disabled"
-      :loading="loading"
-      class="button-primary"
-    >
-      Load more
-    </v-button>
   </div>
 </template>

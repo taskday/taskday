@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import moment from "moment";
-
 import Details from "./Partials/Details.vue";
 import Fields from "./Partials/Fields.vue";
-import Audits from "./Partials/Audits.vue";
+import Activities from "./Partials/Activities.vue";
 import EditableTitle from "./Partials/EditableTitle.vue";
 import Comments from "./Partials/Comments.vue";
 
-let props = defineProps<{ entry: Entry }>();
+defineProps<{ entry: Entry }>();
 </script>
 
 <template>
@@ -29,10 +27,27 @@ let props = defineProps<{ entry: Entry }>();
                 </div>
               </div>
             </div>
-            <Audits :entry="entry" />
+            <Activities :entry="entry" />
             <Comments :entry="entry" />
           </div>
           <aside class="hidden xl:block xl:pl-8">
+            <div class="mb-6">
+              <v-modal
+                title="Delete this entry?"
+                description="This operation is not reversable."
+              >
+                <template #actions="{ open }">
+                  <v-button
+                    type="button"
+                    method="delete"
+                    :href="route('entries.destroy', entry)"
+                    class="button-danger inline-flex"
+                  >
+                    Delete
+                  </v-button>
+                </template>
+              </v-modal>
+            </div>
             <Details :entry="entry" />
             <Fields :entry="entry" />
           </aside>

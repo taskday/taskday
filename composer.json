@@ -7,7 +7,6 @@
     "kalnoy/nestedset": "^6.0",
     "laravel/fortify": "^1.13",
     "laravel/sanctum": "^3.0",
-    "owen-it/laravel-auditing": "^13.0",
     "tightenco/ziggy": "^1.4"
   },
   "require-dev": {
@@ -47,9 +46,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Taskday\\Providers\\TaskdayServiceProvider",
-        "Taskday\\Providers\\TaskdayAuthServiceProvider",
-        "Taskday\\Providers\\TaskdayRouteServiceProvider"
+        "Taskday\\Providers\\TaskdayServiceProvider"
       ]
     }
   }

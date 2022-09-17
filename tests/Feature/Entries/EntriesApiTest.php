@@ -6,8 +6,7 @@ use Laravel\Sanctum\Sanctum;
 use Taskday\Models\Field;
 use Illuminate\Testing\Fluent\AssertableJson;
 
-
-test('entries can be listed', function () {
+test('many entries can be fetched', function () {
     $entry = Entry::factory()->create();
     $field = Field::factory()->create();
 
@@ -22,13 +21,11 @@ test('entries can be listed', function () {
                 ->where('title', $entry->title)
                 ->where('fields.0.field_id', $field->id)
                 ->where('fields.0.value', 'foo')
-                ->etc()
-            )
-            ->etc()
-        );
+                ->etc())
+            ->etc());
 });
 
-it('can create an entry through api', function () {
+test('an entry can be created with api', function () {
     $user = User::factory()->create();
     $entry = Entry::factory()->make();
 
@@ -43,7 +40,7 @@ it('can create an entry through api', function () {
     expect(Entry::first()->title)->toBe($entry->title);
 });
 
-it('can get an entry with all the fields', function () {
+test('an entry can be fetched with all fields', function () {
     $entry = Entry::factory()->create();
     $field = Field::factory()->create();
 
@@ -61,9 +58,8 @@ it('can get an entry with all the fields', function () {
             ->etc());
 });
 
-it('can update an entry', function () {
+test('an entry can be updated with api', function () {
     $entry = Entry::factory()->create();
-    $field = Field::factory()->create();
 
     Sanctum::actingAs(User::factory()->create());
 
@@ -72,7 +68,7 @@ it('can update an entry', function () {
     ])->assertStatus(204);
 });
 
-it('can delete an entry', function () {
+test('an entry can be deleted with api', function () {
     $entry = Entry::factory()->create();
     $field = Field::factory()->create();
     expect(Entry::count())->toBe(1);

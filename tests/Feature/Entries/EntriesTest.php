@@ -7,6 +7,7 @@ use Inertia\Testing\AssertableInertia;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\DB;
+use Taskday\Events\EntryUpdatedEvent;
 
 test('entries can be listed', function () {
     $entry = Entry::factory()->create();
@@ -74,10 +75,9 @@ test('entries can be update', function () {
         ])
         ->assertRedirect();
 
-    $entry->fresh();
-
-    expect(Entry::first()->title)->toBe($data->title);
-    expect(Entry::first()->audits)->toHaveCount(1);
+    $entry = $entry->fresh();
+    expect($entry->title)->toBe($data->title);
+    expect($entry->activities()->count())->toBe(2);
 });
 
 it('can delete an entry', function () {
