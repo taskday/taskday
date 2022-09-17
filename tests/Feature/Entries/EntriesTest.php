@@ -5,9 +5,10 @@ use Taskday\Models\User;
 use Taskday\Models\Field;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Testing\Fluent\AssertableJson;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\DB;
-use Taskday\Events\EntryUpdatedEvent;
+
+beforeEach(function () {
+    $this->user = createUserAndlogin();
+});
 
 test('entries can be listed', function () {
     $entry = Entry::factory()->create();
@@ -15,8 +16,7 @@ test('entries can be listed', function () {
 
     $entry->setFieldValue($field, 'foo');
 
-    $this->actingAs(User::factory()->create())
-        ->get(route('entries.index'))
+    $this->get(route('entries.index'))
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Entries/Index')
                 ->where('title', 'All Entries')
@@ -36,8 +36,7 @@ test('an entry can be viewed', function () {
 
     $entry->setFieldValue($field, 'foo');
 
-    $this->actingAs(User::factory()->create())
-        ->get(route('entries.show', $entry))
+    $this->get(route('entries.show', $entry))
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Entries/Show')
                 ->where('title', $entry->title)
@@ -63,14 +62,12 @@ test('entries can be stored with a title', function () {
 });
 
 test('entries can be update', function () {
-    $user = User::factory()->create();
     $entry = Entry::factory()->create();
     $data = Entry::factory()->make();
 
     $this->withoutExceptionHandling();
 
-    $this->actingAs($user)
-        ->put(route('entries.update', $entry), [
+    $this->put(route('entries.update', $entry), [
             'title' => $data->title,
         ])
         ->assertRedirect();
@@ -85,9 +82,7 @@ it('can delete an entry', function () {
     $field = Field::factory()->create();
     expect(Entry::count())->toBe(1);
 
-    $this
-        ->actingAs(User::factory()->create())
-        ->delete(route('entries.destroy', $entry))
+    $this->delete(route('entries.destroy', $entry))
         ->assertRedirect();
 
     expect(Entry::count())->toBe(0);

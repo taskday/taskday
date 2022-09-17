@@ -2,20 +2,18 @@
 
 use Taskday\Models\User;
 
-test('a logged user can see their account settings', function () {
-    $user = User::factory()->create();
+beforeEach(function () {
+    $this->user = createUserAndlogin();
+});
 
-    $this->actingAs($user)
-        ->get(route('account'))
-        ->assertOk();
+test('a logged user can see their account settings', function () {
+    $this->get(route('account'))->assertOk();
 });
 
 test('a logged user can update their account settings', function () {
-    $user = User::factory()->create();
     $data = User::factory()->make();
 
-    $this->actingAs($user)
-        ->put(route('account.update'), [
+    $this->put(route('account.update'), [
             'first_name' => $data->first_name,
             'last_name' => $data->last_name,
             'username' => $data->username,
@@ -23,7 +21,7 @@ test('a logged user can update their account settings', function () {
         ])
         ->assertRedirect();
 
-    $user = $user->fresh();
+    $user = $this->user->fresh();
 
     expect($user->first_name)->toBe($data->first_name);
     expect($user->last_name)->toBe($data->last_name);

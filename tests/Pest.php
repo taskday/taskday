@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Auth\Authenticatable;
+use Taskday\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +42,16 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+/**
+ * Set the currently logged in user for the application.
+ *
+ * @return \Tests\TestCase
+ */
+function createUserAndlogin(): User
 {
-    // ..
+    $user = User::factory()->create();
+
+    test()->actingAs($user);
+
+    return $user;
 }
