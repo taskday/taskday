@@ -14,6 +14,9 @@ class Activity extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'id' => 'intger',
+        'entry_id' => 'integer',
+        'user_id' => 'integer',
         'meta_data' => 'json',
         'old_values' => 'json',
         'new_values' => 'json',
