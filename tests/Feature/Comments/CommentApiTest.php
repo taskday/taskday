@@ -38,3 +38,22 @@ test('a comment can be fetched', function () {
             ->where('content', $comment->content)
             ->etc());
 });
+
+test('a comment can be updated with api', function () {
+    $entry = Entry::factory()->create();
+
+    $comment = Comment::factory()->create([
+        'entry_id' => $entry->id,
+    ]);
+
+    $newComment = Comment::factory()->make();
+
+    $this->put(route('api.entries.comments.update', [$entry, $comment]), [
+        'content' => $newComment->content
+    ])
+        ->assertSessionDoesntHaveErrors()
+        ->assertJson(fn (AssertableJson $json) => $json
+            ->where('id', $comment->id)
+            ->where('content', $newComment->content)
+            ->etc());
+});
