@@ -46,6 +46,8 @@ if (App::environment(['local', 'testing'])) {
 }
 
 if (file_exists(__DIR__ . '/../public/build/manifest.json')) {
+    exec("mkdir -p " . base_path('public/build/'));
+    exec("ln -sf " . __DIR__ . '/../public/build/manifest.json' . " " . base_path('public/build/'));
     $manifest = json_decode(file_get_contents(__DIR__ . '/../public/build/manifest.json'));
 
     foreach ($manifest as $key => $entry) {
