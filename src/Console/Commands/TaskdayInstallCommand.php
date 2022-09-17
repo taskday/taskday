@@ -3,9 +3,8 @@
 namespace Taskday\Console\Commands;
 
 use Illuminate\Console\Command;
-use Taskday\Models\User;
 
-class UserListCommand extends Command
+class TaskdayInstallCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -28,8 +27,6 @@ class UserListCommand extends Command
      */
     public function handle()
     {
-        
-
         return Command::SUCCESS;
     }
 }
