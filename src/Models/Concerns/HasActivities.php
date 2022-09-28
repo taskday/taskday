@@ -12,7 +12,7 @@ trait HasActivities
         return in_array($attribute, $this->watch);
     }
 
-    public function registerActivity(string $name, array $meta = []): self
+    public function registerActivity(string $name, array $meta = [], array $override = []): self
     {
         $old = [];
         $new = [];
@@ -24,12 +24,12 @@ trait HasActivities
             }
         }
 
-        $this->activities()->create([
+        $this->activities()->create(array_merge([
             'event' => $name,
             'old_values' => array_filter($old),
             'new_values' => array_filter($new),
             'meta_data' => $meta,
-        ]);
+        ], $override));
 
         return $this;
     }

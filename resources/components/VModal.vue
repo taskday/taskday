@@ -1,13 +1,9 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div>
-    <v-button
-      type="button"
-      class="button-danger"
-      @click="open = true"
-    >
-      Delete
-    </v-button>
+    <div @click="open = true">
+      <slot></slot>
+    </div>
     <TransitionRoot as="template" :show="open">
       <Dialog as="div" class="relative z-10" @close="open = false">
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
@@ -20,17 +16,17 @@
               <DialogPanel class="relative transform overflow-hidden w-full rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div class="sm:flex w-full sm:items-start">
-                    <div class="mt-3 text-center sm:mt-0 sm:text-left">
+                    <div class="mt-3 w-full text-center sm:mt-0 sm:text-left">
                       <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">{{ title }}</DialogTitle>
-                      <div class="mt-2">
-                        <p class="text-sm text-gray-500">{{ description }}</p>
+                      <div class="mt-2 w-full">
+                        <slot name="content" :open="open"></slot>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="bg-gray-50 px-4 gap-3 py-3 flex-col flex sm:flex-row-reverse sm:px-6">
                   <slot name="actions" :open="open"></slot>
-                  <button type="button" class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="open = false" ref="cancelButtonRef">Cancel</button>
+                  <v-button type="button" class="button-secondary" @click="open = false" ref="cancelButtonRef">Cancel</v-button>
                 </div>
               </DialogPanel>
             </TransitionChild>

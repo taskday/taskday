@@ -3,14 +3,13 @@
 namespace Taskday\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 use Taskday\Http\Controllers\Concerns\HandlesEntriesRequests;
 use Taskday\Http\Requests\StoreEntryRequest;
-use Illuminate\Http\Request;
-use Taskday\Models\Entry;
-use Taskday\Http\Resources\EntryResource;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Taskday\Http\Requests\UpdateEntryRequest;
-use Illuminate\Http\Response;
+use Taskday\Http\Resources\EntryResource;
+use Taskday\Models\Entry;
 
 class EntryApiController extends Controller
 {
@@ -21,10 +20,7 @@ class EntryApiController extends Controller
      */
     public function index(): JsonResponse
     {
-        $entries = Entry::with('fields')
-            ->latest()
-            ->paginate(request('per_page', 10))
-            ->through(fn ($entry) => EntryResource::make($entry));
+        $entries = $this->entries();
 
         return response()->json($entries);
     }
@@ -34,6 +30,8 @@ class EntryApiController extends Controller
      */
     public function show(Entry $entry): JsonResource
     {
+        $this->authorize('view', $entry);
+
         $entry->load('fields');
 
         return EntryResource::make($entry);
@@ -54,7 +52,9 @@ class EntryApiController extends Controller
      */
     public function update(Entry $entry, UpdateEntryRequest $request): Response
     {
-        $entry = $this->updateFromRequest($entry, $request);
+        $this->authorize('update', $entry);
+
+        $this->updateFromRequest($entry, $request);
 
         return response()->noContent();
     }
@@ -64,6 +64,8 @@ class EntryApiController extends Controller
      */
     public function destroy(Entry $entry): Response
     {
+        $this->authorize('delete', $entry);
+
         $this->delete($entry);
 
         return response()->noContent();

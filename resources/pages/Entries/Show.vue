@@ -4,8 +4,9 @@ import Fields from "./Partials/Fields.vue";
 import Activities from "./Partials/Activities.vue";
 import EditableTitle from "./Partials/EditableTitle.vue";
 import Comments from "./Partials/Comments.vue";
+import Create from "./Forms/Create.vue";
 
-defineProps<{ entry: Entry }>();
+defineProps<{ entry: Entry, breadcrumbs: object[] }>();
 </script>
 
 <template>
@@ -14,6 +15,7 @@ defineProps<{ entry: Entry }>();
       <div class="py-6 xl:py-8 px-4 sm:px-6">
         <div class="mx-auto xl:grid xl:grid-cols-3">
           <div class="xl:col-span-2 xl:border-r xl:border-gray-200 xl:pr-8">
+            <v-breadcrumbs :pages="breadcrumbs" class="mb-4"/>
             <div>
               <EditableTitle :entry="entry" />
               <aside class="mt-8 xl:hidden">
@@ -32,7 +34,7 @@ defineProps<{ entry: Entry }>();
           </div>
           <aside class="hidden xl:block xl:pl-8">
             <div class="mb-6">
-              <v-modal
+              <v-button-modal
                 title="Delete this entry?"
                 description="This operation is not reversable."
               >
@@ -46,7 +48,7 @@ defineProps<{ entry: Entry }>();
                     Delete
                   </v-button>
                 </template>
-              </v-modal>
+              </v-button-modal>
             </div>
             <Details :entry="entry" />
             <Fields :entry="entry" />

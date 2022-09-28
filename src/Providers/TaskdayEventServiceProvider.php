@@ -7,6 +7,8 @@ use Taskday\Models\Entry;
 use Taskday\Models\Comment;
 use Taskday\Observers\EntryObserver;
 use Taskday\Observers\CommentObserver;
+use Taskday\Models\FieldValue;
+use Taskday\Observers\FieldValueObserver;
 
 class TaskdayEventServiceProvider extends EventServiceProvider
 {
@@ -19,5 +21,6 @@ class TaskdayEventServiceProvider extends EventServiceProvider
     {
         Entry::observe(EntryObserver::class);
         Comment::observe(CommentObserver::class);
+        FieldValue::observe(FieldValueObserver::class);
     }
 }

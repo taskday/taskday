@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('type');
-            $table->json('options')->nullable()->default('{}');
+            $table->foreignId('board_id')->constrained();
+            $table->json('options')->nullable();
             $table->timestamps();
         });
     }

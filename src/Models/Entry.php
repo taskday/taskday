@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Taskday\Models\Concerns\HasFields;
 use Taskday\Models\Concerns\HasActivities;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kalnoy\Nestedset\NodeTrait;
 
 class Entry extends Model
 {
@@ -53,9 +54,14 @@ class Entry extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function board(): BelongsTo
+    {
+        return $this->belongsTo(Board::class);
+    }
+
     public function fields(): BelongsToMany
     {
-        return $this->belongsToMany(Field::class, 'fields_values')
+        return $this->belongsToMany(Field::class, 'field_value')
             ->using(FieldValue::class)
             ->withPivot('value')
             ->withTimestamps();

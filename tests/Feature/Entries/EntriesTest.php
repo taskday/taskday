@@ -11,7 +11,9 @@ beforeEach(function () {
 });
 
 test('entries can be listed', function () {
-    $entry = Entry::factory()->create();
+    $entry = $this->user->createEntry(Entry::factory()->make()->title);
+
+    Entry::factory()->times(2)->create();
     $field = Field::factory()->create();
 
     $entry->setFieldValue($field, 'foo');
@@ -24,6 +26,7 @@ test('entries can be listed', function () {
                 ->where('entries.per_page', 10)
                 ->has('entries.data', 1, fn (AssertableJson $page) => $page
                     ->where('title', $entry->title)
+                    ->where('user_id', $this->user->id)
                     ->where('fields.0.field_id', $field->id)
                     ->where('fields.0.value', 'foo')
                     ->etc())
@@ -31,7 +34,7 @@ test('entries can be listed', function () {
 });
 
 test('an entry can be viewed', function () {
-    $entry = Entry::factory()->create();
+    $entry = Entry::factory()->owned()->create();
     $field = Field::factory()->create();
 
     $entry->setFieldValue($field, 'foo');
@@ -41,6 +44,7 @@ test('an entry can be viewed', function () {
             ->component('Entries/Show')
                 ->where('title', $entry->title)
                 ->where('entry.title', $entry->title)
+                ->where('entry.user_id', $this->user->id)
                 ->where('entry.fields.0.field_id', $field->id)
                 ->where('entry.fields.0.value', 'foo')
                 ->etc());
@@ -62,7 +66,7 @@ test('entries can be stored with a title', function () {
 });
 
 test('entries can be update', function () {
-    $entry = Entry::factory()->create();
+    $entry = Entry::factory()->owned()->create();
     $data = Entry::factory()->make();
 
     $this->withoutExceptionHandling();
@@ -78,7 +82,7 @@ test('entries can be update', function () {
 });
 
 it('can delete an entry', function () {
-    $entry = Entry::factory()->create();
+    $entry = Entry::factory()->owned()->create();
     $field = Field::factory()->create();
     expect(Entry::count())->toBe(1);
 

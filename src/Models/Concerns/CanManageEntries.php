@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 trait CanManageEntries
 {
-    public function createEntry(string $title): Entry
+    public function createEntry(array $data): Entry
     {
-        return Entry::create([
-            'title' => $title,
-            'user_id' => Auth::id(),
-        ]);
+        $data['user_id'] = Auth::id();
+
+        $entry = Entry::create($data);
+
+        return $entry;
     }
 }

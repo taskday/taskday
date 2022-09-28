@@ -96,7 +96,7 @@
           Taskday
         </div>
         <div class="mt-5 flex flex-1 flex-col">
-          <nav class="flex-1 space-y-1 px-2 pb-4">
+          <nav class="space-y-1 px-2 pb-4">
             <Link
               v-for="item in navigation"
               :key="item.name"
@@ -116,6 +116,31 @@
               {{ item.name }}
             </Link>
           </nav>
+          <hr>
+          <nav class="flex-1 space-y-1 p-2 pb-4">
+            <Link
+              v-for="category in $page.props.categories"
+              :key="category.id"
+              :href="route('categories.show', category)"
+              class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-indigo-100 hover:bg-indigo-600"
+            >
+              <v-icon
+                name="folder"
+                class="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                aria-hidden="true"
+              />
+              <span v-html="category.title" />
+            </Link>
+            <form @submit.prevent="submit" class="block mt-1">
+              <v-form-input 
+                v-model="newCategory.title"
+                :errors="newCategory.errors.title"
+                class="bg-indigo-600 text-white border-none placeholder:text-white/80"
+                placeholder="Add category..."
+              />
+            </form>
+          </nav>
+
         </div>
       </div>
     </div>
@@ -244,7 +269,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { 
+  ref 
+} from "vue";
+
 import {
   Dialog,
   DialogPanel,
@@ -255,6 +283,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
+import { useForm } from "@inertiajs/inertia-vue3";
 
 const navigation = [
   {
@@ -274,4 +303,14 @@ const navigation = [
 const userNavigation = [{ name: "Account", href: route('account') }];
 
 const sidebarOpen = ref(false);
+
+const newCategory = useForm({
+  title: '',
+})
+
+function submit() {
+  newCategory.post(route('categories.store'), {
+    onFinish:() => newCategory.reset()
+  });
+}
 </script>

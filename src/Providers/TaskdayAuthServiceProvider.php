@@ -8,6 +8,7 @@ use Taskday\Actions\Fortify\CreateNewUser;
 use Taskday\Actions\Fortify\UpdateUserProfileInformation;
 use Taskday\Actions\Fortify\UpdateUserPassword;
 use Taskday\Actions\Fortify\ResetUserPassword;
+use Inertia\Inertia;
 
 class TaskdayAuthServiceProvider extends ServiceProvider
 {
@@ -22,5 +23,9 @@ class TaskdayAuthServiceProvider extends ServiceProvider
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+
+        Fortify::verifyEmailView(function () {
+            return Inertia::render('Auth/Verify');
+        });
     }
 }

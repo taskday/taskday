@@ -24,14 +24,14 @@ class EntryResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'user_id' => $this->user_id,
             'created_at' => $this->created_at->format('M d, Y'),
             'updated_at' => $this->updated_at,
-            'fields' => $this->fields->map(fn ($field) => [
-                'field_id' => $field->pivot->field_id,
-                'value' => $field->pivot->value,
-            ]),
+            'fields' => FieldResource::collection($this->whenLoaded('fields')),
             'comments_count' => $this->comments()->count(),
+            'children' => EntryResource::collection($this->whenLoaded('children')),
             'user' => UserResource::make($this->whenLoaded('user')),
+            'board' => BoardResource::make($this->whenLoaded('board')),
             'activities' => ActivityResource::collection($this->whenLoaded('activities')),
         ];
     }

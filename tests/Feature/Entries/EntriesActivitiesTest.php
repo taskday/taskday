@@ -30,7 +30,8 @@ test('an entry has title activities', function () {
     $oldEntry = Entry::factory()->make();
     $newEntry = Entry::factory()->make();
 
-    Entry::create($oldEntry->toArray())->update(['title' => $newEntry->title ]);
+    Entry::create($oldEntry->toArray())
+        ->update(['title' => $newEntry->title ]);
 
     $entry = Entry::first();
 

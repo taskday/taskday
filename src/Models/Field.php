@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Field extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+    
+    public function getFieldType()
+    {
+        return app($this->type);
+    }
 }

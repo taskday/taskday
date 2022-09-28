@@ -5,6 +5,7 @@ import laravel from "laravel-vite-plugin";
 import vue from "@vitejs/plugin-vue";
 import Components from "unplugin-vue-components/vite";
 import { VitePWA } from "vite-plugin-pwa";
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 export default defineConfig({
   server: {
@@ -19,6 +20,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    vueJsx({
+
+    }),
     VitePWA({
       start_url: '/',
       filename: "sw.ts",

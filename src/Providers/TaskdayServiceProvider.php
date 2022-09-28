@@ -3,11 +3,13 @@
 namespace Taskday\Providers;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Taskday\Plugin\Builtin\Progress\Progress;
+use Taskday\Console\Commands\UserCreateCommand;
 use Taskday\Console\Commands\UserListCommand;
-use Taskday\Console\Commands\UserNewCommand;
-use Taskday\Console\Commands\UserPasswordResetCommand;
+use Taskday\Console\Commands\UserResetPasswordCommand;
 use Taskday\Taskday;
 
 class TaskdayServiceProvider extends ServiceProvider
@@ -30,6 +32,8 @@ class TaskdayServiceProvider extends ServiceProvider
         Factory::guessFactoryNamesUsing(function ($class) {
             return 'Taskday\\Database\\Factories\\' . class_basename($class) . 'Factory';
         });
+
+        JsonResource::withoutWrapping();
     }
 
     /**
@@ -46,6 +50,7 @@ class TaskdayServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerMigrations();
         $this->registerBladeDirectives();
+        $this->registerBuiltinPlugins();
     }
 
     public function registerExceptionHandler()
@@ -65,9 +70,14 @@ class TaskdayServiceProvider extends ServiceProvider
     {
         $this->commands([
             UserListCommand::class,
-            UserNewCommand::class,
-            UserPasswordResetCommand::class,
+            UserCreateCommand::class,
+            UserResetPasswordCommand::class,
         ]);
+    }
+
+    public function registerBuiltinPlugins()
+    {
+        \Taskday\Facades\Taskday::register(new Progress());
     }
 
     public function registerMigrations(): void
@@ -81,10 +91,11 @@ class TaskdayServiceProvider extends ServiceProvider
                 });
 
             if (count($migrations) > 0) {
+                $offset = 1;
                 foreach ($migrations as $name) {
                     $path = __DIR__ . "/../../database/migrations/$name";
-                    $name = database_path('migrations/' . date('Y_m_d_His', (time() + 1)) . "_" . substr($name, 7));
-
+                    $name = database_path('migrations/' . date('Y_m_d_His', (time() + $offset)) . "_" . substr($name, 7));
+                    $offset = $offset + 1;
                     $this->publishes([ $path => $name ], 'taskday-migrations');
                 }
             }

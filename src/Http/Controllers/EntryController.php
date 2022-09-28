@@ -20,10 +20,7 @@ class EntryController extends Controller
      */
     public function index(): InertiaResponse
     {
-        $entries = Entry::with('fields')
-            ->latest()
-            ->paginate(request('per_page', 10))
-            ->through(fn ($entry) => EntryResource::make($entry));
+        $entries = $this->entries();
 
         return Inertia::render('Entries/Index', [
             'title' => 'All Entries',
@@ -36,10 +33,17 @@ class EntryController extends Controller
      */
     public function show(Entry $entry): InertiaResponse
     {
-        $entry->load(['fields', 'user', 'activities.user']);
+        $this->authorize('view', $entry);
+
+        $entry->load(['fields', 'user', 'activities.user', 'board.fields']);
+
+        $breadcrumbs = [
+            ['name' => $entry->board->title, 'href' => route('boards.show', $entry->board) ],
+        ];
 
         return Inertia::render('Entries/Show', [
             'title' => $entry->title,
+            'breadcrumbs' => array_reverse($breadcrumbs),
             'entry' => EntryResource::make($entry),
         ]);
     }
@@ -69,7 +73,7 @@ class EntryController extends Controller
      */
     public function destroy(Entry $entry): RedirectResponse
     {
-        $entry->activities()->delete();
+        $this->authorize('delete', $entry);
 
         $this->delete($entry);
 

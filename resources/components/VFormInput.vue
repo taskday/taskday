@@ -15,7 +15,7 @@ export default {
 
 <template>
   <label class="block">
-    <span class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{ label }}</span>
+    <span class="block text-sm font-medium text-gray-700">{{ label }}</span>
     <span class="block mt-1">
       <input
         class="form-input"

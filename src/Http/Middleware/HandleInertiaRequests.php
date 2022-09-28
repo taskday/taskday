@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Taskday\Http\Resources\UserResource;
+use Taskday\Http\Resources\CategoryResource;
+use Taskday\Models\Category;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -44,6 +46,9 @@ class HandleInertiaRequests extends Middleware
             },
             'user' => function () {
                 return Auth::check() ? UserResource::make(Auth::user()) : null;
+            },
+            'categories' => function () {
+                return Category::all()->map(fn ($entry) => CategoryResource::make($entry));
             }
         ]);
     }

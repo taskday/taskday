@@ -5,14 +5,14 @@ namespace Taskday\Console\Commands;
 use Illuminate\Console\Command;
 use Taskday\Models\User;
 
-class UserPasswordResetCommand extends Command
+class UserResetPasswordCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'user:password-reset {user}';
+    protected $signature = 'user:reset-password {user}';
 
     /**
      * The console command description.
@@ -30,9 +30,9 @@ class UserPasswordResetCommand extends Command
     {
         $user = $this->argument('user');
 
-        if(filter_var($user, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($user, FILTER_VALIDATE_EMAIL)) {
             $user = User::where('email', $user)->first();
-        } else if (is_numeric($user)) {
+        } elseif (is_numeric($user)) {
             $user = User::find($user);
         } else {
             $this->warn('Given ID format not valid');

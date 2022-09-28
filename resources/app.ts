@@ -1,13 +1,18 @@
 import "@/css/app.css";
 
-import { createApp, h } from "vue";
+import { createApp, h, ref, onMounted, onUnmounted } from "vue";
 import { createInertiaApp, Head, Link } from "@inertiajs/inertia-vue3";
 import { createPinia } from "pinia";
+import Taskday from "@/plugins/index";
 
 import AppLayout from "@/layouts/AppLayout.vue";
 import ActivityCommented from "@/pages/Entries/Activities/Commented.vue";
 import ActivityCreated from "@/pages/Entries/Activities/Created.vue";
 import ActivityUpdated from "@/pages/Entries/Activities/Updated.vue";
+import ActivityFieldCreated from "@/pages/Entries/Activities/FieldCreated.vue";
+import ActivityFieldUpdated from "@/pages/Entries/Activities/FieldUpdated.vue";
+
+import "@/plugins/example/index";
 
 createInertiaApp({
   resolve: async (name) => {
@@ -28,9 +33,12 @@ createInertiaApp({
   setup({ el, app, props, plugin }) {
     const pinia = createPinia();
 
-    const instance = createApp({ render: () => h(app, props) });
+    const instance = createApp({
+      render: () => h(app, props),
+    });
 
     instance
+      .use(Taskday)
       .use(plugin)
       .use(pinia)
       .mixin({ methods: { route } })
@@ -39,6 +47,8 @@ createInertiaApp({
       .component("activities-commented", ActivityCommented)
       .component("activities-created", ActivityCreated)
       .component("activities-updated", ActivityUpdated)
+      .component("activities-field-created", ActivityFieldCreated)
+      .component("activities-field-updated", ActivityFieldUpdated)
       .mount(el);
   },
 });

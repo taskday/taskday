@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fields_values', function (Blueprint $table) {
+        Schema::create('field_value', function (Blueprint $table) {
             $table->foreignId('entry_id')->constrained();
             $table->foreignId('field_id')->constrained();
             $table->text('value')->nullable();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fields_values');
+        Schema::dropIfExists('field_value');
     }
 };

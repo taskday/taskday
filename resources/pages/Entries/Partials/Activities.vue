@@ -16,6 +16,7 @@ defineProps<{ entry: Entry }>();
             <component
               :is="`activities-${audit.event}`"
               :activity="audit"
+              :entry="entry"
             />
           </div>
         </div>

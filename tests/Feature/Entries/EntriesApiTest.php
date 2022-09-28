@@ -10,8 +10,8 @@ beforeEach(function () {
     $this->user = createUserAndlogin();
 });
 
-test('many entries can be fetched', function () {
-    $entry = Entry::factory()->create();
+test('entries can be fetched', function () {
+    $entry = $this->user->createEntry(Entry::factory()->make()->title);
     $field = Field::factory()->create();
 
     $entry->setFieldValue($field, 'foo');
@@ -22,6 +22,7 @@ test('many entries can be fetched', function () {
             ->where('per_page', 10)
             ->has('data', 1, fn (AssertableJson $page) => $page
                 ->where('title', $entry->title)
+                ->where('user_id', $this->user->id)
                 ->where('fields.0.field_id', $field->id)
                 ->where('fields.0.value', 'foo')
                 ->etc())
@@ -31,44 +32,42 @@ test('many entries can be fetched', function () {
 test('an entry can be created with api', function () {
     $entry = Entry::factory()->make();
 
-    $this->withoutExceptionHandling();
-
-    $this->post(route('api.entries.store', [
-            'title' => $entry->title,
-        ]));
+    $this->post(route('api.entries.store'), [
+        'title' => $entry->title,
+    ]);
 
     expect(Entry::first()->title)->toBe($entry->title);
 });
 
 test('an entry can be fetched with all fields', function () {
-    $entry = Entry::factory()->create();
+    $entry = Entry::factory()->owned()->create();
     $field = Field::factory()->create();
 
     $entry->setFieldValue($field, 'foo');
 
-    $res = $this->get(route('api.entries.show', $entry));
-
-    $res->assertJson(fn (AssertableJson $json) =>
-        $json->where('id', $entry->id)
-            ->where('title', $entry->title)
-            ->where('fields.0.value', 'foo')
-            ->where('fields.0.field_id', $field->id)
-            ->etc());
+    $this->get(route('api.entries.show', $entry))
+        ->assertOk()
+        ->assertJson(fn (AssertableJson $json) => $json
+            ->where('id', $entry->id)
+                ->where('title', $entry->title)
+                ->where('fields.0.value', 'foo')
+                ->where('fields.0.field_id', $field->id)
+                ->etc());
 });
 
 test('an entry can be updated with api', function () {
-    $entry = Entry::factory()->create();
+    $entry = Entry::factory()->owned()->create();
+    $newTitle = Entry::factory()->make()->title;
 
     $this->put(route('api.entries.update', $entry), [
-        'title' => $entry->title,
+        'title' => $newTitle,
     ])->assertStatus(204);
+
+    expect($entry->fresh()->title)->toBe($newTitle);
 });
 
 test('an entry can be deleted with api', function () {
-    $entry = Entry::factory()->create();
-    $field = Field::factory()->create();
-    expect(Entry::count())->toBe(1);
-
+    $entry = Entry::factory()->owned()->create();
 
     $this->delete(route('api.entries.destroy', $entry))
         ->assertStatus(204);

@@ -25,6 +25,8 @@ class StoreEntryRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'board_id' => 'required',
+            'fields' => 'nullable'
         ];
     }
 }

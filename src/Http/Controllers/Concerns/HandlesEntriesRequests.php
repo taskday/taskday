@@ -6,14 +6,30 @@ use Illuminate\Support\Facades\Auth;
 use Taskday\Http\Requests\StoreEntryRequest;
 use Taskday\Http\Requests\UpdateEntryRequest;
 use Taskday\Models\Entry;
+use Taskday\Http\Resources\EntryResource;
 
 trait HandlesEntriesRequests
 {
+    protected function entries()
+    {
+        return Entry::with('fields')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->paginate(request('per_page', 10))
+            ->through(fn ($entry) => EntryResource::make($entry));
+    }
+
     protected function storeFromRequest(StoreEntryRequest $request): Entry
     {
-        $data = $request->validated();
+        $entry = Auth::user()->createEntry(
+            $request->only(['title', 'board_id'])
+        );
 
-        return Auth::user()->createEntry($data['title']);
+        foreach ($request->input('fields', []) as $key => $value) {
+            $entry->setFieldValue($key, $value);
+        }
+
+        return $entry;
     }
 
     protected function updateFromRequest(Entry $entry, UpdateEntryRequest $request): void
@@ -23,6 +39,8 @@ trait HandlesEntriesRequests
 
     protected function delete(Entry $entry): void
     {
+        $entry->activities()->delete();
+
         $entry->delete();
     }
 }

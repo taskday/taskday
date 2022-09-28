@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Log;
 use Taskday\Http\Controllers\EntryController;
 use Taskday\Http\Controllers\CommentController;
 use Taskday\Http\Controllers\AccountController;
+use Taskday\Http\Controllers\CategoryController;
+use Taskday\Http\Controllers\BoardController;
+use Taskday\Http\Controllers\ViewController;
+use Taskday\Http\Controllers\GroupController;
+use Taskday\Http\Controllers\FieldValueController;
+use Taskday\Http\Controllers\FieldController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +34,18 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::resource('entries', EntryController::class);
 
     Route::resource('entries.comments', CommentController::class)->only('store');
+
+    Route::resource('categories', CategoryController::class);
+
+    Route::resource('boards', BoardController::class);
+
+    Route::resource('fields', FieldController::class);
+
+    Route::resource('entries.fields', FieldValueController::class);
+
+    Route::resource('views', ViewController::class);
+
+    Route::resource('groups', GroupController::class);
 });
 
 /*
