@@ -3,6 +3,7 @@
 namespace Taskday\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreBoardRequest extends FormRequest
 {
@@ -25,7 +26,15 @@ class StoreBoardRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'user_id' => 'required',
             'category_id' => 'required'
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => Auth::id(),
+        ]);
     }
 }

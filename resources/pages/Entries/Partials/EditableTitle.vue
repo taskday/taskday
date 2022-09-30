@@ -22,7 +22,7 @@ function submit() {
       >
       </VFormEditor>
       <p class="mt-2 text-sm text-gray-500">
-        #{{ entry.id }} created by
+        created by
         {{ " " }}
         <span class="font-medium text-gray-900">
           {{ entry.user.name }}

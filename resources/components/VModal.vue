@@ -19,13 +19,13 @@
                     <div class="mt-3 w-full text-center sm:mt-0 sm:text-left">
                       <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">{{ title }}</DialogTitle>
                       <div class="mt-2 w-full">
-                        <slot name="content" :open="open"></slot>
+                        <slot name="content" :close="close"></slot>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="bg-gray-50 px-4 gap-3 py-3 flex-col flex sm:flex-row-reverse sm:px-6">
-                  <slot name="actions" :open="open"></slot>
+                  <slot name="actions" :close="close"></slot>
                   <v-button type="button" class="button-secondary" @click="open = false" ref="cancelButtonRef">Cancel</v-button>
                 </div>
               </DialogPanel>
@@ -53,4 +53,8 @@ defineProps({
     default: '',
   },
 })
+
+function close() {
+  open.value = false
+}
 </script>

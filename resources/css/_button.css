@@ -29,3 +29,7 @@
   focus:ring-offset-red-400/[.60] focus:ring-red-300/[.45]
   dark:focus:ring-offset-red-300/[.50] dark:focus:ring-red-200/[.40];
 }
+
+.button-sm {
+  @apply text-xs px-2 h-8;
+}

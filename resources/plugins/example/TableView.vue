@@ -10,7 +10,8 @@ let props = defineProps<{
 let newEntry = useForm({ title: '', board_id: props.board.id });
 function submit() {
   newEntry.post(route('entries.store'), {
-    onFinish:() => newEntry.reset()
+    onSuccess:() => newEntry.reset(),
+    preserveScroll: true
   })
 }
 </script>
@@ -25,14 +26,19 @@ function submit() {
             <tr>
               <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title</th>
               <th scope="col" v-for="field in board.fields" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">
-                {{ field.title }}
+                <div class="flex items-center">
+                  {{ field.title }}
+                  <v-field-menu :field="field" />
+                </div>
               </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200">
             <tr v-for="entry in board.entries" class="hover:[&>td]:bg-gray-100">
               <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                <Link class="hover:underline" :href="route('entries.show', entry)" v-html="entry.title"></Link>
+                <div class="flex items-center gap-2">
+                  <v-entry-menu :entry="entry" /> <Link class="hover:underline" :href="route('entries.show', entry)" v-html="entry.title"></Link>
+                </div>
               </td>
               <td v-for="field in board.fields" class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                 <component

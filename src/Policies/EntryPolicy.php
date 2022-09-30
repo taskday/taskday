@@ -30,11 +30,13 @@ class EntryPolicy
      */
     public function view($user, Entry $entry)
     {
-        if ($user->id == $entry->user_id) {
+        if ($user->id === $entry->user_id) {
             return true;
         }
 
-        return true;
+        if ($entry->board->hasMember($user)) {
+            return true;
+        }
     }
 
     /**

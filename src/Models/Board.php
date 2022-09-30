@@ -8,14 +8,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Scout\Searchable;
+use Taskday\Models\Concerns\HasMembers;
+use Taskday\Models\Concerns\HasOwner;
 use Taskday\Plugin\Contracts\Groupable;
 use Illuminate\Support\Collection;
 
 class Board extends Model
 {
     use HasFactory;
+    use HasOwner;
+    use HasMembers;
+    use SoftDeletes;
+    use Searchable;
 
     protected $guarded = [];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function fields(): HasMany
     {
@@ -41,5 +55,20 @@ class Board extends Model
     public function entries(): HasMany
     {
         return $this->hasMany(Entry::class);
+    }
+
+    public function members(): BelongsToMany
+    {
+        return $this->morphToMany(User::class, 'memberable', 'members')
+            ->using(Member::class)
+            ->withTimestamps();
+    }
+
+    /**
+     * Get workspaces only visible to the current user.
+     */
+    public function scopeSharedWithCurrentUser($query)
+    {
+        return $query->whereIn('id', Auth::user()->sharedBoards->modelKeys());
     }
 }

@@ -2,6 +2,8 @@ import Taskday from "@/plugins/models/Taskday";
 import TableView from "./TableView.vue";
 import KanbanView from "./KanbanView.vue";
 import ProgressField from "./ProgressField.vue";
+import IssueField from "./IssueField.vue";
+import LabelFieldOptions from './LabelFieldOptions.vue';
 
 window.addEventListener("taskday:init", function () {
   //@ts-ignore
@@ -14,7 +16,9 @@ window.addEventListener("taskday:init", function () {
       { type: "kanban", component: KanbanView },
     ],
     fields: [
-      { type: "progress", component: ProgressField }
+      { type: "progress", component: ProgressField },
+      { type: "label", component: ProgressField, options: LabelFieldOptions },
+      { type: "issue", component: IssueField },
     ],
   });
 });

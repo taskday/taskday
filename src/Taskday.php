@@ -20,6 +20,7 @@ class Taskday
 
         foreach ($plugin->fields() as $fieldType) {
             app()->singleton($fieldType->type, fn () => $fieldType);
+            $fieldType->boot();
         }
 
         $this->plugins[] = $plugin->type;

@@ -2,7 +2,9 @@
 
 namespace Taskday\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Taskday\Models\Activity;
 use Taskday\Models\Field;
 use Inertia\Response as InertiaResponse;
 use Illuminate\Http\RedirectResponse;
@@ -41,6 +43,20 @@ class FieldController extends Controller
     public function update(Field $field, UpdateFieldRequest $request): RedirectResponse
     {
         $field->update($request->validated());
+
+        return redirect()->back();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function destroy(Field $field, Request $request): RedirectResponse
+    {
+        $field->values()->delete();
+
+        Activity::where('meta_data->field_id', $field->id)->delete();
+
+        $field->delete();
 
         return redirect()->back();
     }

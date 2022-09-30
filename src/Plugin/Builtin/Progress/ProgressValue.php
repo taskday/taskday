@@ -2,7 +2,7 @@
 
 namespace Taskday\Plugin\Builtin\Progress;
 
-use Taskday\Plugin\Contracts\GroupValue;
+use Taskday\Plugin\Support\GroupValue;
 
 class ProgressValue extends GroupValue
 {

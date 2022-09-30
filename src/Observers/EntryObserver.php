@@ -6,6 +6,7 @@ use Taskday\Models\Entry;
 use Taskday\Events\EntryUpdatedEvent;
 use Taskday\Models\Activity;
 use Illuminate\Support\Arr;
+use Taskday\Events\EntryCreatedEvent;
 
 class EntryObserver
 {
@@ -18,6 +19,8 @@ class EntryObserver
     public function created(Entry $entry)
     {
         $entry->registerActivity('created');
+
+        event(new EntryCreatedEvent($entry));
     }
 
     /**

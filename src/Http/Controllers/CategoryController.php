@@ -17,6 +17,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category): InertiaResponse
     {
+        $this->authorize('view', $category);
+
         $category->load('boards');
 
         return Inertia::render('Categories/Show', [

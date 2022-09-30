@@ -37,7 +37,7 @@
             />
 
             <div class="text-sm">
-              <a href="#" class="link">Forgot your password?</a>
+              <a :href="route('password.request')" class="link">Forgot your password?</a>
             </div>
           </div>
 

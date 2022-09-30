@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('field_value', function (Blueprint $table) {
-            $table->foreignId('entry_id')->constrained();
-            $table->foreignId('field_id')->constrained();
+            $table->foreignId('entry_id')->constrained()->onDelete('cascade');
+            $table->foreignId('field_id')->constrained()->onDelete('cascade');
             $table->text('value')->nullable();
             $table->timestamps();
         });

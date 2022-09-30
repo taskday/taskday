@@ -3,7 +3,7 @@ import { useForm } from "@inertiajs/inertia-vue3";
 import { computed, watch, PropType } from "vue";
 
 let props = defineProps({
-  value: { type: Object as PropType<any> },
+  value: { type: String },
   field: { type: Object as PropType<Field> },
   entry: { type: Object as PropType<any> },
   readonly: { type: Boolean, default: false },
@@ -65,6 +65,8 @@ const groupValue = computed(() => {
               :class="{
                 'bg-gray-400 dark:bg-gray-400 dark:bg-opacity-90': option.props.color === 'gray',
                 'bg-red-400 dark:bg-red-400 dark:bg-opacity-90': option.props.color === 'red',
+                'bg-blue-400 dark:bg-blue-400 dark:bg-opacity-90': option.props.color === 'blue',
+                'bg-purple-400 dark:bg-purple-400 dark:bg-opacity-90': option.props.color === 'purple',
                 'bg-green-400 dark:bg-green-400 dark:bg-opacity-90': option.props.color === 'green',
                 'bg-yellow-400 dark:bg-yellow-400 dark:bg-opacity-90': option.props.color === 'yellow',
               }"
@@ -94,15 +96,14 @@ const groupValue = computed(() => {
     </VListbox>
     <span v-else>
       <span
+        class="p-1 text-sm rounded"
         :class="{
-          'bg-gray-100 dark:bg-gray-400 text-gray-600 dark:text-gray-400 dark:bg-opacity-90':
-            groupValue.props.color === 'gray',
-          'bg-red-100 dark:bg-red-400 text-red-600 dark:text-red-400 dark:bg-opacity-90':
-            groupValue.props.color === 'red',
-          'bg-green-100 dark:bg-green-400 text-green-600 dark:text-green-400 dark:bg-opacity-90':
-            groupValue.props.color === 'green',
-          'bg-yellow-100 dark:bg-yellow-400 text-yellow-600 dark:text-yellow-400 dark:bg-opacity-90':
-            groupValue.props.color === 'yellow',
+          'bg-gray-100 dark:bg-gray-400 text-gray-600 dark:text-gray-400 dark:bg-opacity-90': groupValue.props.color === 'gray',
+          'bg-red-100 dark:bg-red-400 text-red-600 dark:text-red-400 dark:bg-opacity-90': groupValue.props.color === 'red',
+          'bg-blue-100 dark:bg-blue-400 text-blue-600 dark:text-blue-400 dark:bg-opacity-90': groupValue.props.color === 'blue',
+          'bg-purple-100 dark:bg-purple-400 text-purple-600 dark:text-purple-400 dark:bg-opacity-90': groupValue.props.color === 'purple',
+          'bg-green-100 dark:bg-green-400 text-green-600 dark:text-green-400 dark:bg-opacity-90': groupValue.props.color === 'green',
+          'bg-yellow-100 dark:bg-yellow-400 text-yellow-600 dark:text-yellow-400 dark:bg-opacity-90': groupValue.props.color === 'yellow',
         }"
       >
         {{ groupValue.label }}

@@ -2,6 +2,7 @@
 
 namespace Taskday\Providers;
 
+use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use Illuminate\Support\ServiceProvider;
 use Taskday\Actions\Fortify\CreateNewUser;
@@ -26,6 +27,21 @@ class TaskdayAuthServiceProvider extends ServiceProvider
 
         Fortify::verifyEmailView(function () {
             return Inertia::render('Auth/Verify');
+        });
+
+        Fortify::resetPasswordView(function (Request $request) {
+            return Inertia::render('Auth/ResetPassword', [
+                'token' => $request->token,
+                'email' => $request->email,
+            ]);
+        });
+
+        Fortify::requestPasswordResetLinkView(function () {
+            return Inertia::render('Auth/ForgotPassword');
+        });
+
+        Fortify::confirmPasswordView(function () {
+            return Inertia::render('Auth/ConfirmPassword');
         });
     }
 }

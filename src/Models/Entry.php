@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 use Taskday\Models\Concerns\HasFields;
 use Taskday\Models\Concerns\HasActivities;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +19,7 @@ class Entry extends Model
     use HasFields;
     use HasActivities;
     use SoftDeletes;
+    use Searchable;
 
     protected $guarded = [];
 

@@ -2,6 +2,7 @@
 
 namespace Taskday\Plugin;
 
+use Illuminate\Support\Collection;
 use Taskday\Bundles\AssetBundle;
 
 abstract class Plugin
@@ -15,8 +16,13 @@ abstract class Plugin
         return null;
     }
 
-    public function fields(): array
+    public function fields(): Collection
     {
-        return [];
+        return collect([]);
+    }
+
+    public function views(): Collection
+    {
+        return collect([]);
     }
 }

@@ -12,7 +12,7 @@ const newBoard = useForm({
 
 function submit() {
   newBoard.post(route("boards.store"), {
-    onFinish: () => newBoard.reset(),
+    onSuccess: () => newBoard.reset(),
   });
 }
 </script>

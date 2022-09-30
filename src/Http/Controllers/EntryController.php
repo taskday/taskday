@@ -77,6 +77,6 @@ class EntryController extends Controller
 
         $this->delete($entry);
 
-        return redirect()->route('entries.index');
+        return redirect()->back();
     }
 }

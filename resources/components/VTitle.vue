@@ -5,7 +5,7 @@ import { ref, reactive, onMounted, watch } from 'vue';
 
 <template>
   <div>
-    <h1 class="text-2xl font-bold text-gray-900">
+    <h1 class="text-xl font-bold text-gray-900">
       <slot></slot>
     </h1>      
   </div>

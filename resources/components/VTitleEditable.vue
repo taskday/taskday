@@ -17,7 +17,7 @@ function submit() {
       :toolbar="false"
       v-model="form.title"
       @blur="submit"
-      class="text-2xl font-bold text-gray-900"
+      class="text-xl font-bold text-gray-900"
     >
     </VFormEditor>
   </div>

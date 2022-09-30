@@ -53,7 +53,7 @@ export default defineConfig({
       devOptions: {
         enabled: process.env.SW_DEV === "true",
         type: "module",
-      },
+      }
     }),
     laravel({
       input: ["resources/app.ts"],

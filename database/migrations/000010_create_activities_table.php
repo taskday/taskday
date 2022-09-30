@@ -17,8 +17,8 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('event');
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('entry_id')->constrained();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('entry_id')->constrained()->onDelete('cascade');
             $table->json('meta_data')->nullable();
             $table->json('old_values')->nullable();
             $table->json('new_values')->nullable();

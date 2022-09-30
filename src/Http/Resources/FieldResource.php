@@ -29,7 +29,7 @@ class FieldResource extends JsonResource
             'type' => $this->type,
             'value' => $this->pivot?->value ?? new MissingValue(),
             'values' => $this->getFieldType() instanceof Groupable
-                ? $this->getFieldType()->values()->map->toArray()
+                ? $this->getFieldType()->values($this->resource)->map->toArray()
                 : new MissingValue()
         ];
     }

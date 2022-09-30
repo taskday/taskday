@@ -25,9 +25,9 @@ trait HasFields
         ]);
     }
 
-    public function getFieldValue(Field $field): FieldValue
+    public function getFieldValue(Field $field): ?FieldValue
     {
-        return $this->fields()->where('field_id', $field->id)->first()->pivot;
+        return $this->fields()->where('field_id', $field->id)->first()?->pivot;
     }
 
     public function getRawFieldValue(Field $field): ?string

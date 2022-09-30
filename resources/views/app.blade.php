@@ -7,7 +7,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="manifest" href="/build/manifest.webmanifest" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    {{-- <link rel="icon" href="/favicon.ico"> --}}
     <meta name="description" content="Task Day: your day to day task management">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -45,7 +45,7 @@
     </script>
 </head>
 
-<body class="font-sans antialiased bg-white dark:bg-gray-900">
+<body class="font-sans antialiased">
     @inertia
 </body>
 

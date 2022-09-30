@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Inertia } from "@inertiajs/inertia";
-import { onMounted, ref } from "vue";
+import { onMounted, watch, ref } from "vue";
 import KanbanEntryCreate from "./KanbanEntryCreate.vue";
 import vuedraggable from 'vuedraggable';
 
@@ -12,7 +12,9 @@ let props = defineProps<{
 
 function entryForValue(value: number) {
   return props.board.entries.filter((entry) => {
-    return entry.fields.find((field) => (parseInt(field.value) ? parseInt(field.value) : 0) == value)
+    return entry.fields.find((field) => {
+      return (parseInt(field.value) ? parseInt(field.value) : 0) == value && props.group?.id == field.id
+    })
   });
 }
 
@@ -26,21 +28,21 @@ function updateEntryColumn(column, entry) {
 
 const columns = ref([]);
 
-onMounted(() => {
+watch(() => props.group, () => {
   columns.value = props.group?.values.map((column) => {
     return {
       ...column,
       entries: entryForValue(column.id),
     }
   })
-})
+}, { immediate: true })
 </script>
  
 <template>
   <!-- Component Start -->
   <div class="">
     <div v-if="group" class="flex flex-grow mt-4 space-x-6 overflow-auto">
-      <div v-for="column in columns" class="flex flex-col flex-shrink-0 w-72">
+      <div v-for="column in columns" class="flex flex-col flex-shrink-0 w-72 h-screen">
         <div class="flex items-center justify-between flex-shrink-0 h-10 px-2">
           <div class="flex items-center">
             <span class="block text-sm font-semibold">{{ column.label }}</span>
@@ -76,14 +78,25 @@ onMounted(() => {
               class="hover:bg-gray-100 border relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100"
               draggable="true"
             >
-              <button
-                class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 mt-3 mr-2 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex"
+              <div
+                class="absolute top-0 right-0 flex items-center justify-center mt-3 mr-2 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex"
               >
-                <v-icon name="more-vertical" class="w-4 h-4 fill-current" />
-              </button>
+                <v-entry-menu :entry="entry">
+                  <v-icon name="more-vertical" class="w-4 h-4 fill-current" />
+                </v-entry-menu>
+              </div>
               <Link :href="route('entries.show', entry)" class="hover:underline">
                 <h4 class="text-sm font-medium" v-html="entry.title"></h4>
               </Link>
+              <div v-for="field in board.fields.filter(f => f.type != group.type)">
+                <component
+                  :is="taskday().field(field.type).component"
+                  :entry="entry"
+                  :value="entry.fields?.find((f) => f.id == field.id)?.value ?? ''"
+                  :field="field"
+                  :readonly="true"
+                ></component>
+              </div>
               <div
                 class="flex items-center w-full mt-3 text-xs font-medium text-gray-400"
               >
@@ -94,10 +107,10 @@ onMounted(() => {
                   />
                   <span class="ml-1 leading-none">{{ entry.created_at }}</span>
                 </div>
-                <div class="relative flex items-center ml-4">
+                <div class="flex items-center ml-4">
                   <v-icon
                     name="message-square"
-                    class="relative w-4 h-4 text-gray-300 fill-current"
+                    class="w-4 h-4 text-gray-300 fill-current"
                   />
                   <span class="ml-1 leading-none">{{ entry.comments_count }}</span>
                 </div>
@@ -119,17 +132,6 @@ onMounted(() => {
     <div v-else>
       <span class="block mt-8 text-sm text-gray-600">
         You need at least one groupable field type
-        <v-modal>
-
-            <v-button type="button" class="button-primary">
-              <v-icon name="plus" class="h-4 w-4 text-white stroke-current" />
-              <span>Add a field</span>
-            </v-button>
-
-          <template #content>
-            <!-- TODO: add / create field form to board -->
-          </template>
-        </v-modal>
       </span>
     </div>
   </div>

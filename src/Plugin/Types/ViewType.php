@@ -2,6 +2,6 @@
 
 namespace Taskday\Plugin\Types;
 
-abstract class Field
+abstract class ViewType
 {
 }

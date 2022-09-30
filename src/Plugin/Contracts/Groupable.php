@@ -3,6 +3,7 @@
 namespace Taskday\Plugin\Contracts;
 
 use Illuminate\Support\Collection;
+use Taskday\Models\Field;
 
 interface Groupable
 {
@@ -11,5 +12,5 @@ interface Groupable
      *
      * @return Collection<GroupValue>
      */
-    public function values(): Collection;
+    public function values(Field $field): Collection;
 }

@@ -42,7 +42,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::resource('fields', FieldController::class);
 
     Route::resource('entries.fields', FieldValueController::class);
-
+    Route::post('entries/{entry}/fields/{field}/action', [FieldValueController::class, 'action'])->name('entries.fields.actions');
+    
     Route::resource('views', ViewController::class);
 
     Route::resource('groups', GroupController::class);

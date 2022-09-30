@@ -5,7 +5,7 @@ import {
 </script>
 
 <template>
-  <ListboxButton class="relative w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:focus:ring-opacity-50 sm:text-sm">
+  <ListboxButton class="relative pl-3 pr-10 button button-secondary button-sm">
     <span class="flex items-center">
       <slot></slot>
     </span>

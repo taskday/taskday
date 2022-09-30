@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ListboxOption } from "@headlessui/vue";
 defineProps({
-  value: String,
+  value: [String, Number],
 })
 </script>
 

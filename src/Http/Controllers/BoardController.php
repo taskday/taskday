@@ -14,17 +14,31 @@ use Taskday\Http\Resources\FieldResource;
 
 class BoardController extends Controller
 {
+    public function edit(Board $board)
+    {
+        $this->authorize('update', $board);
+
+        $board->load('members');
+
+        return Inertia::render('Boards/Edit', [
+            'title' => 'Edit ' . $board->title,
+            'board' => $board,
+        ]);
+    }
+
     /**
      * Show the the resource.
      */
     public function show(Board $board, Request $request): InertiaResponse
     {
+        $this->authorize('view', $board);
+
         $board->load(['category', 'views', 'fields', 'entries.user', 'entries.fields']);
 
         return Inertia::render('Boards/Show', [
             'title' => $board->title,
             'breadcrumbs' => [
-                ['name' => $board->category->title, 'href' => route('boards.show', $board->category) ],
+                ['name' => $board->category->title, 'href' => route('categories.show', $board->category) ],
             ],
             'board' => BoardResource::make($board),
             'groups' => FieldResource::collection($board->groups()),
@@ -41,6 +55,8 @@ class BoardController extends Controller
      */
     public function store(StoreBoardRequest $request): RedirectResponse
     {
+        $this->authorize('create', Board::class);
+
         Board::create($request->validated());
 
         return redirect()->back();
@@ -51,7 +67,39 @@ class BoardController extends Controller
      */
     public function update(Board $board, UpdateBoardRequest $request): RedirectResponse
     {
+        $this->authorize('update', $board);
+
         $board->update($request->validated());
+
+        return redirect()->back();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function destroy(Board $board): RedirectResponse
+    {
+        $this->authorize('delete', $board);
+
+        $board->fields()->delete();
+        $board->entries()->delete();
+        $board->delete();
+
+        return redirect()->route('categories.show', $board->category);
+    }
+
+    /**
+     * Update users members.
+     */
+    public function updateMembers(Request $request, Board $board)
+    {
+        $this->authorize('update', $board);
+
+        $data = $request->validate([
+            'members' => 'array'
+        ]);
+
+        $board->syncMembers($data['members']);
 
         return redirect()->back();
     }

@@ -5,11 +5,12 @@ namespace Taskday\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Taskday\Events\CommentCreatedEvent;
+use Laravel\Scout\Searchable;
 
 class Comment extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $guarded = [];
 

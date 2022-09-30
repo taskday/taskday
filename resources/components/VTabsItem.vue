@@ -1,5 +1,5 @@
 <template>
-  <Tab as="div" v-slot="{ selected }" class="button button-secondary">
+  <Tab as="div" v-slot="{ selected }" class="button button-secondary button-sm">
     <button
       :class="[
         'text-sm leading-5 font-medium pb-px text-gray-700 inline-flex w-auto',

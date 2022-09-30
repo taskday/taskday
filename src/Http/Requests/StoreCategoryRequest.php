@@ -3,6 +3,7 @@
 namespace Taskday\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -25,6 +26,14 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'user_id' => 'required',
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => Auth::id(),
+        ]);
     }
 }

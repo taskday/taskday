@@ -5,7 +5,7 @@ import { ref, watch } from "vue";
 let emit = defineEmits(['update:modelValue']);
 
 let props = defineProps({
-  modelValue: { type: String, required: false },
+  modelValue: { type: [String, Number], required: false },
 });
 
 const value = ref(props.modelValue ?? "");

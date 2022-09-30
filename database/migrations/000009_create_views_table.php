@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('type');
-            $table->foreignId('board_id')->constrained();
+            $table->foreignId('board_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

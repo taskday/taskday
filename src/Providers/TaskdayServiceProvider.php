@@ -11,6 +11,7 @@ use Taskday\Console\Commands\UserCreateCommand;
 use Taskday\Console\Commands\UserListCommand;
 use Taskday\Console\Commands\UserResetPasswordCommand;
 use Taskday\Taskday;
+use Taskday\Plugin\Builtin\Issue\Issue;
 
 class TaskdayServiceProvider extends ServiceProvider
 {
@@ -78,6 +79,7 @@ class TaskdayServiceProvider extends ServiceProvider
     public function registerBuiltinPlugins()
     {
         \Taskday\Facades\Taskday::register(new Progress());
+        \Taskday\Facades\Taskday::register(new Issue());
     }
 
     public function registerMigrations(): void

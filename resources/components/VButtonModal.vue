@@ -1,13 +1,9 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div>
-    <v-button
-      type="button"
-      class="button-danger"
-      @click="open = true"
-    >
-      Delete
-    </v-button>
+    <div @click="open = true">
+      <slot name="trigger"></slot>
+    </div>
     <TransitionRoot as="template" :show="open">
       <Dialog as="div" class="relative z-10" @close="open = false">
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">

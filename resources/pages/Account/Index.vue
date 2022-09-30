@@ -2,6 +2,7 @@
 import moment from 'moment';
 import { ref } from "vue";
 import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import NotificationsSection from './Partials/NotificationsSection.vue';
 
 const page = usePage();
 
@@ -15,20 +16,31 @@ const form = useForm({
 const previewProfileUrl = ref(page.props.value.user.profile_photo_url);
 
 function submit() {
-  form.put(route("account.update"));
+  form.put(route("account.update"), {
+    preserveScroll: true
+  });
 }
 </script>
 
 <template>
-  <div>
+  <div class="divide-y-blue-gray-200 divide-y">
     <div class="mx-auto max-w-3xl py-6 xl:py-8 px-4 sm:px-6">
       <h1 class="text-2xl font-bold text-gray-900">
         {{ $page.props.title }}
       </h1>
+    </div>
+
+    <div class="mx-auto max-w-3xl py-6 xl:py-8 px-4 sm:px-6">
       <form
         @submit.prevent="submit"
-        class="divide-y-blue-gray-200 mt-6 space-y-8 divide-y"
+        class="mt-6 space-y-8 "
       >
+        <v-toast 
+          title="Successfully saved!"
+          message="Your account settings has been saved."
+          :show="form.recentlySuccessful"
+        />
+
         <div class="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
           <div class="sm:col-span-6">
             <h2 class="text-xl font-medium text-blue-gray-900">Profile</h2>
@@ -166,5 +178,7 @@ function submit() {
         </div>
       </form>
     </div>
+
+    <NotificationsSection />
   </div>
 </template>

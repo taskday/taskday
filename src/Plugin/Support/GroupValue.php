@@ -1,6 +1,6 @@
 <?php
 
-namespace Taskday\Plugin\Contracts;
+namespace Taskday\Plugin\Support;
 
 use Illuminate\Contracts\Support\Arrayable;
 

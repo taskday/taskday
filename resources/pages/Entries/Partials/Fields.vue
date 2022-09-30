@@ -8,7 +8,7 @@ defineProps<{ entry: Entry }>();
       <component
         :is="taskday().field(field.type).component"
         :entry="entry"
-        :value="entry.fields.find((f) => f.id == field.id).value"
+        :value="entry.fields?.find((f) => f.id == field.id)?.value ?? ''"
         :field="field"
       ></component>
     </div>
