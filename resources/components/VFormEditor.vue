@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="text-gray-700 dark:text-gray-100">
-      <div v-if="toolbar && editor" class="flex flex-wrap mb-4 -mx-2">
+      <div v-if="toolbar && editor" class="flex flex-wrap">
         <div class="p-2">
           <button
             type="button"
@@ -133,12 +133,10 @@
       </div>
     </div>
     <span class="ProseMirror"></span>
-    <div class="">
-      <EditorContent
-        v-bind="$attrs"
-        :editor="editor"
-      />
-    </div>
+    <EditorContent
+      v-bind="$attrs"
+      :editor="editor"
+    />
   </div>
 </template>
 

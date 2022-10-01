@@ -24,7 +24,7 @@ watch(
 
 const groupValue = computed(() => {
   return (
-    props.field.values.find((v) => v.id === form.value) ?? {
+    props.field.values.find((v) => v.id == form.value) ?? {
       id: "",
       label: "-",
       props: { color: "gray" },

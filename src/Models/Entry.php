@@ -14,12 +14,14 @@ use Taskday\Models\Concerns\HasFields;
 use Taskday\Models\Concerns\HasActivities;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kalnoy\Nestedset\NodeTrait;
+use Taskday\Models\Concerns\HasOwner;
 use Taskday\Models\Filters\SearchFilter;
 
 class Entry extends Model
 {
     use HasFactory;
     use HasFields;
+    use HasOwner;
     use HasActivities;
     use SoftDeletes;
     use Filterable;

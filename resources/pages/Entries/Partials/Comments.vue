@@ -41,6 +41,7 @@ function submit() {
           <div>
             <label for="comment" class="sr-only">Comment</label>
             <v-form-editor
+              class="editor-input"
               placeholder="Leave a comment"
               v-model="form.content"
             />

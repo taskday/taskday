@@ -16,7 +16,7 @@ trait HandlesEntriesRequests
         return Entry::query()
             ->filter($request)
             ->with('board', 'fields')
-            ->where('user_id', Auth::id())
+            ->owned()
             ->latest()
             ->paginate(request('per_page', 10))
             ->through(fn ($entry) => EntryResource::make($entry));
