@@ -12,7 +12,7 @@ defineProps<{ entry: Entry, breadcrumbs: object[] }>();
 <template>
   <div>
     <main class="flex-1">
-      <div class="py-6 xl:py-8 px-4 sm:px-6">
+      <div class="">
         <div class="mx-auto xl:grid xl:grid-cols-3">
           <div class="xl:col-span-2 xl:border-r xl:border-gray-200 xl:pr-8">
             <div>

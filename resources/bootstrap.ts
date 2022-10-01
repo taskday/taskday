@@ -15,11 +15,11 @@ import './register-sw';
  */
  import Echo from "laravel-echo";
  import Pusher from "pusher-js";
- window.Pusher = Pusher;
- window.Echo = new Echo({
+ window['Pusher'] = Pusher;
+ window['Echo'] = new Echo({
    broadcaster: "pusher",
-   key: window.env.pusherAppKey,
-   cluster: window.env.pusherAppCluster,
+   key: window['env'].pusherAppKey,
+   cluster: window['env'].pusherAppCluster,
    forceTLS: true
  });
  

@@ -5,6 +5,7 @@ import ProgressField from "./ProgressField.vue";
 import IssueField from "./IssueField.vue";
 import LabelFieldOptions from './LabelFieldOptions.vue';
 import ReportView from './ReportView.vue';
+import LoginWidget from './LoginWidget.vue';
 
 window.addEventListener("taskday:init", function () {
   //@ts-ignore
@@ -22,5 +23,8 @@ window.addEventListener("taskday:init", function () {
       { type: "label", component: ProgressField, options: LabelFieldOptions },
       { type: "issue", component: IssueField },
     ],
+    widgets: [
+      { type: "login", component: LoginWidget }
+    ]
   });
 });

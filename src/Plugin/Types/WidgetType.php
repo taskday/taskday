@@ -2,7 +2,7 @@
 
 namespace Taskday\Plugin\Types;
 
-abstract class ViewType
+abstract class WidgetType
 {
     public string $type;
 

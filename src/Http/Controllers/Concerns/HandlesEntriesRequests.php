@@ -7,12 +7,15 @@ use Taskday\Http\Requests\StoreEntryRequest;
 use Taskday\Http\Requests\UpdateEntryRequest;
 use Taskday\Models\Entry;
 use Taskday\Http\Resources\EntryResource;
+use Taskday\Models\Filters\EntryFilter;
 
 trait HandlesEntriesRequests
 {
-    protected function entries()
+    protected function entries(EntryFilter $request)
     {
-        return Entry::with('fields')
+        return Entry::query()
+            ->filter($request)
+            ->with('board', 'fields')
             ->where('user_id', Auth::id())
             ->latest()
             ->paginate(request('per_page', 10))

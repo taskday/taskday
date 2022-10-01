@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property string $title
+ * @property string $type
+ * @property array $options
+ */
 class Field extends Model
 {
     use HasFactory;

@@ -62,10 +62,10 @@ function submit() {
           <template v-for="category in $page.props.categories">
             <Link
               :href="route('categories.show', category)"
-              class="group relative flex items-center justify-between px-2 py-1 text-xs font-medium rounded-md text-blue-100 hover:bg-blue-600"
+              class="group relative flex items-center justify-between py-1 text-xs font-medium rounded-md text-blue-100 hover:bg-blue-600"
             >
               <div class="flex items-center gap-1">
-                <span class="truncate" v-html="category.title" />
+                <v-icon name="chevron-down" class="h-4 w-4"></v-icon>  <span class="truncate" v-html="category.title" />
               </div>
               <v-popper v-slot="{ setPopperRoot, setPopperElement }">
                 <Menu>

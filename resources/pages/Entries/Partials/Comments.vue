@@ -36,7 +36,7 @@ function submit() {
           </span>
         </div>
       </div>
-      <div class="min-w-0 flex-1">
+      <div class="min-w-0 w-full flex-1">
         <form @submit.prevent="submit">
           <div>
             <label for="comment" class="sr-only">Comment</label>

@@ -1,5 +1,5 @@
 <template>
-  <VCard>
+  <v-section>
     <div class="mb-6">
       <div class="px-4 sm:px-0">
         <h3 class="text-lg leading-6 font-medium">
@@ -13,5 +13,5 @@
     <div class="space-y-4">
       <slot name="content"></slot>
     </div>
-  </VCard>
+  </v-section>
 </template>

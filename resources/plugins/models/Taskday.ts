@@ -20,6 +20,10 @@ export default class Taskday {
     return this.plugins.flatMap(plugin => plugin.fields());
   }
 
+  field(type: string): Extension {
+    return this.fields().find(view => view.type == type);
+  }
+
   views(): Extension[] {
     return this.plugins.flatMap(plugin => plugin.views());
   }
@@ -28,7 +32,13 @@ export default class Taskday {
     return this.views().find(view => view.type == type);
   }
 
-  field(type: string): Extension {
-    return this.fields().find(view => view.type == type);
+  widgets(): Extension[] {
+    return this.plugins.flatMap(plugin => plugin.widgets());
   }
+
+  widget(type: string): Extension {
+    return this.widgets().find(widget => widget.type == type);
+  }
+
+
 }

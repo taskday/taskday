@@ -50,7 +50,7 @@ function save() {
 
 <template>
   <VActivity icon="message-circle">
-    <div class="flex items-center justify-between">
+    <div class="flex items-center flex-1 justify-between">
       <div>
         <span class="text-gray-900 font-medium">
           {{ activity.user.name }}

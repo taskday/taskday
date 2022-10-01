@@ -11,5 +11,6 @@ interface Actionable
      *
      * @return Collection<string, Action>
      */
+    // @phpstan-ignore-next-line
     public function actions(): Collection;
 }

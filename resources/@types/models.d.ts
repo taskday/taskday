@@ -22,11 +22,16 @@ interface User {
   updated_at: string;
 }
 
+interface Board {
+  
+}
+
 interface Entry {
   id: string;
   title: string;
   user?: any;
   fields?: Entry[];
+  board: Board;
   comments_count?: number;
   activities?: Activity[];
   created_at: string;

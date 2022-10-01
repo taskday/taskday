@@ -23,6 +23,11 @@ class Taskday
             $fieldType->boot();
         }
 
+        foreach ($plugin->widgets() as $widgetType) {
+            app()->singleton($widgetType->type, fn () => $widgetType);
+            $widgetType->boot();
+        }
+
         $this->plugins[] = $plugin->type;
     }
 }

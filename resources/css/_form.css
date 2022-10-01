@@ -19,7 +19,8 @@
 }
 
 .ProseMirror {
-  outline: none;
+  @apply outline-none max-w-none;
+
   &:focus {
     outline: none;
   }

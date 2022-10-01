@@ -12,5 +12,6 @@ interface Groupable
      *
      * @return Collection<GroupValue>
      */
+    // @phpstan-ignore-next-line
     public function values(Field $field): Collection;
 }

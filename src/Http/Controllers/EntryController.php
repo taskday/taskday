@@ -11,6 +11,7 @@ use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 use Taskday\Http\Resources\EntryResource;
 use Taskday\Http\Controllers\Concerns\HandlesEntriesRequests;
+use Taskday\Models\Filters\EntryFilter;
 
 class EntryController extends Controller
 {
@@ -19,9 +20,9 @@ class EntryController extends Controller
     /**
      * List all the resources.
      */
-    public function index(): InertiaResponse
+    public function index(EntryFilter $request): InertiaResponse
     {
-        $entries = $this->entries();
+        $entries = $this->entries($request);
 
         return Inertia::render('Entries/Index', [
             'title' => 'All Entries',

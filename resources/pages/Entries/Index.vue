@@ -16,14 +16,24 @@ defineProps({
 
 <template>
   <div class="space-y-4">
-    <h1 class="text-2xl font-bold text-gray-900">
+    <v-title>
       {{ $page.props.title }}
-    </h1>
+    </v-title>
     <div v-if="entries.data.length > 0">
       <div v-for="entry in entries.data" :key="entry.id">
-        <Link class="hover:underline" :href="route('entries.show', entry)">
-          <span v-html="entry.title"></span>
-        </Link>
+        <v-card class="flex flex-col gap-3">
+          <v-breadcrumbs
+            :pages="[
+              { name: entry.board.title, url: route('boards.show', entry.board) },
+            ]"
+          />
+          <Link class="hover:underline" :href="route('entries.show', entry)">
+            <span v-html="entry.title"></span>
+          </Link>
+          <div class="flex items-center gap-2">
+            <v-entry-fields :readonly="true" :entry="entry" />
+          </div>
+        </v-card>
       </div>
     </div>
     <div v-else>

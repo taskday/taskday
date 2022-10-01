@@ -4,6 +4,9 @@ namespace Taskday\Plugin;
 
 use Illuminate\Support\Collection;
 use Taskday\Bundles\AssetBundle;
+use Taskday\Plugin\Types\FieldType;
+use Taskday\Plugin\Types\ViewType;
+use Taskday\Plugin\Types\WidgetType;
 
 abstract class Plugin
 {
@@ -16,13 +19,21 @@ abstract class Plugin
         return null;
     }
 
-    public function fields(): Collection
+    /** @return Collection<\Taskday\Plugin\Types\FieldType>|iterable<\Taskday\Plugin\Types\FieldType> */
+    public function fields()
     {
-        return collect([]);
+        return new Collection([]);
     }
 
+    /** @return Collection<\Taskday\Plugin\Types\ViewType> */
     public function views(): Collection
     {
-        return collect([]);
+        return new Collection([]);
+    }
+
+    /** @return Collection<\Taskday\Plugin\Types\WidgetType> */
+    public function widgets(): Collection
+    {
+        return new Collection([]);
     }
 }

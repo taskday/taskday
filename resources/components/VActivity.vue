@@ -3,7 +3,7 @@ defineProps<{ icon: String }>()
 </script>
 
 <template>
-  <div class="relative flex flex-col sm:flex-row items-start space-x-3">
+  <div class="relative flex flex-col sm:flex-row items-start sm:space-x-3">
     <div class="hidden sm:block">
       <div class="relative px-1">
         <div
@@ -17,7 +17,7 @@ defineProps<{ icon: String }>()
         </div>
       </div>
     </div>
-    <div class="min-w-0 flex-1 pb-1.5">
+    <div class="min-w-0 w-full flex-1 pb-1.5">
       <div class="text-sm text-gray-500">
         <slot></slot>
       </div>

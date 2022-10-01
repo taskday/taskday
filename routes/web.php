@@ -14,6 +14,7 @@ use Taskday\Http\Controllers\ViewController;
 use Taskday\Http\Controllers\GroupController;
 use Taskday\Http\Controllers\FieldValueController;
 use Taskday\Http\Controllers\FieldController;
+use Taskday\Http\Controllers\WidgetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +49,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
 
     Route::resource('views', ViewController::class);
 
-    Route::resource('groups', GroupController::class);
+    Route::resource('widgets', WidgetController::class);
 
     // Push Notifications Subscriptions
     Route::post('subscriptions', [PushSubscriptionController::class, 'update']);
