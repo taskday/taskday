@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
+import { useShortcut } from '@/composables/useShortcut'; 
 import {
   Combobox,
   ComboboxInput,
@@ -18,6 +19,10 @@ const items = ref([]);
 const open = ref(false);
 const query = ref("");
 
+useShortcut('cmd+k', () => {
+  open.value = true
+})
+
 function onSelect(person) {
   Inertia.visit(route('entries.show', person), {
     onSuccess: () => open.value = false
@@ -28,9 +33,8 @@ watch(
   () => query.value,
   () => {
     if (query.value.length > 1) {
-      axios.get(route("api.search"))
+      axios.get(route("api.search", { search: query.value }))
         .then((res) => {
-          console.log(res);
           items.value = res.data;
         })
         .catch((err) => {

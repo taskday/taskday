@@ -17,3 +17,74 @@
   bg-white text-gray-900
   ;
 }
+
+.ProseMirror {
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+
+  /* Placeholder (at the top) */
+  p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    @apply text-gray-400;
+  }
+  
+  p + div,
+  div + p,
+  p + p,
+  div + p {
+    @apply mb-2 mt-2;
+  }
+
+  ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 1.425em;
+
+    div, p {
+      @apply mt-0 mb-0;
+    }
+
+
+    &[data-type="taskList"] {
+      padding-left: 0;
+    }
+
+    &[data-type="taskList"] li {
+      @apply flex items-start;
+
+      label {
+        @apply mt-0 mr-2;
+      }
+
+      input[type="checkbox"] {
+        @apply rounded-sm border-gray-300
+          focus:outline-none
+          focus:ring-1 
+          focus:ring-offset-1
+          focus:border-blue-400 
+          focus:ring-offset-blue-500/[.20]
+          focus:ring-blue-400/[.20]
+          dark:focus:border-blue-300 
+          dark:focus:ring-offset-blue-400/[.20]
+          dark:focus:ring-blue-300/[.20]
+        ;
+      }
+      
+      &[data-checked="true"] {
+        text-decoration: line-through;
+
+        input[type="checkbox"] {
+          @apply bg-blue-600 dark:bg-gray-600;
+        }
+      }
+    }
+  }
+  
+  a {
+    @apply font-normal text-blue-600 hover:text-blue-500;
+  }
+}
+
+

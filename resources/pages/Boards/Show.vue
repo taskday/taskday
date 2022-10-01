@@ -18,13 +18,9 @@ let group = computed(() => props.groups.find((g) => g.id == query.group_by));
 <template>
   <div>
     <div class="flex flex-col">
-      <div class="flex flex-col gap-3">
-        <v-breadcrumbs :pages="breadcrumbs" class="mb-4" />
-      </div>
       <div class="flex items-center justify-between gap-4">
         <v-title-editable :entry="board" routename="boards.update" />
         <div class="flex items-center gap-4">
-          
           <VListbox v-if="group" v-model="query.group_by">
             <VListboxButton>
               Group By: {{ group.title }}
@@ -66,7 +62,10 @@ let group = computed(() => props.groups.find((g) => g.id == query.group_by));
       <v-tabs>
         <v-tabs-list>
           <v-tabs-item v-for="view in board.views">
-            {{ view.title }}
+            <div class="flex items-center gap-2">
+              <span>{{ view.title }}</span> 
+              <v-view-menu :view="view"></v-view-menu>
+            </div>
           </v-tabs-item>
         </v-tabs-list>
         <v-tabs-panels>

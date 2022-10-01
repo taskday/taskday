@@ -15,7 +15,6 @@ defineProps<{ entry: Entry, breadcrumbs: object[] }>();
       <div class="py-6 xl:py-8 px-4 sm:px-6">
         <div class="mx-auto xl:grid xl:grid-cols-3">
           <div class="xl:col-span-2 xl:border-r xl:border-gray-200 xl:pr-8">
-            <v-breadcrumbs :pages="breadcrumbs" class="mb-4"/>
             <div>
               <EditableTitle :entry="entry" />
               <aside class="mt-8 xl:hidden">
@@ -38,6 +37,12 @@ defineProps<{ entry: Entry, breadcrumbs: object[] }>();
                 title="Delete this entry?"
                 description="This operation is not reversable."
               >
+                <v-button
+                  type="button"
+                  class="button-danger inline-flex"
+                >
+                  Delete
+                </v-button>
                 <template #actions="{ open }">
                   <v-button
                     type="button"

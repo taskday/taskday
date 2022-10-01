@@ -27,4 +27,11 @@ class UpdateCategoryRequest extends FormRequest
             'title' => 'required',
         ];
     }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'title' => strip_tags($this->title)
+        ]);
+    }
 }

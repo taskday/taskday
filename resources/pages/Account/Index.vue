@@ -148,7 +148,6 @@ function submit() {
           <div class="sm:col-span-3">
             <v-form-select
               label="Language"
-              type="text"
               name="language"
               id="language"
             >

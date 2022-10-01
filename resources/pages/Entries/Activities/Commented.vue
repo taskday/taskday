@@ -10,12 +10,7 @@ const comment = ref({ content: "" });
 
 onMounted(() => {
   axios
-    .get(
-      route("api.entries.comments.show", [
-        props.activity.entry_id,
-        props.activity.meta_data.comment_id,
-      ])
-    )
+    .get(route("api.entries.comments.show", [props.activity.entry_id, props.activity.meta_data.comment_id]))
     .then((res) => {
       comment.value = res.data;
     });
@@ -36,20 +31,15 @@ function edit() {
 function cancel() {
   state.editing = false;
   state.loading = false;
+  state.content = '';
 }
 
 function save() {
   state.loading = true;
   axios
-    .put(
-      route("api.entries.comments.update", [
-        props.activity.entry_id,
-        props.activity.meta_data.comment_id,
-      ]),
-      {
-        content: state.content,
-      }
-    )
+    .put(route("api.entries.comments.update", [props.activity.entry_id, props.activity.meta_data.comment_id]), {
+      content: state.content,
+    })
     .then((res) => {
       state.editing = false;
       state.loading = false;
@@ -68,37 +58,26 @@ function save() {
         {{ " " }}
         commented
         {{ " " }}
-        <span class="whitespace-nowrap">{{
-          moment(activity.created_at).fromNow()
-        }}</span>
+        <span class="whitespace-nowrap">{{ moment(activity.created_at).fromNow() }}</span>
       </div>
-      <div
-        v-if="activity.user.id == $page.props.user.id"
-        class="flex items-center gap-2"
-      >
-        <v-button @click="edit" v-if="!state.editing && !state.loading">
-          Edit
+      <div v-if="activity.user.id == $page.props.user.id" class="flex items-center gap-2">
+        <v-button @click="edit" v-if="!state.editing && !state.loading"> Edit </v-button>
+        <v-button v-if="state.editing" :disabled="state.loading" :loading="state.loading" @click="save">
+          Save
         </v-button>
-        <v-button
-        v-if="state.editing"
-        :disabled="state.loading"
-        :loading="state.loading"
-        @click="save"
-        >
-        Save
-      </v-button>
-      <v-button @click="cancel" v-if="state.editing"> Cancel </v-button>
+        <v-button @click="cancel" v-if="state.editing"> Cancel </v-button>
+        <v-button @click="cancel" class="px-0 hover:text-red-600" v-if="state.editing"> 
+          <v-icon name="trash" class="h-5 w-5"></v-icon>
+        </v-button>
       </div>
     </div>
     <div class="border p-3 mt-1 text-gray-800">
-      <div v-if="state.editing">
-        <v-form-textarea
-          class="border-none"
-          v-model="state.content"
-        ></v-form-textarea>
-      </div>
-      <div v-else>
-        {{ comment.content }}
+      <div>
+        <v-form-editor
+          :toolbar="state.editing"
+          v-model="comment.content"
+          :editable="state.editing"
+        ></v-form-editor>
       </div>
     </div>
   </VActivity>

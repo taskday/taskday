@@ -38,7 +38,7 @@ function storeNewField() {
           <option v-for="field in taskday().fields()" :value="field.type">{{ field.type }}</option>
         </v-form-select>
         <component
-          :is="taskday().view(newField.type)?.options"
+          :is="taskday().field(newField.type)?.options"
           :form="newField"
           @change="(options) => (newField.options = options)"
         />

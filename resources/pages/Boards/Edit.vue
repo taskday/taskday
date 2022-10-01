@@ -19,9 +19,7 @@ defineProps<{ title: string, board: any }>();
           title="Are you sure?"
           description="You cannot undo this action"
         >
-          <template #trigger>
-            <v-button class="button-danger">Delete</v-button>
-          </template>
+          <v-button class="button-danger">Delete</v-button>
           <template #actions>
             <Link class="button button-danger" method="delete" :href="route('boards.destroy', board)">Delete</Link>
           </template>

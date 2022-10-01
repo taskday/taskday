@@ -33,7 +33,9 @@ class BoardController extends Controller
     {
         $this->authorize('view', $board);
 
-        $board->load(['category', 'views', 'fields', 'entries.user', 'entries.fields']);
+        $board->load(['category', 'views', 'fields', 'entries.user', 'entries.fields', 'entries.activities.user', 'entries' => function ($entries) {
+            $entries->withCount('comments');
+        }]);
 
         return Inertia::render('Boards/Show', [
             'title' => $board->title,

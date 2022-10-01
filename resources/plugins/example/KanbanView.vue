@@ -47,19 +47,19 @@ watch(() => props.group, () => {
           <div class="flex items-center">
             <span class="block text-sm font-semibold">{{ column.label }}</span>
             <span
-              class="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-blue-500 bg-white rounded bg-opacity-30"
+              class="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold bg-white rounded bg-opacity-30"
               :class="{
-                'bg-gray-100 dark:bg-gray-400 text-gray-600 dark:text-gray-400 dark:bg-opacity-90': column.props.color == 'gray',
-                'bg-red-100 dark:bg-red-400 text-red-600 dark:text-red-400 dark:bg-opacity-90': column.props.color == 'red',
-                'bg-green-100 dark:bg-green-400 text-green-600 dark:text-green-400 dark:bg-opacity-90': column.props.color == 'green',
-                'bg-yellow-100 dark:bg-yellow-400 text-yellow-600 dark:text-yellow-400 dark:bg-opacity-90': column.props.color == 'yellow',
+                'bg-gray-200 dark:bg-gray-400 text-gray-600 dark:text-gray-400 dark:bg-opacity-90': column.props.color == 'gray',
+                'bg-red-200 dark:bg-red-400 text-red-600 dark:text-red-400 dark:bg-opacity-90': column.props.color == 'red',
+                'bg-green-200 dark:bg-green-400 text-green-600 dark:text-green-400 dark:bg-opacity-90': column.props.color == 'green',
+                'bg-yellow-200 dark:bg-yellow-400 text-yellow-600 dark:text-yellow-400 dark:bg-opacity-90': column.props.color == 'yellow',
               }" 
             >
               {{ column.entries.length }}
             </span>
           </div>
           <button
-            class="flex items-center justify-center w-6 h-6 ml-auto text-blue-500 rounded hover:bg-blue-500 hover:text-indigo-100"
+            class="flex items-center justify-center w-6 h-6 ml-auto rounded hover:bg-blue-500 hover:text-indigo-100"
           >
             <v-icon name="more-vertical" class="w-5 h-5" />
           </button>

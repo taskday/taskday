@@ -49,12 +49,14 @@ class HandleInertiaRequests extends Middleware
             },
             'categories' => function () {
                 return Auth::check()
-                    ? Category::whereHas('boards', function ($board) {
+                    ? Category::with('boards')
+                    ->whereHas('boards', function ($board) {
                         $board->sharedWithCurrentUser();
                     })
                     ->orWhere('user_id', Auth::id())
                     ->get()
-                    ->map(fn ($entry) => CategoryResource::make($entry)) : [];
+                    ->map(fn ($entry) => CategoryResource::make($entry))
+                    : [];
             }
         ]);
     }

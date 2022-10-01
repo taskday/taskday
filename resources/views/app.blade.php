@@ -35,14 +35,14 @@
     {{-- Assets --}}
     @vite('resources/app.ts')
 
-    {{-- Service Worker --}}
+    {{-- Variables --}}
     <script>
-    if('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/build/sw.js', { scope: '/build/' })
-        })
-    }
-    </script>
+        window.env = {
+            pusherAppKey: "{{ config('taskday.pusher_app_key') }}",
+            pusherAppCluster: "{{ config('taskday.pusher_app_cluster') }}",
+            vapidPublicKey: "{{ config('taskday.vapid_public_key') }}",
+        }
+  </script>
 </head>
 
 <body class="font-sans antialiased">

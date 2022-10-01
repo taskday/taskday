@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
+use Taskday\Http\Resources\EntryResource;
+use Taskday\Models\Concerns\Filterable;
 use Taskday\Models\Concerns\HasFields;
 use Taskday\Models\Concerns\HasActivities;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kalnoy\Nestedset\NodeTrait;
+use Taskday\Models\Filters\SearchFilter;
 
 class Entry extends Model
 {
@@ -19,7 +22,7 @@ class Entry extends Model
     use HasFields;
     use HasActivities;
     use SoftDeletes;
-    use Searchable;
+    use Filterable;
 
     protected $guarded = [];
 
@@ -39,6 +42,11 @@ class Entry extends Model
         ]);
 
         return $comment;
+    }
+
+    public function toSearchableArray(): array
+    {
+        return (array) EntryResource::make($this);
     }
 
     public function activities(): HasMany

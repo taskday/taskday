@@ -1,10 +1,11 @@
-import './bootstrap';
+import "./bootstrap";
 
 import { createApp, h } from "vue";
 import { createInertiaApp, Head, Link } from "@inertiajs/inertia-vue3";
 import { createPinia } from "pinia";
-import Taskday from "@/plugins/index";
+import { modal } from "momentum-modal";
 
+import Taskday from "@/plugins/index";
 import "@/plugins/example/index";
 
 import AppLayout from "@/layouts/AppLayout.vue";
@@ -41,6 +42,23 @@ createInertiaApp({
       .use(Taskday)
       .use(plugin)
       .use(pinia)
+      .use(modal, {
+        resolve: async (name) => {
+          let [part1, part2] = name.split("/");
+      
+          if (part2 === undefined) {
+            var page = (await import(`./pages/${part1}.vue`)).default;
+          } else {
+            var page = (await import(`./pages/${part1}/${part2}.vue`)).default;
+          }
+      
+          if (page && !page.layout) {
+            page.layout = AppLayout;
+          }
+      
+          return page;
+        },
+      })
       .mixin({ methods: { route } })
       .component("Link", Link)
       .component("Head", Head)

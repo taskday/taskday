@@ -30,15 +30,13 @@ defineProps<{ field: Field }>()
                   title="Delete this entry?"
                   description="This operation is not reversable."
                 >
-                  <template #trigger>
-                    <button
-                      :class='{ "bg-gray-100": active }'
-                      class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2"
-                    >
-                      <v-icon name="trash" class="h-4"></v-icon>
-                      <span>Delete</span>
-                    </button>
-                  </template>
+                  <button
+                    :class='{ "bg-gray-100": active }'
+                    class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2"
+                  >
+                    <v-icon name="trash" class="h-4"></v-icon>
+                    <span>Delete</span>
+                  </button>
                   <template #actions="{ open }">
                     <v-button
                       type="button"

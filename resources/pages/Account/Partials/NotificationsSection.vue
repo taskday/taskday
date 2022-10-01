@@ -13,9 +13,8 @@
           <VButton
             :disabled="pushButtonDisabled || loading"
             :loading="loading"
-            class="button-secondary"
+            :class="[isPushEnabled ? 'button-danger' : 'button-primary']"
             type="button"
-            :variant="isPushEnabled ? 'danger' : 'primary'"
             @click="togglePush"
           >
             {{ isPushEnabled ? "Disable" : "Enable" }}
@@ -83,7 +82,7 @@ export default {
       navigator.serviceWorker.ready.then((registration) => {
         registration.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: this.urlBase64ToUint8Array(window.Laravel.vapidPublicKey),
+          applicationServerKey: this.urlBase64ToUint8Array(window.env.vapidPublicKey),
         });
 
         registration.pushManager
@@ -111,7 +110,7 @@ export default {
     subscribe() {
       navigator.serviceWorker.ready.then((registration) => {
         const options = { userVisibleOnly: true };
-        const vapidPublicKey = window.Laravel.vapidPublicKey;
+        const vapidPublicKey = window.env.vapidPublicKey;
 
         if (vapidPublicKey) {
           options.applicationServerKey = this.urlBase64ToUint8Array(vapidPublicKey);

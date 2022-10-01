@@ -4,20 +4,16 @@ namespace Taskday\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Taskday\Http\Resources\EntryResource;
 use Taskday\Models\Entry;
-use Taskday\Http\Requests\StoreCommentRequest;
-use Illuminate\Http\RedirectResponse;
+use Taskday\Models\Filters\EntryFilter;
 
 class SearchController extends Controller
 {
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(EntryFilter $request): JsonResponse
     {
-        $ids = Entry::search($request->input('query'))->get()->pluck('id');
-
         $entries = Entry::query()
-            ->whereIn('id', $ids)
+            ->filter($request)
             ->get();
 
         return response()->json(

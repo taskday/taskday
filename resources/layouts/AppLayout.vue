@@ -85,91 +85,94 @@
           <span class="sr-only">Open sidebar</span>
           <v-icon name="menu" class="h-6 w-6" aria-hidden="true" />
         </button>
-        <div class="flex flex-1 items-center gap-3 justify-end px-4">
-          <!-- Search -->
-          <v-search></v-search>
-
-          <!-- Notifications -->
-          <div class="h-6 w-6">
-            <v-popover>
-              <button
-                type="button"
-                class="rounded-full h-6 w-6 flex-1 flex items-center justify-center bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <span class="sr-only">View notifications</span>
-                <v-icon name="bell" class="h-6 w-6" aria-hidden="true" />
-              </button>
-              <template #content>
-                <span class="text-gray-500">No notifications...</span>
-              </template>
-            </v-popover>
+        <div class="flex flex-1 items-center gap-3 justify-between px-4">
+          <div class="items-center flex">
+            <v-breadcrumbs :pages="$page.props.breadcrumbs ?? []" class="hidden md:flex"/>
           </div>
-
-          <!-- Profile dropdown -->
-          <Menu as="div" class="relative">
-            <div>
-              <MenuButton
-                class="flex max-w-xs items-center rounded-full h-6 w-6 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <span class="sr-only">Open user menu</span>
-                <img
-                  class="h-6 w-6 rounded-full"
-                  :src="$page.props.user.profile_photo_url"
-                  alt=""
-                />
-              </MenuButton>
-            </div>
-            <transition
-              enter-active-class="transition ease-out duration-100"
-              enter-from-class="transform opacity-0 scale-95"
-              enter-to-class="transform opacity-100 scale-100"
-              leave-active-class="transition ease-in duration-75"
-              leave-from-class="transform opacity-100 scale-100"
-              leave-to-class="transform opacity-0 scale-95"
-            >
-              <MenuItems
-                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-              >
-                <div class="px-4 py-3">
-                  <p class="text-sm">Signed in as</p>
-                  <p class="truncate text-sm font-medium text-gray-900">
-                    {{ $page.props.user.email }}
-                  </p>
-                </div>
-                <hr />
-                <MenuItem
-                  v-for="item in userNavigation"
-                  :key="item.name"
-                  v-slot="{ active }"
+          <div class="flex items-center gap-3">
+            <!-- Search -->
+            <v-search></v-search>
+            <!-- Notifications -->
+            <div class="h-6 w-6">
+              <v-popover>
+                <button
+                  type="button"
+                  class="rounded-full h-6 w-6 flex-1 flex items-center justify-center bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
-                  <Link
-                    :href="item.href"
-                    :class="[
-                      active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700',
-                    ]"
+                  <span class="sr-only">View notifications</span>
+                  <v-icon name="bell" class="h-6 w-6" aria-hidden="true" />
+                </button>
+                <template #content>
+                  <span class="text-gray-500">No notifications...</span>
+                </template>
+              </v-popover>
+            </div>
+            <!-- Profile dropdown -->
+            <Menu as="div" class="relative">
+              <div>
+                <MenuButton
+                  class="flex max-w-xs items-center rounded-full h-6 w-6 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  <span class="sr-only">Open user menu</span>
+                  <img
+                    class="h-6 w-6 rounded-full"
+                    :src="$page.props.user.profile_photo_url"
+                    alt=""
+                  />
+                </MenuButton>
+              </div>
+              <transition
+                enter-active-class="transition ease-out duration-100"
+                enter-from-class="transform opacity-0 scale-95"
+                enter-to-class="transform opacity-100 scale-100"
+                leave-active-class="transition ease-in duration-75"
+                leave-from-class="transform opacity-100 scale-100"
+                leave-to-class="transform opacity-0 scale-95"
+              >
+                <MenuItems
+                  class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                >
+                  <div class="px-4 py-3">
+                    <p class="text-sm">Signed in as</p>
+                    <p class="truncate text-sm font-medium text-gray-900">
+                      {{ $page.props.user.email }}
+                    </p>
+                  </div>
+                  <hr />
+                  <MenuItem
+                    v-for="item in userNavigation"
+                    :key="item.name"
+                    v-slot="{ active }"
                   >
-                    {{ item.name }}
-                  </Link>
-                </MenuItem>
-                <hr />
-                <MenuItem v-slot="{ active }">
-                  <Link
-                    :href="route('logout')"
-                    method="post"
-                    as="button"
-                    type="button"
-                    :class="[
-                      active ? 'bg-gray-100' : '',
-                      'block w-full text-left px-4 py-2 text-sm text-gray-700',
-                    ]"
-                  >
-                    Sign out
-                  </Link>
-                </MenuItem>
-              </MenuItems>
-            </transition>
-          </Menu>
+                    <Link
+                      :href="item.href"
+                      :class="[
+                        active ? 'bg-gray-100' : '',
+                        'block px-4 py-2 text-sm text-gray-700',
+                      ]"
+                    >
+                      {{ item.name }}
+                    </Link>
+                  </MenuItem>
+                  <hr />
+                  <MenuItem v-slot="{ active }">
+                    <Link
+                      :href="route('logout')"
+                      method="post"
+                      as="button"
+                      type="button"
+                      :class="[
+                        active ? 'bg-gray-100' : '',
+                        'block w-full text-left px-4 py-2 text-sm text-gray-700',
+                      ]"
+                    >
+                      Sign out
+                    </Link>
+                  </MenuItem>
+                </MenuItems>
+              </transition>
+            </Menu>
+          </div>
         </div>
       </div>
       <main>
@@ -180,11 +183,13 @@
         </div>
       </main>
     </div>
+    <v-page-modal />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { Modal } from 'momentum-modal'
 import {
   Dialog,
   DialogPanel,

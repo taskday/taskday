@@ -35,7 +35,7 @@ function submit() {
           </thead>
           <tbody class="divide-y divide-gray-200">
             <tr v-for="entry in board.entries" class="hover:[&>td]:bg-gray-100">
-              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+              <td class="whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-900 pl-2">
                 <div class="flex items-center gap-2">
                   <v-entry-menu :entry="entry" /> <Link class="hover:underline" :href="route('entries.show', entry)" v-html="entry.title"></Link>
                 </div>

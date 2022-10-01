@@ -3,8 +3,10 @@
   "type": "library",
   "license": "MIT",
   "require": {
+    "based/momentum-modal": "^0.1.8",
     "inertiajs/inertia-laravel": "^0.6.3",
     "kalnoy/nestedset": "^6.0",
+    "laravel-notification-channels/webpush": "^7.0",
     "laravel/fortify": "^1.13",
     "laravel/sanctum": "^3.0",
     "laravel/scout": "^9.4",

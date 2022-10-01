@@ -59,48 +59,59 @@ function submit() {
         </nav>
         <hr />
         <nav class="flex-1 space-y-1 p-2 pb-4">
-          <Link
-            v-for="category in $page.props.categories"
-            :key="category.id"
-            :href="route('categories.show', category)"
-            class="group relative flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md text-blue-100 hover:bg-blue-600"
-          >
-            <div class="flex items-center gap-2">
-              <v-icon
-                name="folder"
-                class="mr-3 h-6 w-6 flex-shrink-0 text-blue-300"
-                aria-hidden="true"
-              />
-              <span v-html="category.title" />
-            </div>
-            <v-popper v-slot="{ setPopperRoot, setPopperElement }">
-              <Menu>
-                <MenuButton as="button" :ref="setPopperRoot" class="relative flex items-center justify-center w-4 h-6 text-gray-200 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
-                  <v-icon name="more-vertical" class="w-4 h-4 fill-current" />
-                </MenuButton>
-                <MenuItems>
-                  <div :ref="setPopperElement" class="bg-white text-gray-800 min-w-[12rem] rounded-md shadow-lg p-1 background-200 ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[400px] overflow-auto">
-                    <MenuItem v-slot="{ active, selected }">
-                      <a :class='{ "bg-gray-100": active }' class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2" href="/account-settings">
-                        <v-icon name="edit" class="h-4"></v-icon>Rename
-                      </a>
-                    </MenuItem>
-                    <MenuItem v-slot="{ active, selected }">
-                      <Link :class='{ "bg-gray-100": active }' class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2" href="/account-settings">
-                        <v-icon name="settings" class="h-4"></v-icon> Settings
-                      </Link>
-                    </MenuItem>
-                    <div class="my-1 px-1 h-px bg-gray-200 w-full" />
-                    <MenuItem v-slot="{ active, selected }">
-                      <Link :class='{ "bg-gray-100 text-red-600": active }' class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2" href="/account-settings">
-                        <v-icon name="trash" class="h-4"></v-icon> Delete
-                      </Link>
-                    </MenuItem>
-                  </div>
-                </MenuItems>
-              </Menu>
-            </v-popper>
-          </Link>
+          <template v-for="category in $page.props.categories">
+            <Link
+              :href="route('categories.show', category)"
+              class="group relative flex items-center justify-between px-2 py-1 text-xs font-medium rounded-md text-blue-100 hover:bg-blue-600"
+            >
+              <div class="flex items-center gap-1">
+                <span class="truncate" v-html="category.title" />
+              </div>
+              <v-popper v-slot="{ setPopperRoot, setPopperElement }">
+                <Menu>
+                  <MenuButton as="button" :ref="setPopperRoot" class="relative flex items-center justify-center w-4 h-6 text-gray-200 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
+                    <v-icon name="more-vertical" class="w-4 h-4 fill-current" />
+                  </MenuButton>
+                  <MenuItems>
+                    <div :ref="setPopperElement" class="bg-white z-50 text-gray-800 min-w-[12rem] rounded-md shadow-lg p-1 background-200 ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[400px] overflow-auto">
+                      <MenuItem v-slot="{ active, selected }">
+                        <a :class='{ "bg-gray-100": active }' class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2" href="/account-settings">
+                          <v-icon name="edit" class="h-4"></v-icon>Rename
+                        </a>
+                      </MenuItem>
+                      <MenuItem v-slot="{ active, selected }">
+                        <Link :class='{ "bg-gray-100": active }' class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2" href="/account-settings">
+                          <v-icon name="settings" class="h-4"></v-icon> Settings
+                        </Link>
+                      </MenuItem>
+                      <div class="my-1 px-1 h-px bg-gray-200 w-full" />
+                      <MenuItem v-slot="{ active, selected }">
+                        <Link :class='{ "bg-gray-100 text-red-600": active }' class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2" href="/account-settings">
+                          <v-icon name="trash" class="h-4"></v-icon> Delete
+                        </Link>
+                      </MenuItem>
+                    </div>
+                  </MenuItems>
+                </Menu>
+              </v-popper>
+            </Link>
+            <Link
+              v-for="board in category.boards"
+              :key="board.id"
+              :href="route('boards.show', board)"
+              class="group relative flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md text-blue-100 hover:bg-blue-600"
+            >
+              <div class="flex items-center gap-1">
+                <v-icon
+                  name="hash"
+                  class="h-4 w-4 flex-shrink-0 text-blue-300"
+                  aria-hidden="true"
+                />
+                <span class="truncate" v-html="board.title" />
+              </div>
+            </Link>
+          </template>
+          
           <form @submit.prevent="submit" class="block mt-1">
             <v-form-input
               v-model="newCategory.title"

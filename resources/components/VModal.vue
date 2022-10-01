@@ -41,9 +41,8 @@
 import { ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 
-const open = ref(false)
 
-defineProps({
+let props = defineProps({
   title: {
     type: String,
     default: '',
@@ -52,7 +51,13 @@ defineProps({
     type: String,
     default: '',
   },
+  open: {
+    type: Boolean,
+    default: false,
+  }
 })
+
+const open = ref(props.open);
 
 function close() {
   open.value = false

@@ -4,6 +4,7 @@
       <div v-if="toolbar && editor" class="flex flex-wrap mb-4 -mx-2">
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().insertTable().run()"
             :class="{ 'is-active': editor.isActive('bold') }"
@@ -13,6 +14,7 @@
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().addColumnAfter().run()"
             :class="{ 'is-active': editor.isActive('bold') }"
@@ -22,6 +24,7 @@
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().toggleBold().run()"
             :class="{ 'is-active': editor.isActive('bold') }"
@@ -31,6 +34,7 @@
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().toggleItalic().run()"
             :class="{ 'is-active': editor.isActive('italic') }"
@@ -40,24 +44,17 @@
         </div>
         <div class="p-2">
           <button
-            class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
-            @click="editor.chain().focus().toggleStrike().run()"
-            :class="{ 'is-active': editor.isActive('strike') }"
-          >
-            <VIcon class="w-4 h-4" name="strikethrough" />
-          </button>
-        </div>
-        <div class="p-2">
-          <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().setParagraph().run()"
             :class="{ 'is-active': editor.isActive('paragraph') }"
           >
-            <VIcon class="w-4 h-4" name="paragraph" />
+            <VIcon class="w-4 h-4" name="type" />
           </button>
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
             :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
@@ -67,6 +64,7 @@
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
             :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
@@ -76,6 +74,7 @@
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
             :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
@@ -85,33 +84,27 @@
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().toggleBulletList().run()"
             :class="{ 'is-active': editor.isActive('bulletList') }"
           >
-            <VIcon class="w-4 h-4" name="list-ul" />
+            <VIcon class="w-4 h-4" name="list" />
           </button>
         </div>
         <div class="p-2">
           <button
-            class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
-            @click="editor.chain().focus().toggleOrderedList().run()"
-            :class="{ 'is-active': editor.isActive('orderedList') }"
-          >
-            <VIcon class="w-4 h-4" name="list-ol" />
-          </button>
-        </div>
-        <div class="p-2">
-          <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().toggleTaskList().run()"
             :class="{ 'is-active': editor.isActive('taskList') }"
           >
-            <VIcon class="w-4 h-4" name="check" />
+            <VIcon class="w-4 h-4" name="check-square" />
           </button>
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().toggleCodeBlock().run()"
             :class="{ 'is-active': editor.isActive('codeBlock') }"
@@ -121,35 +114,36 @@
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().undo().run()"
           >
-            <VIcon class="w-4 h-4" name="undo" />
+            <VIcon class="w-4 h-4" name="corner-up-left" />
           </button>
         </div>
         <div class="p-2">
           <button
+            type="button"
             class="flex items-center justify-center bg-gray-100 rounded dark:bg-gray-700 h-7 w-7"
             @click="editor.chain().focus().redo().run()"
           >
-            <VIcon class="w-4 h-4" name="redo" />
+            <VIcon class="w-4 h-4" name="corner-up-right" />
           </button>
         </div>
       </div>
     </div>
+    <span class="ProseMirror"></span>
     <div class="">
       <EditorContent
         v-bind="$attrs"
         :editor="editor"
-        class="prose focus:outline-none max-w-none"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { onBeforeUnmount, defineEmits, watch, ref, getCurrentInstance } from "vue";
-import { usePage } from "@inertiajs/inertia-vue3";
+import { onBeforeUnmount, watch, ref, defineComponent } from "vue";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import { Extension } from '@tiptap/core'
 
@@ -176,7 +170,7 @@ import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
 
-export default {
+export default defineComponent({
   inheritAttrs: false,
 
   components: {
@@ -198,6 +192,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
     placeholder: {
       type: String,
       default: null,
@@ -205,11 +203,11 @@ export default {
   },
 
   setup(props, ctx) {
-    const page = usePage();
 
     const editor = ref(
       useEditor({
-        content: props.content ?? props.modelValue,
+        editable: props.editable,
+        content: props.modelValue,
         extensions: [
           Document,
           Heading,
@@ -254,13 +252,21 @@ export default {
       () => props.modelValue,
       (value) => {
         if (editor) {
-          //@ts-ignore
-          const isSame = editor.value.getHTML() === value;
-          if (isSame) {
-            return;
-          }
-          //@ts-ignore
+
+          const noChanges = editor.value.getHTML() === value;
+
+          if (noChanges) { return; }
+
           editor.value.commands.setContent(props.modelValue, false);
+        }
+      }
+    );
+
+    watch(
+      () => props.editable,
+      (value) => {
+        if (editor) {
+          editor.value.setEditable(value);
         }
       }
     );
@@ -271,62 +277,5 @@ export default {
 
     return { editor };
   },
-};
+});
 </script>
-
-<style lang="postcss">
-.ProseMirror {
-  /* Reset styles */
-  outline: none;
-
-  p:first-child, p:last-child {
-    margin: 0;
-  }
-
-  &:focus {
-    outline: none;
-  }
-  /* Placeholder (at the top) */
-  p.is-editor-empty:first-child::before {
-    content: attr(data-placeholder);
-    float: left;
-    pointer-events: none;
-    height: 0;
-    margin: 0 !important;
-    opacity: 0.4;
-  }
-
-  ul {
-    margin-top: -0.5em;
-    margin-bottom: 1.5em;
-  }
-}
-
-/* Task list styles */
-ul[data-type="taskList"] li {
-  @apply flex items-start;
-}
-ul[data-type="taskList"] li[data-checked="true"] {
-  text-decoration: line-through;
-  & input[type="checkbox"] {
-    @apply bg-blue-600 dark:bg-gray-600;
-  }
-}
-ul[data-type="taskList"] li > label {
-  @apply flex items-center -translate-x-7 mt-1.5;
-}
-ul[data-type="taskList"] li > div {
-  @apply -ml-4;
-}
-ul[data-type="taskList"] input[type="checkbox"] {
-  @apply border-gray-300 bg-gray-100 dark:bg-gray-600 rounded
-    focus:outline-none focus:ring-1 focus:ring-offset-1
-    focus:ring-gray-800 focus:ring-offset-gray-700
-     dark:focus:ring-gray-500 dark:focus:ring-offset-gray-400;
-}
-
-/* Mentions */
-.mention {
-  @apply rounded bg-blue-100 text-blue-900 px-1 py-px font-medium;
-}
-</style>

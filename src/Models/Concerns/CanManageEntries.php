@@ -3,6 +3,7 @@
 namespace Taskday\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 use Taskday\Models\Board;
 use Taskday\Models\Entry;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,8 @@ use Taskday\Models\Member;
 
 trait CanManageEntries
 {
+    use HasPushSubscriptions;
+
     public function createEntry(array $data): Entry
     {
         $data['user_id'] = Auth::id();

@@ -9,6 +9,7 @@ use Taskday\Http\Controllers\CommentController;
 use Taskday\Http\Controllers\AccountController;
 use Taskday\Http\Controllers\CategoryController;
 use Taskday\Http\Controllers\BoardController;
+use Taskday\Http\Controllers\PushSubscriptionController;
 use Taskday\Http\Controllers\ViewController;
 use Taskday\Http\Controllers\GroupController;
 use Taskday\Http\Controllers\FieldValueController;
@@ -38,15 +39,20 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::resource('categories', CategoryController::class);
 
     Route::resource('boards', BoardController::class);
+    Route::get('boards/{board}/entries/{entry}', [EntryController::class, 'showWithModal'])->name('boards.entries.show');
 
     Route::resource('fields', FieldController::class);
 
     Route::resource('entries.fields', FieldValueController::class);
     Route::post('entries/{entry}/fields/{field}/action', [FieldValueController::class, 'action'])->name('entries.fields.actions');
-    
+
     Route::resource('views', ViewController::class);
 
     Route::resource('groups', GroupController::class);
+
+    // Push Notifications Subscriptions
+    Route::post('subscriptions', [PushSubscriptionController::class, 'update']);
+    Route::post('subscriptions/delete', [PushSubscriptionController::class, 'destroy']);
 });
 
 /*

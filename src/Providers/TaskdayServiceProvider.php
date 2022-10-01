@@ -44,7 +44,7 @@ class TaskdayServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'taskday');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/taskday.php', 'taskday');
 
         $this->registerExceptionHandler();
         $this->registerCommands();

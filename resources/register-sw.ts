@@ -1,7 +1,7 @@
 import { register } from 'register-service-worker'
 
-register('/build/sw.js', {
-  registrationOptions: { scope: '/build/' },
+register('/sw.js', {
+  registrationOptions: { scope: '/' },
   ready (registration) {
     console.log('Service worker is active.')
   },

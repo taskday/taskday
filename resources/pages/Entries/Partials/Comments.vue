@@ -40,11 +40,7 @@ function submit() {
         <form @submit.prevent="submit">
           <div>
             <label for="comment" class="sr-only">Comment</label>
-            <textarea
-              id="comment"
-              name="comment"
-              rows="3"
-              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm"
+            <v-form-editor
               placeholder="Leave a comment"
               v-model="form.content"
             />

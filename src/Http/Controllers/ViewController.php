@@ -31,4 +31,14 @@ class ViewController extends Controller
 
         return redirect()->back();
     }
+
+    /**
+     * Delete the given view.
+     */
+    public function destroy(View $view): RedirectResponse
+    {
+        $view->delete();
+
+        return redirect()->back();
+    }
 }

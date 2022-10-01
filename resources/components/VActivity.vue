@@ -3,8 +3,8 @@ defineProps<{ icon: String }>()
 </script>
 
 <template>
-  <div class="relative flex items-start space-x-3">
-    <div>
+  <div class="relative flex flex-col sm:flex-row items-start space-x-3">
+    <div class="hidden sm:block">
       <div class="relative px-1">
         <div
           class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 ring-8 ring-white"

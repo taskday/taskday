@@ -9,15 +9,6 @@ import "@/css/app.css";
 import './register-sw';
 
 /**
- * Setting window env object
- */
-window.env = {
-  VITE_PUSHER_APP_KEY: '',
-  VITE_PUSHER_APP_CLUSTER: '',
-  VITE_VAPID_PUBLIC_KEY: '',
-}
-
-/**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
@@ -27,16 +18,10 @@ window.env = {
  window.Pusher = Pusher;
  window.Echo = new Echo({
    broadcaster: "pusher",
-   key: window.env.VITE_PUSHER_APP_KEY,
-   cluster: window.env.VITE_PUSHER_APP_CLUSTER,
+   key: window.env.pusherAppKey,
+   cluster: window.env.pusherAppCluster,
    forceTLS: true
  });
-
-/**
- * Set keys for web standard push notifications with a global object.
- */
- window.Laravel = {};
- window.Laravel.vapidPublicKey = window.env.VITE_VAPID_PUBLIC_KEY;
  
 /**
  * Inertia Progress

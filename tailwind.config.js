@@ -24,7 +24,9 @@ module.exports = {
     },
   },
   plugins: [
+    require("@tailwindcss/typography")({
+      className: 'ProseMirror',
+    }),
     require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
   ],
 }
