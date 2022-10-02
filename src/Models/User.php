@@ -6,17 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Taskday\Models\Concerns\CanManageEntries;
+use Taskday\Models\Concerns\TaskdayUserTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    use CanManageEntries;
-    use MustVerifyEmailTrait;
+    use TaskdayUserTrait;
 
     /**
      * The attributes that are mass assignable.

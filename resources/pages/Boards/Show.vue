@@ -18,12 +18,12 @@ let group = computed(() => props.groups.find((g) => g.id == query.group_by));
 <template>
   <div>
     <div class="flex flex-col">
-      <div class="flex items-center justify-between gap-4">
+      <div class="flex flex-wrap items-center justify-between gap-4">
         <v-title-editable :entry="board" routename="boards.update" />
         <div class="flex items-center gap-4">
           <VListbox v-if="group" v-model="query.group_by">
             <VListboxButton>
-              Group By: {{ group.title }}
+              <span class="hidden sm:inline-block">Group By:&nbsp;</span> {{ group.title }}
             </VListboxButton>
             <VListboxOptions>
               <VListboxOption

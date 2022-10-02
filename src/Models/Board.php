@@ -28,7 +28,7 @@ class Board extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(config('taskday.user.model'));
     }
 
     public function fields(): HasMany
@@ -59,7 +59,7 @@ class Board extends Model
 
     public function members(): BelongsToMany
     {
-        return $this->morphToMany(User::class, 'memberable', 'members')
+        return $this->morphToMany(config('taskday.user.model'), 'memberable', 'members')
             ->using(Member::class)
             ->withTimestamps();
     }

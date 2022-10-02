@@ -9,9 +9,14 @@ use Taskday\Models\Entry;
 use Illuminate\Support\Facades\Auth;
 use Taskday\Models\Member;
 
-trait CanManageEntries
+trait TaskdayUserTrait
 {
     use HasPushSubscriptions;
+
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
     public function createEntry(array $data): Entry
     {
@@ -20,6 +25,14 @@ trait CanManageEntries
         $entry = Entry::create($data);
 
         return $entry;
+    }
+
+    public function scopeCannotAccess($query, Board $board)
+    {
+        return $query->whereHas(
+            'sharedBoards',
+            fn ($query) => $query->where('id', '!=', $board->id)
+        );
     }
 
     public function sharedBoards(): HasManyThrough

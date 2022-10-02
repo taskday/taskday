@@ -32,52 +32,42 @@ trait HasMembers
      * Sync members.
      *
      * @param int[] $users
-     *
-     * @return Member[]
      */
     public function syncMembers(array $users)
     {
-        $members = collect($users)->unique()->map(fn ($user) => Member::updateOrCreate([ 'user_id' => $user, 'memberable_type' => $this->getMorphClass(), 'memberable_id' => $this->getKey() ]));
+        $this->members()->whereNotIn('id', $users)->detach();
 
-        $this->members()->whereNotIn('user_id', $users)->delete();
+        $users = config('taskday.user.model')::find($users);
 
-        return $this->members()->saveMany($members);
+        $this->members()->saveMany($users);
     }
 
     /**
      * Sync members.
-     *
-     * @param int $id
-     *
+     * @param mixed $user
      * @return Member
      */
     public function addMember($user)
     {
-        $id = is_numeric($user) ? $user : $user->id;
-
-        $this->parent()?->addMember($user);
-
-        $member = Member::updateOrCreate([ 'user_id' => $id, 'memberable_type' => $this->getMorphClass(), 'memberable_id' => $this->getKey() ]);
-
-        return $this->members()->save($member);
+        return $this->members()->save(config('taskday.user.model')::find($member));
     }
 
     /**
      * Delete a member.
      *
-     * @param User $user
+     * @param mixed $user
      */
     public function removeMember($user)
     {
         $id = is_numeric($user) ? $user : $user->id;
 
-        $this->members()->where('user_id', $id)->first()->delete();
+        $this->members()->where('id', $id)->first()->detach();
     }
 
     /**
      * Has member.
      *
-     * @param User $user
+     * @param mixed $user
      *
      * @return bool
      */
@@ -85,7 +75,7 @@ trait HasMembers
     {
         $id = is_numeric($user) ? $user : $user->id;
 
-        return $this->members()->where('user_id', $id)->count() > 0;
+        return $this->members()->where('id', $id)->count() > 0;
     }
 
     /**
@@ -93,27 +83,8 @@ trait HasMembers
      *
      * @return mixed
      */
-    public function memberCount(): int
+    public function membersCount(): int
     {
         return $this->members()->count();
-    }
-
-    /**
-     * The amount of members assigned to this model.
-     *
-     * @return mixed
-     */
-    public function scopeWithMemberAccess($builder)
-    {
-        return $builder->whereHas('members', fn ($query) => $query->where('user_id', Auth::id()));
-    }
-
-    /**
-     * Return parent model to access.
-     * @return null
-     */
-    public function parent()
-    {
-        return null;
     }
 }

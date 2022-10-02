@@ -18,7 +18,7 @@ function submit() {
         :toolbar="false"
         v-model="form.title"
         @blur="submit"
-        class="text-2xl font-bold text-gray-900"
+        class="[&>.ProseMirror]:!text-2xl [&>.ProseMirror]:!font-bold [&>.ProseMirror]:!text-gray-900"
       >
       </VFormEditor>
       <p class="mt-2 text-sm text-gray-500">

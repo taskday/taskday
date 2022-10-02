@@ -102,8 +102,38 @@
                   <span class="sr-only">View notifications</span>
                   <v-icon name="bell" class="h-6 w-6" aria-hidden="true" />
                 </button>
-                <template #content>
-                  <span class="text-gray-500">No notifications...</span>
+                <template #content="{ close }">
+                  <span class="text-gray-500">
+                    <div class="overflow-x-hidden divide-y">
+                      <div class="flex items-center justify-end">
+                        <button @click="notifications.markAllRead()" class="button button-sm">
+                          Dimiss all
+                        </button>
+                      </div>
+                      <div v-for="notification in notifications.notifications" class="py-2 last:pb-0">
+                        <div>
+                          <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                              <v-icon name="message-circle" class="h-6 w-6 text-gray-400" aria-hidden="true" />
+                            </div>
+                            <div class="ml-2">
+                              <p class="text-sm font-medium text-gray-900">{{ notification.title }}</p>
+                              <p class="mt-1 text-sm text-gray-500">{{ notification.body }}</p>
+                              <div class="mt-2 flex space-x-3">
+                                <Link :onSuccess="close" :href="notification.url" class="button button-sm h-7 text-blue-600">View</Link>
+                                <button type="button" @click="notifications.markAsRead(notification)" class="button button-sm h-7 text-gray-600">Dismiss</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div v-if="notifications.notifications.length == 0">
+                        <div class="text-center w-full">
+                          <span class="text-sm">No new notifications.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </span>
                 </template>
               </v-popover>
             </div>
@@ -188,8 +218,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Modal } from 'momentum-modal'
+import { onMounted, ref } from "vue";
+
 import {
   Dialog,
   DialogPanel,
@@ -202,6 +232,15 @@ import {
 } from "@headlessui/vue";
 
 import Sidebar from './Partials/Sidebar.vue';
+
+import { useNotificationsStore } from '@/store/notifications';
+
+const notifications = useNotificationsStore()
+
+onMounted(() => {
+  notifications.fetch();
+  notifications.listen();
+})
 
 const userNavigation = [{ name: "Account", href: route("account") }];
 

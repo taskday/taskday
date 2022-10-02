@@ -18,6 +18,23 @@
   ;
 }
 
+.form-checkbox {
+  @apply rounded-sm shadow-sm 
+  border border-gray-300
+  focus:outline-none
+  focus:ring-1 
+  focus:ring-offset-1
+  focus:border-blue-400 
+  focus:ring-offset-blue-500/[.20]
+  focus:ring-blue-400/[.20]
+  dark:focus:border-blue-300 
+  dark:focus:ring-offset-blue-400/[.20]
+  dark:focus:ring-blue-300/[.20]
+  placeholder-gray-500
+  bg-white text-blue-600
+  ;
+}
+
 .ProseMirror {
   @apply outline-none max-w-none;
 

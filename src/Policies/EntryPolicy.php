@@ -24,9 +24,9 @@ class EntryPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User  $user
+     * @param  mixed  $user
      * @param  Entry  $entry
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool|null
      */
     public function view($user, Entry $entry)
     {
@@ -35,6 +35,10 @@ class EntryPolicy
         }
 
         if ($entry->board->hasMember($user)) {
+            return true;
+        }
+
+        if ($entry->board->ownerIs($user)) {
             return true;
         }
     }
@@ -69,7 +73,7 @@ class EntryPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  User  $user
+     * @param  mixed  $user
      * @param  Entry  $entry
      * @return \Illuminate\Auth\Access\Response|bool
      */

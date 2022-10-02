@@ -15,7 +15,7 @@ export default {
 
 <template>
   <label class="flex items-center">
-    <span class="block mt-1">
+    <span class="block">
       <input
         class="form-checkbox"
         type="checkbox"

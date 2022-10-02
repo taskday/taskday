@@ -3,6 +3,9 @@
 namespace Taskday;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Taskday\Notifications\Notification;
+use Taskday\Notifications\PendingNotification;
 use Taskday\Plugin\Plugin;
 
 class Taskday
@@ -29,5 +32,14 @@ class Taskday
         }
 
         $this->plugins[] = $plugin->type;
+    }
+
+    public function sendNotification(PendingNotification $pendingNotification)
+    {
+        foreach ($pendingNotification->users as $user) {
+            if (Auth::id() != $user->id) {
+                $user->notify(new Notification($pendingNotification));
+            }
+        }
     }
 }

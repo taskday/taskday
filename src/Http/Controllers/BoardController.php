@@ -2,15 +2,16 @@
 
 namespace Taskday\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
-use Illuminate\Http\RedirectResponse;
-use Taskday\Http\Resources\BoardResource;
-use Taskday\Models\Board;
 use Taskday\Http\Requests\StoreBoardRequest;
 use Taskday\Http\Requests\UpdateBoardRequest;
-use Illuminate\Http\Request;
+use Taskday\Http\Resources\BoardResource;
 use Taskday\Http\Resources\FieldResource;
+use Taskday\Http\Resources\UserResource;
+use Taskday\Models\Board;
 
 class BoardController extends Controller
 {
@@ -23,6 +24,11 @@ class BoardController extends Controller
         return Inertia::render('Boards/Edit', [
             'title' => 'Edit ' . $board->title,
             'board' => $board,
+            'users' => config('taskday.user.model')::query()
+                ->get()
+                ->map(function ($user) {
+                    return UserResource::make($user);
+                }),
         ]);
     }
 

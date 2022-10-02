@@ -41,6 +41,7 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
 
     Route::resource('boards', BoardController::class);
     Route::get('boards/{board}/entries/{entry}', [EntryController::class, 'showWithModal'])->name('boards.entries.show');
+    Route::put('boards/{board}/updateMembers', [BoardController::class, 'updateMembers'])->name('boards.update-members');
 
     Route::resource('fields', FieldController::class);
 

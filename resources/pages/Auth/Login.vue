@@ -9,7 +9,7 @@
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <v-card>
+      <v-section>
         <form class="space-y-6" action="#" method="POST">
           <v-form-input
             label="Email Address"
@@ -45,7 +45,7 @@
             <button type="submit" class="button button-primary">Sign in</button>
           </div>
         </form>
-      </v-card>
+      </v-section>
     </div>
   </div>
 </template>

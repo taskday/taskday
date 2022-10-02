@@ -4,6 +4,7 @@ namespace Taskday\Observers;
 
 use Taskday\Models\Comment;
 use Taskday\Events\CommentCreatedEvent;
+use Taskday\Notifications\Notification;
 
 class CommentObserver
 {
@@ -20,6 +21,13 @@ class CommentObserver
         ]);
 
         CommentCreatedEvent::dispatch($comment);
+
+        Notification::make()
+            ->to($comment->entry->board->members)
+            ->title("{$comment->owner->name} on {$comment->entry->board->title}")
+            ->body("{$comment->owner->name} commented on entry {$comment->entry->title}")
+            ->action("View comment", route('entries.show', $comment->entry))
+            ->send();
     }
 
     /**

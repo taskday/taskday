@@ -8,7 +8,7 @@ defineProps<{ field: Field }>()
 <template>
   <v-popper v-slot="{ setPopperRoot, setPopperElement }">
     <Menu>
-      <MenuButton as="button" :ref="setPopperRoot" class="flex items-center justify-center py-1 text-gray-200 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
+      <MenuButton as="button" :ref="setPopperRoot" class="flex items-center justify-center py-1 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
         <v-icon name="more-vertical" class="w-4 h-4 fill-current" />
       </MenuButton>
       <teleport to="body">

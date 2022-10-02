@@ -8,7 +8,7 @@ defineProps<{ entry: Entry }>()
 <template>
   <v-popper v-slot="{ setPopperRoot, setPopperElement }">
     <Menu>
-      <MenuButton as="button" :ref="setPopperRoot" class="flex items-center justify-center py-1 text-gray-200 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
+      <MenuButton as="button" :ref="setPopperRoot" class="flex items-center justify-center py-1 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
         <v-icon name="more-vertical" class="w-4 h-4 fill-current" />
       </MenuButton>
       <teleport to="body">
@@ -26,18 +26,16 @@ defineProps<{ entry: Entry }>()
                   title="Delete this entry?"
                   description="This operation is not reversable."
                 >
-                  <template #trigger>
-                    <button
-                      type="button"
-                      method="delete"
-                      :href="route('entries.destroy', entry)"
-                      :class='{ "bg-gray-100": active }'
-                      class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2"
-                    >
-                      <v-icon name="trash" class="h-4"></v-icon>
-                      <span>Delete</span>
-                    </button>
-                  </template>
+                  <button
+                    type="button"
+                    method="delete"
+                    :href="route('entries.destroy', entry)"
+                    :class='{ "bg-gray-100": active }'
+                    class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2"
+                  >
+                    <v-icon name="trash" class="h-4"></v-icon>
+                    <span>Delete</span>
+                  </button>
                   <template #actions="{ open }">
                     <v-button
                       type="button"
