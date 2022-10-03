@@ -10,17 +10,27 @@ use Taskday\Http\Requests\StoreEntryRequest;
 use Taskday\Http\Requests\UpdateEntryRequest;
 use Taskday\Http\Resources\EntryResource;
 use Taskday\Models\Entry;
+use Taskday\Models\Filters\EntryFilter;
+use Taskday\Services\EntryService;
 
 class EntryApiController extends Controller
 {
-    use HandlesEntriesRequests;
+    public function __construct(
+        protected EntryService $entryService
+    ) {
+    }
 
     /**
      * List all the resources.
      */
-    public function index(): JsonResponse
+    public function index(EntryFilter $request): JsonResponse
     {
-        $entries = $this->entries();
+        $this->authorize('viewAny', Entry::class);
+
+        $entries = Entry::query()
+            ->filter($request)
+            ->with('board.category', 'fields')
+            ->paginated();
 
         return response()->json($entries);
     }
@@ -42,7 +52,7 @@ class EntryApiController extends Controller
      */
     public function store(StoreEntryRequest $request): JsonResponse
     {
-        $entry = $this->storeFromRequest($request);
+        $entry = $this->entryService->store($request);
 
         return response()->json($entry, JsonResponse::HTTP_CREATED);
     }
@@ -52,9 +62,7 @@ class EntryApiController extends Controller
      */
     public function update(Entry $entry, UpdateEntryRequest $request): Response
     {
-        $this->authorize('update', $entry);
-
-        $this->updateFromRequest($entry, $request);
+        $this->entryService->update($entry, $request);
 
         return response()->noContent();
     }
@@ -66,7 +74,7 @@ class EntryApiController extends Controller
     {
         $this->authorize('delete', $entry);
 
-        $this->delete($entry);
+        $this->entryService->delete($entry);
 
         return response()->noContent();
     }

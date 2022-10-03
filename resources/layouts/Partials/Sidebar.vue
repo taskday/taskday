@@ -32,7 +32,7 @@ function submit() {
 
 <template>
   <div>
-    <div class="flex flex-grow flex-col overflow-y-auto bg-blue-700 pt-5">
+    <div class="flex flex-grow flex-col overflow-y-auto bg-blue-800 pt-5">
       <div class="flex flex-shrink-0 items-center px-4 text-white font-bold">
         Taskday
       </div>
@@ -59,10 +59,10 @@ function submit() {
         </nav>
         <hr />
         <nav class="flex-1 space-y-1 p-2 pb-4">
-          <template v-for="category in $page.props.categories">
+          <template v-for="category in $page.props.sidebar.items">
             <Link
               :href="route('categories.show', category)"
-              class="group relative flex items-center justify-between py-1 text-xs font-medium rounded-md text-blue-100 hover:bg-blue-600"
+              class="group relative flex items-center justify-between py-1 text-xs font-bold rounded-md text-blue-100 hover:bg-blue-600"
             >
               <div class="flex items-center gap-1">
                 <v-icon name="chevron-down" class="h-4 w-4"></v-icon>  <span class="truncate" v-html="category.title" />
@@ -86,7 +86,7 @@ function submit() {
                       </MenuItem>
                       <div class="my-1 px-1 h-px bg-gray-200 w-full" />
                       <MenuItem v-slot="{ active, selected }">
-                        <Link :class='{ "bg-gray-100 text-red-600": active }' class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2" href="/account-settings">
+                        <Link method="delete" :class='{ "bg-gray-100 text-red-600": active }' class="group flex w-full items-center gap-2 text-sm rounded cursor-pointer p-2" :href="route('categories.destroy', category)">
                           <v-icon name="trash" class="h-4"></v-icon> Delete
                         </Link>
                       </MenuItem>
@@ -96,6 +96,7 @@ function submit() {
               </v-popper>
             </Link>
             <Link
+              v-if="$page.props.sidebar.show_boards"
               v-for="board in category.boards"
               :key="board.id"
               :href="route('boards.show', board)"

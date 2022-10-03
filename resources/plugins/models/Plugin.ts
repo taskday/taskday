@@ -2,9 +2,9 @@ import Extension from "@/plugins/interfaces/Extension";
 
 export default class Plugin {
 
-  public data: object
+  public data: any
 
-  constructor(data: object) {
+  constructor(data: any) {
     this.data = data
   }
 

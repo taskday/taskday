@@ -162,7 +162,6 @@ import History from "@tiptap/extension-history";
 import Placeholder from "@tiptap/extension-placeholder";
 import HardBreak from "@tiptap/extension-hard-break";
 import Link from "@tiptap/extension-link";
-import Mention from "@tiptap/extension-mention";
 import Table from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
@@ -239,6 +238,7 @@ export default defineComponent({
               ctx.emit('blur')
             },
           }),
+          ...window.taskday.tiptapExtensions()
         ],
         onUpdate: ({ editor }) => {
           ctx.emit("update:modelValue", editor.getHTML());

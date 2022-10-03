@@ -25,7 +25,7 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'children' => $this->children,
-            'boards' => $this->boards
+            'boards' => BoardResource::collection($this->whenLoaded('boards'))
         ];
     }
 }

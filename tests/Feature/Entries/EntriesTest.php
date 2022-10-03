@@ -1,5 +1,6 @@
 <?php
 
+use Taskday\Models\Board;
 use Taskday\Models\Entry;
 use Taskday\Models\User;
 use Taskday\Models\Field;
@@ -11,31 +12,26 @@ beforeEach(function () {
 });
 
 test('entries can be listed', function () {
-    $entry = $this->user->createEntry(Entry::factory()->make()->title);
-
-    Entry::factory()->times(2)->create();
-    $field = Field::factory()->create();
-
-    $entry->setFieldValue($field, 'foo');
+    $entry = Entry::factory()->owned()->create();
 
     $this->get(route('entries.index'))
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Entries/Index')
                 ->where('title', 'All Entries')
                 ->where('entries.current_page', 1)
-                ->where('entries.per_page', 10)
+                ->where('entries.per_page', 15)
                 ->has('entries.data', 1, fn (AssertableJson $page) => $page
                     ->where('title', $entry->title)
                     ->where('user_id', $this->user->id)
-                    ->where('fields.0.field_id', $field->id)
-                    ->where('fields.0.value', 'foo')
                     ->etc())
                 ->etc());
 });
 
 test('an entry can be viewed', function () {
     $entry = Entry::factory()->owned()->create();
-    $field = Field::factory()->create();
+    $field = Field::factory()->create([
+        'type' => 'progress'
+    ]);
 
     $entry->setFieldValue($field, 'foo');
 
@@ -45,7 +41,7 @@ test('an entry can be viewed', function () {
                 ->where('title', $entry->title)
                 ->where('entry.title', $entry->title)
                 ->where('entry.user_id', $this->user->id)
-                ->where('entry.fields.0.field_id', $field->id)
+                ->where('entry.fields.0.id', $field->id)
                 ->where('entry.fields.0.value', 'foo')
                 ->etc());
 });
@@ -59,6 +55,7 @@ test('entries can be stored with a title', function () {
     $this->actingAs($user)
         ->post(route('entries.store', [
             'title' => $entry->title,
+            'board_id' => Board::factory()->create()->id
         ]));
 
     expect(Entry::first()->title)->toBe($entry->title);

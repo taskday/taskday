@@ -41,6 +41,7 @@
         "@tiptap/extension-task-item": "^2.0.0-beta.194",
         "@tiptap/extension-task-list": "^2.0.0-beta.194",
         "@tiptap/extension-text": "^2.0.0-beta.194",
+        "@tiptap/suggestion": "^2.0.0-beta.199",
         "@tiptap/vue-3": "^2.0.0-beta.194",
         "@vitejs/plugin-vue": "^3.0.3",
         "@vitejs/plugin-vue-jsx": "^2.0.1",

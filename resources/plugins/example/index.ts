@@ -1,4 +1,7 @@
 import Taskday from "@/plugins/models/Taskday";
+import Mention from '@tiptap/extension-mention';
+import suggestion from './suggestion'
+
 import TableView from "./TableView.vue";
 import KanbanView from "./KanbanView.vue";
 import ProgressField from "./ProgressField.vue";
@@ -13,6 +16,14 @@ window.addEventListener("taskday:init", function () {
 
   taskday.plugin({
     title: "Sample",
+    tiptap: [
+      Mention.configure({
+        HTMLAttributes: {
+          class: 'mention',
+        },
+        suggestion,
+      }),
+    ],
     views: [
       { type: "table", component: TableView },
       { type: "kanban", component: KanbanView },

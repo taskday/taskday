@@ -25,6 +25,7 @@ class UpdateEntryRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'content' => 'nullable',
         ];
     }
 }

@@ -1,35 +1,17 @@
 <script lang="ts" setup>
-import { useForm } from "@inertiajs/inertia-vue3";
-
-let props = defineProps({
-  category: Object,
+defineProps({
+    categories: Array,
 });
-
-const newBoard = useForm({
-  title: "",
-  category_id: props.category.id,
-});
-
-function submit() {
-  newBoard.post(route("boards.store"), {
-    onSuccess: () => newBoard.reset(),
-  });
-}
 </script>
-
+  
 <template>
   <div class="space-y-4">
-    <v-title-editable :entry="category" routename="categories.update" />
-    <form @submit.prevent="submit">
-      <v-form-input
-        v-model="newBoard.title"
-        :errors="newBoard.errors.title"
-        placeholder="Add a board..."
-      />
-    </form>
+    <v-title>
+      {{ $page.props.title }}
+    </v-title>
     <div>
       <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
-        <div v-for="board in category.boards" :key="board.title" class='relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'>
+        <div v-for="category in categories" :key="category.title" class='relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'>
           <div>
             <span class="rounded-lg inline-flex p-3 ring-4 ring-white">
               <v-icon name="folder" class="h-6 w-6"/>
@@ -37,14 +19,14 @@ function submit() {
           </div>
           <div class="mt-8">
             <h3 class="text-lg font-medium">
-              <Link :href="route('boards.show', board)" class="focus:outline-none">
+              <Link :href="route('categories.show', category)" class="focus:outline-none">
                 <!-- Extend touch target to entire panel -->
                 <span class="absolute inset-0" aria-hidden="true" />
-                {{ board.title }}
+                {{ category.title }}
               </Link>
             </h3>
             <p class="mt-2 text-sm text-gray-500">
-              Updated at {{ board.updated_at }}
+              Updated at {{ category.updated_at }}
             </p>
           </div>
           <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">

@@ -15,7 +15,7 @@ trait HandlesEntriesRequests
     {
         return Entry::query()
             ->filter($request)
-            ->with('board', 'fields')
+            ->with('board.category', 'fields')
             ->owned()
             ->latest()
             ->paginate(request('per_page', 10))

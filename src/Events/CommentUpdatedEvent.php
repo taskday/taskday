@@ -5,17 +5,17 @@ namespace Taskday\Events;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Taskday\Models\Entry;
+use Taskday\Models\Comment;
 
-class EntryCreatedEvent implements ShouldQueue
+class CommentUpdatedEvent implements ShouldQueue
 {
     use Dispatchable;
     use SerializesModels;
 
-    public Entry $entry;
+    public Comment $comment;
 
-    public function __construct(Entry $entry)
+    public function __construct(Comment $comment)
     {
-        $this->entry = $entry;
+        $this->comment = $comment;
     }
 }

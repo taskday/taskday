@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="bg-gray-50 dark:bg-gray-900">
 
 <head>
     <meta charset="utf-8">
@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="manifest" href="/build/manifest.webmanifest" />
     {{-- <link rel="icon" href="/favicon.ico"> --}}
-    <meta name="description" content="Task Day: your day to day task management">
+    <meta name="description" content="Task Day: your day to day tasks manager">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -45,7 +45,7 @@
   </script>
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-gray-50 dark:bg-gray-900">
     @inertia
 </body>
 

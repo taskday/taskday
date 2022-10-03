@@ -2,6 +2,8 @@
 
 namespace Taskday\Observers;
 
+use Illuminate\Support\Facades\Auth;
+use Taskday\Events\CommentUpdatedEvent;
 use Taskday\Models\Comment;
 use Taskday\Events\CommentCreatedEvent;
 use Taskday\Notifications\Notification;
@@ -38,7 +40,7 @@ class CommentObserver
      */
     public function updated(Comment $comment)
     {
-        //
+        CommentUpdatedEvent::dispatch($comment);
     }
 
     /**

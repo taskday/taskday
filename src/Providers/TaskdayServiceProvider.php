@@ -11,6 +11,7 @@ use Taskday\Console\Commands\UserListCommand;
 use Taskday\Console\Commands\UserResetPasswordCommand;
 use Taskday\Plugin\Builtin\Issue\Issue;
 use Taskday\Plugin\Builtin\Login\Login;
+use Taskday\Plugin\Builtin\Mentions\Mentions;
 use Taskday\Plugin\Builtin\Progress\Progress;
 use Taskday\Plugin\Builtin\Table\Table;
 use Taskday\Taskday;
@@ -84,6 +85,7 @@ class TaskdayServiceProvider extends ServiceProvider
         \Taskday\Facades\Taskday::register(new Issue());
         \Taskday\Facades\Taskday::register(new Table());
         \Taskday\Facades\Taskday::register(new Login());
+        \Taskday\Facades\Taskday::register(new Mentions());
     }
 
     public function registerMigrations(): void

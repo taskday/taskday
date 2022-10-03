@@ -15,6 +15,22 @@ class CategoryController extends Controller
     /**
      * Show the the resource.
      */
+    public function index(): InertiaResponse
+    {
+        $categories = Category::query()
+            ->owned()
+            ->latest()
+            ->get();
+
+        return Inertia::render('Categories/Index', [
+            'title' => 'Categories',
+            'categories' => CategoryResource::collection($categories)
+        ]);
+    }
+
+    /**
+     * Show the the resource.
+     */
     public function show(Category $category): InertiaResponse
     {
         $this->authorize('view', $category);
@@ -37,12 +53,16 @@ class CategoryController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function update(Category $category, UpdateCategoryRequest $request): RedirectResponse
     {
         $category->update($request->validated());
+
+        return redirect()->back();
+    }
+
+    public function destroy(Category $category): RedirectResponse
+    {
+        $category->delete();
 
         return redirect()->back();
     }

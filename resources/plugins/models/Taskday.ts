@@ -10,7 +10,7 @@ export default class Taskday {
     this.instance = instance;
   }
 
-  plugin(plugin: object) {
+  plugin(plugin: any) {
     this.plugins.push(new Plugin(plugin));
 
     console.log('✅ registered plugin', plugin.title)
@@ -40,5 +40,7 @@ export default class Taskday {
     return this.widgets().find(widget => widget.type == type);
   }
 
-
+  tiptapExtensions(): any[] {
+    return this.plugins.flatMap(plugin => plugin.data.tiptap);
+  }
 }

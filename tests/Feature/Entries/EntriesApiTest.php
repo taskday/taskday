@@ -1,5 +1,6 @@
 <?php
 
+use Taskday\Models\Board;
 use Taskday\Models\User;
 use Taskday\Models\Entry;
 use Laravel\Sanctum\Sanctum;
@@ -11,19 +12,23 @@ beforeEach(function () {
 });
 
 test('entries can be fetched', function () {
-    $entry = $this->user->createEntry(Entry::factory()->make()->title);
-    $field = Field::factory()->create();
+    $entry = Entry::factory()->create([
+        'user_id' => $this->user,
+    ]);
+    $field = Field::factory()->create([
+        'type' => 'progress'
+    ]);
 
     $entry->setFieldValue($field, 'foo');
 
     $this->get(route('api.entries.index'))
         ->assertJson(fn (AssertableJson $page) => $page
             ->where('current_page', 1)
-            ->where('per_page', 10)
+            ->where('per_page', 15)
             ->has('data', 1, fn (AssertableJson $page) => $page
                 ->where('title', $entry->title)
                 ->where('user_id', $this->user->id)
-                ->where('fields.0.field_id', $field->id)
+                ->where('fields.0.id', $field->id)
                 ->where('fields.0.value', 'foo')
                 ->etc())
             ->etc());
@@ -34,6 +39,7 @@ test('an entry can be created with api', function () {
 
     $this->post(route('api.entries.store'), [
         'title' => $entry->title,
+        'board_id' => Board::factory()->create()->id
     ]);
 
     expect(Entry::first()->title)->toBe($entry->title);
@@ -41,7 +47,9 @@ test('an entry can be created with api', function () {
 
 test('an entry can be fetched with all fields', function () {
     $entry = Entry::factory()->owned()->create();
-    $field = Field::factory()->create();
+    $field = Field::factory()->create([
+        'type' => 'progress',
+    ]);
 
     $entry->setFieldValue($field, 'foo');
 
@@ -51,7 +59,7 @@ test('an entry can be fetched with all fields', function () {
             ->where('id', $entry->id)
                 ->where('title', $entry->title)
                 ->where('fields.0.value', 'foo')
-                ->where('fields.0.field_id', $field->id)
+                ->where('fields.0.id', $field->id)
                 ->etc());
 });
 

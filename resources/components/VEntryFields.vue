@@ -11,8 +11,9 @@ defineProps<{
 </script>
 
 <template>
-  <div v-for="field in entry.fields">
+  <div>
     <component
+      v-for="field in entry.fields"
       :is="taskday().field(field.type).component"
       :entry="entry"
       :value="entry.fields?.find((f) => f.id == field.id)?.value ?? ''"

@@ -10,19 +10,24 @@ use Taskday\Models\Entry;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 use Taskday\Http\Resources\EntryResource;
-use Taskday\Http\Controllers\Concerns\HandlesEntriesRequests;
 use Taskday\Models\Filters\EntryFilter;
+use Taskday\Services\EntryService;
 
 class EntryController extends Controller
 {
-    use HandlesEntriesRequests;
+    public function __construct(
+        protected EntryService $entryService
+    ) {
+    }
 
-    /**
-     * List all the resources.
-     */
     public function index(EntryFilter $request): InertiaResponse
     {
-        $entries = $this->entries($request);
+        $this->authorize('viewAny', Entry::class);
+
+        $entries = Entry::query()
+            ->filter($request)
+            ->with('board.category', 'fields')
+            ->paginated();
 
         return Inertia::render('Entries/Index', [
             'title' => 'All Entries',
@@ -73,7 +78,7 @@ class EntryController extends Controller
      */
     public function store(StoreEntryRequest $request): RedirectResponse
     {
-        $entry = $this->storeFromRequest($request);
+        $entry = $this->entryService->store($request);
 
         return redirect()->back();
     }
@@ -83,7 +88,7 @@ class EntryController extends Controller
      */
     public function update(Entry $entry, UpdateEntryRequest $request): RedirectResponse
     {
-        $this->updateFromRequest($entry, $request);
+        $this->entryService->update($entry, $request);
 
         return redirect()->back();
     }
@@ -95,8 +100,8 @@ class EntryController extends Controller
     {
         $this->authorize('delete', $entry);
 
-        $this->delete($entry);
+        $this->entryService->delete($entry);
 
-        return redirect()->back();
+        return redirect()->route('boards.show', $entry->board);
     }
 }

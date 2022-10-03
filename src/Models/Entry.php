@@ -31,7 +31,8 @@ class Entry extends Model
     protected $guarded = [];
 
     protected $watch = [
-        'title'
+        'title',
+        'content'
     ];
 
     protected $casts = [
@@ -57,6 +58,13 @@ class Entry extends Model
             //     });
             // });
         });
+    }
+
+    public function scopePaginated($query)
+    {
+        return $query
+            ->paginate(request('per_page', 15))
+            ->through(fn ($entry) => EntryResource::make($entry));
     }
 
     public function createComment(string $content): Comment

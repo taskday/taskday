@@ -31,6 +31,8 @@ class Taskday
             $widgetType->boot();
         }
 
+        $plugin->boot();
+
         $this->plugins[] = $plugin->type;
     }
 

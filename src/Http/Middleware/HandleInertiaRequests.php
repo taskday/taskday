@@ -5,8 +5,10 @@ namespace Taskday\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Taskday\Http\Resources\BoardResource;
 use Taskday\Http\Resources\UserResource;
 use Taskday\Http\Resources\CategoryResource;
+use Taskday\Models\Board;
 use Taskday\Models\Category;
 
 class HandleInertiaRequests extends Middleware
@@ -47,17 +49,33 @@ class HandleInertiaRequests extends Middleware
             'user' => function () {
                 return Auth::check() ? UserResource::make(Auth::user()) : null;
             },
-            'categories' => function () {
-                return Auth::check()
-                    ? Category::with('boards')
-                    ->whereHas('boards', function ($board) {
-                        $board->sharedWithCurrentUser();
-                    })
-                    ->orWhere('user_id', Auth::id())
-                    ->get()
-                    ->map(fn ($entry) => CategoryResource::make($entry))
-                    : [];
-            }
+            'sidebar' => [
+                'show_boards' => function () {
+                    return request()->route()->getName() == 'boards.show';
+                },
+                'items' => function () {
+
+                    if (! Auth::check()) {
+                        return [];
+                    }
+
+                    if (request()->route()->getName() == 'boards.show') {
+                        $board = request()->route('board');
+                        $board->category->load('boards');
+                        return [CategoryResource::make($board->category)];
+                    }
+
+                    return Category::query()
+                        ->with('boards')
+                        ->whereHas('boards', function ($board) {
+                            $board->sharedWithCurrentUser();
+                        })
+                        ->orWhere('user_id', Auth::id())
+                        ->orderBy('title')
+                        ->get()
+                        ->map(fn ($entry) => CategoryResource::make($entry));
+                }
+            ]
         ]);
     }
 }

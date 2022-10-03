@@ -30,7 +30,7 @@
             leave-to="-translate-x-full"
           >
             <DialogPanel
-              class="relative flex w-full max-w-xs flex-1 flex-col bg-blue-700 pt-5 pb-4"
+              class="relative flex w-full max-w-xs flex-1 flex-col bg-blue-800 pt-5 pb-4"
             >
               <TransitionChild
                 as="template"
@@ -69,7 +69,7 @@
     <!-- Static sidebar for desktop -->
     <div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
       <!-- Sidebar component, swap this element with another sidebar if you like -->
-      <div class="flex flex-grow flex-col overflow-y-auto bg-blue-700 pt-5">
+      <div class="flex flex-grow flex-col overflow-y-auto bg-blue-800 pt-5">
         <Sidebar />
       </div>
     </div>
@@ -105,7 +105,7 @@
                 <template #content="{ close }">
                   <span class="text-gray-500">
                     <div class="overflow-x-hidden divide-y">
-                      <div class="flex items-center justify-end">
+                      <div v-if="notifications.notifications.length > 0" class="flex items-center justify-end">
                         <button @click="notifications.markAllRead()" class="button button-sm">
                           Dimiss all
                         </button>

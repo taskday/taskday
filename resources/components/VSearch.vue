@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useShortcut } from '@/composables/useShortcut'; 
 import {
   Combobox,
@@ -15,7 +15,10 @@ import {
 import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 
-const items = ref([]);
+const state = reactive({
+  entries: [],
+  boards: [],
+});
 const open = ref(false);
 const query = ref("");
 
@@ -24,21 +27,35 @@ useShortcut('cmd+k', () => {
 })
 
 function onSelect(person) {
-  Inertia.visit(route('entries.show', person), {
-    onSuccess: () => open.value = false
-  });
+  if (person.board_id) {
+    Inertia.visit(route('entries.show', person), {
+      onSuccess: () => open.value = false
+    });
+  } else {
+    Inertia.visit(route('boards.show', person), {
+      onSuccess: () => open.value = false
+    });
+  }
 }
 
 watch(
   () => query.value,
   () => {
     if (query.value.length > 1) {
-      axios.get(route("api.search", { search: query.value }))
+      axios.get(route("api.entries.index", { search: query.value }))
         .then((res) => {
-          items.value = res.data;
+          state.entries = res.data.data;
         })
         .catch((err) => {
-          items.value = [];
+          state.entries = [];
+          console.error(err)
+        });
+      axios.get(route("api.boards.index", { search: query.value }))
+        .then((res) => {
+          state.boards = res.data.data;
+        })
+        .catch((err) => {
+          state.boards = [];
           console.error(err)
         });
     }
@@ -88,30 +105,39 @@ watch(
                     @change="query = $event.target.value"
                   />
 
-                  <ComboboxOptions
-                    v-if="items.length > 0"
-                    static
-                    class="-mb-2 max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800"
-                  >
-                    <ComboboxOption
-                      v-for="person in items"
-                      :key="person.id"
-                      :value="person"
-                      as="template"
-                      v-slot="{ active }"
-                    >
-                      <li
-                        :class="[
-                          'cursor-default select-none rounded-md px-4 py-2',
-                          active && 'bg-blue-600 text-white',
-                        ]"
-                      >
-                        {{ person.title }}
-                      </li>
-                    </ComboboxOption>
+                  <ComboboxOptions static class="max-h-80 scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto pb-2">
+                    <li v-if="state.boards.length > 0">
+                      <h2 class="bg-gray-100 py-2.5 px-4 text-xs font-semibold text-gray-900">
+                        Boards
+                      </h2>
+                      <ul class="mt-2 text-sm text-gray-800">
+                        <ComboboxOption v-for="item in state.boards" :key="item.id" :value="item" as="template" v-slot="{ active }">
+                          <li :class="['whitespace-nowrap truncate cursor-default select-none px-4 py-2 flex items-center justify-between', active && 'bg-indigo-600 text-white']">
+                            <span>{{ item.title }} </span>
+                            <span :class="['opacity-80']">{{ item.category?.title }}</span>
+                          </li>
+                        </ComboboxOption>
+                      </ul>
+                    </li>
+                    <li v-if="state.entries.length > 0">
+                      <h2 class="bg-gray-100 py-2.5 px-4 text-xs font-semibold text-gray-900">
+                        Entries
+                      </h2>
+                      <ul class="mt-2 text-sm text-gray-800">
+                        <ComboboxOption v-for="item in state.entries" :key="item.id" :value="item" as="template" v-slot="{ active }">
+                          <li :class="['whitespace-nowrap truncate cursor-default select-none px-4 py-2', active && 'bg-indigo-600 text-white']">
+                            <div class="flex items-center justify-between mb-2">
+                              <span>{{ item.title }} </span>
+                              <span :class="['opacity-80']">{{ item.board?.category?.title }} / {{ item.board?.title }}</span>
+                            </div>
+                            <v-entry-fields v-if="active" :entry="item" :readonly="true" class="w-full flex-1 flex items-center flex-wrap gap-3"/>
+                          </li>
+                        </ComboboxOption>
+                      </ul>
+                    </li>
                   </ComboboxOptions>
 
-                  <div v-if="query !== '' && items.length === 0" class="py-14 px-4 text-center sm:px-14">
+                  <div v-if="query !== '' && state.entries.length === 0 && state.boards.length === 0" class="py-14 px-4 text-center sm:px-14">
                     <v-icon name="user" class="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
                     <p class="mt-4 text-sm text-gray-900">No people found using that search term.</p>
                   </div>

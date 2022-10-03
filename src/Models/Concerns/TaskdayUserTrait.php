@@ -3,6 +3,7 @@
 namespace Taskday\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Laravel\Scout\Searchable;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 use Taskday\Models\Board;
 use Taskday\Models\Entry;
@@ -12,6 +13,8 @@ use Taskday\Models\Member;
 trait TaskdayUserTrait
 {
     use HasPushSubscriptions;
+    use Searchable;
+    use Filterable;
 
     public function getNameAttribute()
     {

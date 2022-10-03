@@ -4,6 +4,7 @@ namespace Taskday\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Taskday\Models\Board;
 use Taskday\Models\Field;
 
 /**
@@ -23,6 +24,7 @@ class FieldFactory extends Factory
         return [
             'title' => fake()->name(),
             'type' => fake()->name(),
+            'board_id' => Board::factory(),
         ];
     }
 }

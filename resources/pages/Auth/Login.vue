@@ -10,22 +10,26 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <v-section>
-        <form class="space-y-6" action="#" method="POST">
+        <form class="space-y-6" @submit.prevent="submit">
           <v-form-input
+            v-model="form.email"
             label="Email Address"
             id="email"
             name="email"
             type="email"
             autocomplete="email"
             required=""
+            :errors="form.errors.email"
           />
 
           <v-form-input
+            v-model="form.password"
             label="Password"
             id="password"
             name="password"
             type="password"
             required=""
+            :errors="form.errors.password"
           />
 
           <div class="flex items-center justify-between">
@@ -37,12 +41,16 @@
             />
 
             <div class="text-sm">
-              <a :href="route('password.request')" class="link">Forgot your password?</a>
+              <a :href="route('password.request')" class="link">
+                Forgot your password?
+              </a>
             </div>
           </div>
 
           <div>
-            <button type="submit" class="button button-primary">Sign in</button>
+            <button type="submit" class="button button-primary">
+              Sign in
+            </button>
           </div>
         </form>
       </v-section>

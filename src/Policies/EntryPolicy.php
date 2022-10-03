@@ -18,7 +18,7 @@ class EntryPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -67,7 +67,9 @@ class EntryPolicy
             return true;
         }
 
-        return true;
+        if ($user->sharedBoards->map->id->contains($entry->board_id)) {
+            return true;
+        }
     }
 
     /**

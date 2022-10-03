@@ -24,9 +24,10 @@ class EntryResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'content' => $this->content,
             'user_id' => $this->user_id,
             'created_at' => $this->created_at->format('M d, Y'),
-            'updated_at' => $this->updated_at,
+            'updated_at' => $this->updated_at->format('M d, Y'),
             'fields' => FieldResource::collection($this->whenLoaded('fields')),
             'comments_count' => $this->comments_count,
             'user' => UserResource::make($this->whenLoaded('user')),

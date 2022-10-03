@@ -2,7 +2,6 @@
 
 use Taskday\Models\Entry;
 use Taskday\Models\Comment;
-use Taskday\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 beforeEach(function () {
@@ -14,6 +13,7 @@ test('many comments can be fetched', function () {
     $entry = Entry::factory()->create();
 
     Comment::factory()->times(10)->create([
+        'user_id' => $this->user->id,
         'entry_id' => $entry->id,
     ]);
 
@@ -28,6 +28,7 @@ test('a comment can be fetched', function () {
     $entry = Entry::factory()->create();
 
     $comment = Comment::factory()->create([
+        'user_id' => $this->user->id,
         'entry_id' => $entry->id,
     ]);
 
@@ -43,6 +44,7 @@ test('a comment can be updated with api', function () {
     $entry = Entry::factory()->create();
 
     $comment = Comment::factory()->create([
+        'user_id' => $this->user->id,
         'entry_id' => $entry->id,
     ]);
 

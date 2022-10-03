@@ -7,6 +7,7 @@ use Taskday\Events\EntryUpdatedEvent;
 use Taskday\Models\Activity;
 use Illuminate\Support\Arr;
 use Taskday\Events\EntryCreatedEvent;
+use Taskday\Notifications\Notification;
 
 class EntryObserver
 {
@@ -20,7 +21,7 @@ class EntryObserver
     {
         $entry->registerActivity('created');
 
-        event(new EntryCreatedEvent($entry));
+        EntryCreatedEvent::dispatch($entry);
     }
 
     /**
@@ -32,6 +33,8 @@ class EntryObserver
     public function updated(Entry $entry)
     {
         $entry->registerActivity('updated');
+
+        EntryUpdatedEvent::dispatch($entry);
     }
 
     /**

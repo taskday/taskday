@@ -29,6 +29,7 @@ interface Board {
 interface Entry {
   id: string;
   title: string;
+  content: string;
   user?: any;
   fields?: Entry[];
   board: Board;

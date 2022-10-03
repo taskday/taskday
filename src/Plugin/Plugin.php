@@ -14,6 +14,11 @@ abstract class Plugin
 
     public string $description;
 
+    public function boot()
+    {
+        //
+    }
+
     public function bundle(): ?AssetBundle
     {
         return null;

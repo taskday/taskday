@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
+use Taskday\Http\Resources\BoardResource;
+use Taskday\Models\Concerns\Filterable;
 use Taskday\Models\Concerns\HasMembers;
 use Taskday\Models\Concerns\HasOwner;
 use Taskday\Plugin\Contracts\Groupable;
@@ -23,8 +25,15 @@ class Board extends Model
     use HasMembers;
     use SoftDeletes;
     use Searchable;
+    use Filterable;
 
     protected $guarded = [];
+
+    public function toSearchableArray(): array
+    {
+        return (array) BoardResource::make($this);
+    }
+
 
     public function user(): BelongsTo
     {

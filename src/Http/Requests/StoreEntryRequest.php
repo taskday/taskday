@@ -3,6 +3,7 @@
 namespace Taskday\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Taskday\Models\Entry;
 
 class StoreEntryRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreEntryRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', Entry::class);
     }
 
     /**
@@ -25,6 +26,7 @@ class StoreEntryRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'content' => 'nullable',
             'board_id' => 'required',
             'fields' => 'nullable'
         ];

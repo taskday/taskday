@@ -20,8 +20,14 @@ test('an entry cannot be viewed without permissions', function () {
 test('an entry cannot be updated without permissions', function () {
     $entry = Entry::factory()->create();
 
-    $this->put(route('entries.update', $entry))->assertForbidden();
-    $this->put(route('api.entries.update', $entry))->assertForbidden();
+    $this->followingRedirects();
+
+    $this->put(route('entries.update', $entry), [
+        'title' => 'Fake Title',
+    ])->assertForbidden();
+    $this->put(route('api.entries.update', $entry), [
+        'title' => 'Fake Title',
+    ])->assertForbidden();
 });
 
 test('an entry cannot be deleted without permissions', function () {

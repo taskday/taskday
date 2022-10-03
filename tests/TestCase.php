@@ -31,6 +31,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getEnvironmentSetUp($app)
     {
+        config()->set('taskday.user.model', \Taskday\Models\User::class);
         config()->set('auth.providers.users.model', \Taskday\Models\User::class);
         config()->set('inertia.testing.page_paths', [ __DIR__ . '/../resources/pages' ]);
 
