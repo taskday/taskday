@@ -3,15 +3,11 @@
 namespace Taskday\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Taskday\Http\Controllers\Concerns\HandlesEntriesRequests;
-use Taskday\Http\Resources\EntryResource;
 use Taskday\Http\Resources\UserResource;
 use Taskday\Models\Filters\UserFilter;
 
 class UserApiController extends Controller
 {
-    use HandlesEntriesRequests;
-
     /**
      * List all the resources.
      */

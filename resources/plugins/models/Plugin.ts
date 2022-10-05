@@ -19,4 +19,8 @@ export default class Plugin {
   widgets(): Extension[] {
     return this.data.widgets;
   }
+
+  filters(): Extension[] {
+    return this.data.filters;
+  }
 }

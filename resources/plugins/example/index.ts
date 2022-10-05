@@ -8,6 +8,7 @@ import ProgressField from "./ProgressField.vue";
 import IssueField from "./IssueField.vue";
 import LabelFieldOptions from './LabelFieldOptions.vue';
 import ReportView from './ReportView.vue';
+import BoardFilter from './BoardFilter.vue';
 import LoginWidget from './LoginWidget.vue';
 
 window.addEventListener("taskday:init", function () {
@@ -36,6 +37,9 @@ window.addEventListener("taskday:init", function () {
     ],
     widgets: [
       { type: "login", component: LoginWidget }
+    ],
+    filters: [
+      { type: "board-filter", component: BoardFilter }
     ]
   });
 });

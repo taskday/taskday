@@ -16,6 +16,6 @@ class Taskday extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'taskday';
+        return \Taskday\Taskday::class;
     }
 }

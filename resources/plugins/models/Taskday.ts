@@ -16,6 +16,14 @@ export default class Taskday {
     console.log('✅ registered plugin', plugin.title)
   }
 
+  filters() {
+    return this.plugins.flatMap(plugin => plugin.filters());
+  }
+
+  filter(type: string): Extension {
+    return this.filters().find(view => view.type == type);
+  }
+
   fields() {
     return this.plugins.flatMap(plugin => plugin.fields());
   }

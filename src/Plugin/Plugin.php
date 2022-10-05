@@ -41,4 +41,10 @@ abstract class Plugin
     {
         return new Collection([]);
     }
+
+    /** @return Collection<\Taskday\Plugin\Types\FilterType> */
+    public function filters(): Collection
+    {
+        return new Collection([]);
+    }
 }

@@ -31,9 +31,24 @@ class Taskday
             $widgetType->boot();
         }
 
+        foreach ($plugin->filters() as $widgetType) {
+            app()->singleton($widgetType->type, fn () => $widgetType);
+            $widgetType->boot();
+        }
+
         $plugin->boot();
 
         $this->plugins[] = $plugin->type;
+    }
+
+    public function filter(string $type)
+    {
+        return app($type);
+    }
+
+    public function filters()
+    {
+        return $this->plugins->flatMap(fn ($plugin) => app($plugin)->filters());
     }
 
     public function sendNotification(PendingNotification $pendingNotification)

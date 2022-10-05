@@ -39,15 +39,23 @@ class BoardController extends Controller
     {
         $this->authorize('view', $board);
 
-        $board->load(['category', 'views', 'fields', 'entries.user', 'entries.fields', 'entries.activities.user', 'entries' => function ($entries) {
-            $entries->withCount('comments');
-        }]);
+        $board->load([
+            'category',
+            'views',
+            'fields',
+            'entries.user',
+            'entries.fields',
+            'entries.activities.user',
+            'entries' => function ($entries) {
+                $entries->withCount('comments');
+            }
+        ]);
 
         return Inertia::render('Boards/Show', [
             'title' => $board->title,
-            'breadcrumbs' => [
-                ['name' => $board->category->title, 'href' => route('categories.show', $board->category) ],
-            ],
+            'breadcrumbs' => array_filter([
+                $board->category ? ['name' => $board->category->title, 'href' => route('categories.show', $board->category) ] : null,
+            ]),
             'board' => BoardResource::make($board),
             'groups' => FieldResource::collection($board->groups()),
             'query' => [

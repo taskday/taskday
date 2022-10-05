@@ -14,8 +14,6 @@ use Taskday\Models\Filters\BoardFilter;
 
 class BoardApiController extends Controller
 {
-    use HandlesEntriesRequests;
-
     /**
      * List all the resources.
      */
@@ -25,8 +23,8 @@ class BoardApiController extends Controller
             ->filter($request)
             ->with('category')
             ->latest()
-            ->paginate(request('per_page', 10))
-            ->through(fn ($board) => BoardResource::make($board));
+            ->get()
+            ->map(fn ($board) => BoardResource::make($board));
 
         return response()->json($boards);
     }
@@ -48,7 +46,7 @@ class BoardApiController extends Controller
      */
     public function store(StoreBoardRequest $request): JsonResponse
     {
-        $board = $this->storeFromRequest($request);
+        $board = $this->boardService->store($request);
 
         return response()->json($board, JsonResponse::HTTP_CREATED);
     }
@@ -60,7 +58,7 @@ class BoardApiController extends Controller
     {
         $this->authorize('update', $board);
 
-        $this->updateFromRequest($board, $request);
+        $this->boardService->store($board, $request);
 
         return response()->noContent();
     }

@@ -29,9 +29,7 @@ class TaskdayServiceProvider extends ServiceProvider
         $this->app->register(TaskdayAuthServiceProvider::class);
         $this->app->register(TaskdayRouteServiceProvider::class);
 
-        $this->app->singleton('taskday', function () {
-            return new Taskday();
-        });
+        $this->app->singleton(Taskday::class);
 
         Factory::guessFactoryNamesUsing(function ($class) {
             return 'Taskday\\Database\\Factories\\' . class_basename($class) . 'Factory';

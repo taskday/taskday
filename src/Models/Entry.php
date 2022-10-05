@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
+use Taskday\Facades\Taskday;
 use Taskday\Http\Resources\EntryResource;
 use Taskday\Models\Concerns\Filterable;
 use Taskday\Models\Concerns\HasFields;
@@ -48,16 +49,37 @@ class Entry extends Model
     protected static function booted()
     {
         static::addGlobalScope('withAccess', function (Builder $builder) {
-            // $builder->where(function ($query) {
-            //     $query->where('user_id', Auth::id());
-            // })
-            // ->orWhere(function ($query) {
-            //     $query->whereHas('board', function ($query) {
-            //         // @phpstan-ignore-next-line
-            //         $query->whereIn('id', Auth::user()->sharedBoards->pluck('id'));
-            //     });
-            // });
+            $builder->where(function ($query) {
+                $query->whereHas('board', function ($query) {
+                        $query
+                            ->whereHas('members', function ($members) {
+                                $members->whereIn('id', [ Auth::id() ]);
+                            })
+                            ->whereHas('category', function ($category) {
+                                $category->whereNull('deleted_at');
+                            })
+                            ->whereNull('deleted_at');
+                });
+            })->orWhere(function ($query) {
+                $query->where('user_id', Auth::id())
+                    ->whereHas('board', function ($query) {
+                        $query
+                            ->whereHas('category', function ($category) {
+                                $category->whereNull('deleted_at');
+                            })
+                            ->whereNull('deleted_at');
+                    });
+            });
         });
+    }
+
+    public function scopeWithFilters($query)
+    {
+        foreach (Filter::owned()->get() as $filter) {
+            if (! is_null($filter->value)) {
+                Taskday::filter($filter->type)->apply($query, $filter->toArray());
+            }
+        }
     }
 
     public function scopePaginated($query)

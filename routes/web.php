@@ -9,6 +9,7 @@ use Taskday\Http\Controllers\CommentController;
 use Taskday\Http\Controllers\AccountController;
 use Taskday\Http\Controllers\CategoryController;
 use Taskday\Http\Controllers\BoardController;
+use Taskday\Http\Controllers\FilterController;
 use Taskday\Http\Controllers\PushSubscriptionController;
 use Taskday\Http\Controllers\ViewController;
 use Taskday\Http\Controllers\GroupController;
@@ -49,6 +50,8 @@ Route::middleware(['web', 'auth:sanctum', 'verified'])->group(function () {
     Route::post('entries/{entry}/fields/{field}/action', [FieldValueController::class, 'action'])->name('entries.fields.actions');
 
     Route::resource('views', ViewController::class);
+
+    Route::resource('filters', FilterController::class);
 
     Route::resource('widgets', WidgetController::class);
 

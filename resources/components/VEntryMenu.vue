@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { ref, reactive, onMounted, watch } from 'vue';
 
 defineProps<{ entry: Entry }>()
 </script>

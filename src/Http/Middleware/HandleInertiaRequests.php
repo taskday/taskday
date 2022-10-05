@@ -72,8 +72,7 @@ class HandleInertiaRequests extends Middleware
                         })
                         ->orWhere('user_id', Auth::id())
                         ->orderBy('title')
-                        ->get()
-                        ->map(fn ($entry) => CategoryResource::make($entry));
+                        ->getResourced();
                 }
             ]
         ]);

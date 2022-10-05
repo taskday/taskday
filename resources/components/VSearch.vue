@@ -27,7 +27,7 @@ useShortcut('cmd+k', () => {
 })
 
 function onSelect(person) {
-  if (person.board_id) {
+  if (! person.category) {
     Inertia.visit(route('entries.show', person), {
       onSuccess: () => open.value = false
     });
